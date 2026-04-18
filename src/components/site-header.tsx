@@ -70,8 +70,9 @@ export function SiteHeader() {
                 onClick={() => setMobileOpen((v) => !v)}
                 aria-label="Toggle menu"
               >
-              {mobileOpen ? <X className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
-            </Button>
+                {mobileOpen ? <X className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+              </Button>
+            </div>
           )}
 
           {!auth.session && (
