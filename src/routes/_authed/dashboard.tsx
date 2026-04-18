@@ -109,6 +109,7 @@ function Dashboard() {
       </section>
 
       <ServiceDueWidget />
+      <ExpiringTrainingWidget />
 
       {/* Quick actions */}
       <section aria-label="Quick actions">
