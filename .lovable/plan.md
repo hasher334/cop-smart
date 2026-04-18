@@ -1,41 +1,49 @@
 
-Looking at the email send route, the only thing `supabaseAdmin` is used for is:
-1. Checking the `suppressed_emails` table (suppression list for unsubscribes/bounces)
-2. Recording the unsubscribe token in `email_unsubscribe_tokens`
-3. Logging the send attempt to `email_send_log`
-4. Enqueuing via `enqueue_email` RPC (pgmq)
+What I verified:
+- The app email sender is now enqueuing successfully. Production logs show `POST /lovable/email/transactional/send → 200` and `Transactional email enqueued` for both recipients.
+- The sender domain `notify.volcop.com` is verified.
+- The recipients are not suppressed.
+- `email_send_log` contains only `pending` rows, not `sent` rows.
+- The current blocker is not the send secret anymore.
 
-These are all **required** parts of Lovable's transactional email infrastructure — suppression checks, unsubscribe tokens, send logging, and the queue dispatcher. Removing them would break compliance (CAN-SPAM unsubscribe), bounce handling, and the retry/queue system.
+Root cause:
+- The queue dispatcher cron job is still pointing to the old preview URL, not the live site.
+- Current cron target:
+  `https://id-preview--9dd4191b-5a55-4efa-a125-32ec5a6b3e86.lovable.app/lovable/email/queue/process?...`
+- Because of that, emails get queued but never drained in production, so nothing is actually delivered.
 
-**However** — for the immediate bug (emails failing because `SUPABASE_SERVICE_ROLE_KEY` is missing in the Worker runtime), there's a simpler question: do we need the `supabaseAdmin` (service role) client, or can we use the regular `supabase` client?
+Why this proves the secret is not the current issue:
+- The send route is successfully reading the service-role-backed tables and inserting:
+  - `email_unsubscribe_tokens`
+  - `email_send_log`
+  - queue entries via `enqueue_email`
+- If the service role secret were still wrong, those writes would be failing before the emails reached `pending`.
 
-Answer: We need service role because:
-- `suppressed_emails`, `email_unsubscribe_tokens`, `email_send_log` are RLS-protected tables that anonymous/user JWTs cannot write to
-- `enqueue_email` is a SECURITY DEFINER RPC, but inserts to log tables still need elevated privileges
+Implementation plan:
+1. Stop chasing the send-route secret and treat the queue job as the real failure point.
+2. Refresh the email infrastructure so the queue processor cron job is recreated against the published/live app URL and the queue auth secret is refreshed at the same time.
+3. Re-check the cron job definition to confirm it now targets the live domain instead of the preview domain.
+4. Submit one fresh demo form after the cron fix.
+5. Verify success in two places:
+   - production logs show requests hitting `/lovable/email/queue/process`
+   - `email_send_log` gains `sent` entries instead of remaining `pending`
+6. If delivery still fails after the cron target is corrected, then inspect the queue processor logs specifically for provider-side errors, but only after confirming the cron is calling the correct live endpoint.
 
-### Real root cause
+Technical details:
+- Current evidence chain:
+  - send route works
+  - domain verified
+  - no suppression
+  - queue exists
+  - cron exists
+  - cron target is wrong
+- This means the system is stuck between “queued” and “processed.”
+- The most likely concrete fix is to re-run the backend email infrastructure setup so it updates:
+  - the cron job URL
+  - the queue auth secret used by that cron job
+- After that, the expected state change is:
+  `pending -> sent`
 
-The `SUPABASE_SERVICE_ROLE_KEY` IS configured (it shows in the secrets list). The issue is that in TanStack Start's Cloudflare Worker build, `process.env.SUPABASE_SERVICE_ROLE_KEY` may not be populated the same way as in Node SSR. The fix from last turn (local `getSupabaseAdmin()` helper) should work — but we need to verify by reading the current state of the file and the actual server logs.
-
-### Plan
-
-1. Read the current `src/routes/lovable/email/transactional/send.ts` to confirm last edit landed correctly.
-2. Check actual server logs from the most recent submission to see the real error (not assumed).
-3. If `SUPABASE_SERVICE_ROLE_KEY` truly isn't reaching the Worker, the fix is to ensure it's read from the correct env source — Cloudflare Workers expose secrets via `globalThis` bindings or the request `env`, not always `process.env`. May need to use TanStack Start's getEvent/context to access bindings.
-4. Answer the user's direct question in chat: **Yes, Supabase is required** for the email infrastructure (suppression, unsubscribe, logging, queue). We can't remove it without breaking compliance.
-
-### Direct answer to the user's question
-
-**Yes** — Supabase is required for the email pipeline. It's not just storing data; it powers:
-- Unsubscribe link generation/validation (legal compliance)
-- Suppression list (preventing emails to bounced/complained addresses)
-- Send log + queue (retries, rate limiting)
-
-The current bug isn't because we're using Supabase — it's because the **service role key isn't reaching the production Worker runtime correctly**. That's what needs fixing.
-
-### Proposed next step
-
-Switch to default mode and:
-1. View current `send.ts` to confirm state
-2. Pull server logs from the last submission to see the actual error message
-3. Fix env var access for the Worker runtime (likely needs `getRequestEvent().context.cloudflare.env` or similar pattern)
+Expected outcome after implementation:
+- New demo/contact form submissions will enqueue and then actually send.
+- Existing pending rows may also begin draining once the cron job points to the correct live endpoint.
