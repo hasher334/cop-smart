@@ -161,6 +161,17 @@ export function ShiftRow({
               Area: <span className="font-medium text-foreground">{shift.patrol_area}</span>
             </div>
           )}
+          {vehicle && (
+            <div className="mt-1 flex items-center gap-1 text-base text-muted-foreground">
+              <Truck className="h-4 w-4" />
+              Vehicle:{" "}
+              <span className="font-medium text-foreground">
+                {vehicle.vehicle_no}
+                {[vehicle.year, vehicle.make, vehicle.model].filter(Boolean).length > 0 &&
+                  ` — ${[vehicle.year, vehicle.make, vehicle.model].filter(Boolean).join(" ")}`}
+              </span>
+            </div>
+          )}
           <dl className="mt-3 grid gap-1 text-base sm:grid-cols-2">
             <div>
               <dt className="text-sm text-muted-foreground">Volunteer 1</dt>
