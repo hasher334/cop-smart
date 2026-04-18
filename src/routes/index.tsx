@@ -136,105 +136,139 @@ function HomePage() {
                 <div className="text-[10px] font-mono text-[#B48A44]">SECURE</div>
               </div>
 
-              {/* Slide content — CopSmart dashboard */}
-              <div className="bg-[#F3F1EC] text-[#0D141E]">
-                {/* App header */}
-                <div className="flex items-center justify-between px-5 py-3 bg-[#13243A] text-white border-b-2 border-[#B48A44]">
-                  <div className="flex items-center gap-2.5">
-                    <div className="size-7 bg-[#B48A44] flex items-center justify-center">
-                      <ShieldCheck className="size-4 text-[#0B1828]" strokeWidth={2.5} />
-                    </div>
-                    <div>
-                      <div className="font-['Libre_Baskerville',serif] text-sm leading-tight">CopSmart</div>
-                      <div className="text-[9px] uppercase tracking-widest text-[#B48A44]">Volunteer Services</div>
-                    </div>
+              {/* Slide content — CopSmart features showcase */}
+              <div className="bg-gradient-to-br from-[#F3F1EC] via-white to-[#F3F1EC] text-[#0D141E] relative overflow-hidden">
+                {/* Decorative grid */}
+                <div
+                  className="absolute inset-0 opacity-[0.04] pointer-events-none"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, #13243A 1px, transparent 1px), linear-gradient(to bottom, #13243A 1px, transparent 1px)",
+                    backgroundSize: "32px 32px",
+                  }}
+                />
+                <div className="absolute -top-20 -right-20 size-64 rounded-full bg-[#B48A44]/10 blur-3xl pointer-events-none" />
+
+                {/* Slide header */}
+                <div className="relative px-8 pt-7 pb-5 border-b border-[#0D141E]/10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-px w-6 bg-[#B48A44]" />
+                    <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#B48A44]">
+                      Inside CopSmart
+                    </span>
                   </div>
-                  <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider text-white/60">
-                    <span>Dashboard</span>
-                    <span>Roster</span>
-                    <span>Schedule</span>
-                    <span>Training</span>
-                    <span className="size-7 rounded-full bg-[#B48A44] text-[#0B1828] flex items-center justify-center font-bold">MC</span>
-                  </div>
+                  <h3 className="font-['Libre_Baskerville',serif] text-2xl text-[#13243A] leading-tight">
+                    One platform. Every operational beat.
+                  </h3>
+                  <p className="text-[11px] text-[#4B5563] mt-1.5 max-w-md">
+                    Six integrated modules that replace the spreadsheets, group
+                    texts, and clipboards your unit runs on today.
+                  </p>
                 </div>
 
-                {/* KPI strip */}
-                <div className="grid grid-cols-4 gap-px bg-[#0D141E]/10">
+                {/* Feature grid */}
+                <div className="relative grid grid-cols-3 gap-px bg-[#0D141E]/10">
                   {[
-                    { label: "Active Volunteers", value: "142", accent: false },
-                    { label: "Shifts This Week", value: "37", accent: false },
-                    { label: "Hours YTD", value: "8,420", accent: false },
-                    { label: "Expiring Certs", value: "03", accent: true },
-                  ].map((k) => (
-                    <div key={k.label} className="bg-white p-3">
-                      <div className="text-[9px] font-bold uppercase tracking-wider text-[#4B5563]">{k.label}</div>
-                      <div className={`text-xl font-semibold tabular-nums mt-1 ${k.accent ? "text-[#B48A44]" : "text-[#13243A]"}`}>{k.value}</div>
-                    </div>
-                  ))}
+                    {
+                      icon: Users,
+                      title: "Roster Command",
+                      desc: "142 volunteers, real-time status, badge & rank.",
+                      stat: "142",
+                      statLabel: "Active",
+                      featured: false,
+                    },
+                    {
+                      icon: CalendarClock,
+                      title: "Live Scheduling",
+                      desc: "Self-serve shifts, conflicts blocked automatically.",
+                      stat: "37",
+                      statLabel: "This Week",
+                      featured: true,
+                    },
+                    {
+                      icon: GraduationCap,
+                      title: "Training Vault",
+                      desc: "Cert tracking with 30/14/7-day expiration alerts.",
+                      stat: "98%",
+                      statLabel: "Compliant",
+                      featured: false,
+                    },
+                    {
+                      icon: Car,
+                      title: "Fleet Ops",
+                      desc: "Mileage, service intervals, every vehicle logged.",
+                      stat: "12",
+                      statLabel: "In Service",
+                      featured: false,
+                    },
+                    {
+                      icon: BarChart3,
+                      title: "Hours & Reports",
+                      desc: "Grant-ready exports. CSV, PDF, on demand.",
+                      stat: "8,420",
+                      statLabel: "Hrs YTD",
+                      featured: false,
+                    },
+                    {
+                      icon: ShieldCheck,
+                      title: "Audit-Grade",
+                      desc: "Every action immutable. CJIS-aware by design.",
+                      stat: "100%",
+                      statLabel: "Logged",
+                      featured: false,
+                    },
+                  ].map((f) => {
+                    const Icon = f.icon;
+                    return (
+                      <div
+                        key={f.title}
+                        className={`relative p-4 ${f.featured ? "bg-[#13243A] text-white" : "bg-white"}`}
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <div
+                            className={`size-9 flex items-center justify-center ${f.featured ? "bg-[#B48A44] text-[#0B1828]" : "bg-[#13243A] text-[#B48A44]"}`}
+                          >
+                            <Icon className="size-4" strokeWidth={2} />
+                          </div>
+                          <div className="text-right">
+                            <div
+                              className={`text-base font-semibold tabular-nums leading-none ${f.featured ? "text-[#B48A44]" : "text-[#13243A]"}`}
+                            >
+                              {f.stat}
+                            </div>
+                            <div
+                              className={`text-[8px] font-bold uppercase tracking-wider mt-0.5 ${f.featured ? "text-white/60" : "text-[#4B5563]"}`}
+                            >
+                              {f.statLabel}
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className={`text-[11px] font-bold uppercase tracking-wider ${f.featured ? "text-white" : "text-[#13243A]"}`}
+                        >
+                          {f.title}
+                        </div>
+                        <div
+                          className={`text-[10px] mt-1 leading-snug ${f.featured ? "text-white/70" : "text-[#4B5563]"}`}
+                        >
+                          {f.desc}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
-                {/* Body grid */}
-                <div className="grid grid-cols-12 gap-3 p-4 bg-[#F3F1EC]">
-                  {/* Roster panel */}
-                  <div className="col-span-7 bg-white border border-[#0D141E]/15">
-                    <div className="px-4 py-2.5 border-b border-[#0D141E]/10 flex items-center justify-between bg-[#13243A] text-white">
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#B48A44]">Today's Manifest</div>
-                      <div className="text-[9px] font-mono text-white/60">04 ASSIGNED</div>
-                    </div>
-                    <div className="grid grid-cols-12 gap-2 px-4 py-2 border-b border-[#0D141E]/10 text-[9px] font-bold uppercase tracking-wider text-[#4B5563]">
-                      <div className="col-span-3">ID</div>
-                      <div className="col-span-5">Personnel</div>
-                      <div className="col-span-4 text-right">Assignment</div>
-                    </div>
-                    {[
-                      { id: "AX-992", name: "Callahan, M.", shift: "14:00 · Sec 7", flag: false },
-                      { id: "AX-104", name: "Reyes, E.", shift: "16:30 · Event", flag: false },
-                      { id: "AX-842", name: "Donovan, J.", shift: "Standby", flag: true },
-                      { id: "BX-019", name: "Chen, A.", shift: "08:00 · Traffic", flag: false },
-                    ].map((r) => (
-                      <div
-                        key={r.id}
-                        className={`grid grid-cols-12 gap-2 px-4 py-2 border-b border-[#0D141E]/5 items-center text-xs ${r.flag ? "bg-[#B48A44]/10" : ""}`}
-                      >
-                        <div className={`col-span-3 font-mono tabular-nums text-[10px] ${r.flag ? "text-[#8F6D33]" : "text-[#4B5563]"}`}>{r.id}</div>
-                        <div className="col-span-5 font-semibold text-[#13243A] text-[11px]">{r.name}</div>
-                        <div className="col-span-4 text-right tabular-nums text-[10px] text-[#4B5563]">{r.shift}</div>
-                      </div>
-                    ))}
+                {/* Footer strip */}
+                <div className="relative flex items-center justify-between px-8 py-3 bg-[#0B1828] text-white border-t-2 border-[#B48A44]">
+                  <div className="flex items-center gap-2">
+                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
+                      All systems operational
+                    </span>
                   </div>
-
-                  {/* Side widgets */}
-                  <div className="col-span-5 flex flex-col gap-3">
-                    <div className="bg-white border border-[#0D141E]/15 p-3">
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44] mb-2">Hours · This Month</div>
-                      <div className="flex items-end gap-1 h-14">
-                        {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
-                          <div key={i} className="flex-1 bg-[#13243A]" style={{ height: `${h}%` }} />
-                        ))}
-                      </div>
-                      <div className="flex justify-between mt-1.5 text-[8px] font-mono text-[#4B5563]">
-                        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span>
-                      </div>
-                    </div>
-                    <div className="bg-[#13243A] text-white p-3">
-                      <div className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44] mb-2">Fleet Status</div>
-                      <div className="flex items-center justify-between text-[11px]">
-                        <div>
-                          <div className="font-semibold">12 In Service</div>
-                          <div className="text-white/50 text-[10px]">2 maintenance · 1 retired</div>
-                        </div>
-                        <Car className="size-7 text-[#B48A44]" strokeWidth={1.5} />
-                      </div>
-                    </div>
-                    <div className="bg-white border border-[#B48A44]/40 p-3">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <div className="text-[9px] font-bold uppercase tracking-widest text-[#8F6D33]">Action Required</div>
-                          <div className="text-[11px] font-semibold text-[#13243A] mt-1">3 certs expire in 14 days</div>
-                        </div>
-                        <div className="size-2 rounded-full bg-[#B48A44] mt-1.5 animate-pulse" />
-                      </div>
-                    </div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#B48A44]">
+                    Deployed at sworn agencies
+                    <ArrowRight className="size-3" />
                   </div>
                 </div>
               </div>
