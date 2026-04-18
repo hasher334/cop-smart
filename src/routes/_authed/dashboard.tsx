@@ -80,6 +80,8 @@ function Dashboard() {
       subtitle="What would you like to do today?"
       actions={<TrainingStatusBadge userId={auth.user?.id} />}
     >
+      <VolunteerOfMonthWidget />
+
       {/* Announcements */}
       <section aria-label="Announcements" className="mb-8">
         <h2 className="mb-4 flex items-center gap-2 text-2xl">
