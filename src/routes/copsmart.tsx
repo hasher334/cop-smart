@@ -108,9 +108,9 @@ function CopSmartLanding() {
           <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-4 border-gold bg-primary-foreground/5">
             <Shield className="h-14 w-14 text-gold" strokeWidth={2.2} />
           </div>
-          <h1 className="mt-8 text-center font-display text-6xl font-bold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] animate-fade-in md:text-7xl lg:text-8xl">
-            Welcome to{" "}
-            <span className="block bg-gradient-to-r from-gold via-gold to-gold/80 bg-clip-text text-transparent animate-scale-in [animation-delay:200ms] [animation-fill-mode:backwards]">
+          <h1 className="mt-8 text-center font-display text-6xl font-bold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] md:text-7xl lg:text-8xl">
+            <span className="block text-white">Welcome to</span>
+            <span className="mt-2 block bg-gradient-to-r from-gold via-gold to-gold/80 bg-clip-text text-transparent">
               CopSmart
             </span>
           </h1>
@@ -118,6 +118,15 @@ function CopSmartLanding() {
             The volunteer portal for your agency. Sign in to manage your shifts, hours,
             training, and assignments — all in one place.
           </p>
+          <div className="mx-auto mt-10 aspect-video w-full max-w-3xl overflow-hidden rounded-xl border-2 border-gold/40 shadow-elevated">
+            <iframe
+              className="h-full w-full"
+              src="https://www.youtube.com/embed/Xh52ZRmCeTo?autoplay=1&mute=1&loop=1&playlist=Xh52ZRmCeTo&controls=0&modestbranding=1&playsinline=1&rel=0"
+              title="CopSmart preview video"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               to="/login"
