@@ -147,6 +147,7 @@ function SchedulePage() {
           <DayView
             key={`day-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -158,6 +159,7 @@ function SchedulePage() {
           <UnitMonthView
             key={`um-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -170,6 +172,7 @@ function SchedulePage() {
           <AllUnitsMonthView
             key={`am-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -181,6 +184,7 @@ function SchedulePage() {
           <MyUnitTodayView
             key={`mu-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -205,6 +209,7 @@ function SchedulePage() {
 
 interface ViewProps {
   units: Unit[];
+  vehicles?: Map<string, Vehicle>;
   profiles: Map<string, Profile>;
   currentUserId?: string;
   canManage: boolean;
