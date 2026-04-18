@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageShell } from "@/components/page-shell";
+import { ServiceDueWidget } from "@/components/dashboard/service-due-widget";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database as DB } from "@/integrations/supabase/types";
@@ -105,6 +106,8 @@ function Dashboard() {
           </div>
         )}
       </section>
+
+      <ServiceDueWidget />
 
       {/* Quick actions */}
       <section aria-label="Quick actions">
