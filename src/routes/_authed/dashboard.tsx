@@ -21,6 +21,7 @@ import { UpcomingShiftsWidget } from "@/components/dashboard/upcoming-shifts-wid
 import { TrainingStatusBadge } from "@/components/dashboard/training-status-badge";
 import { MyHoursWidget } from "@/components/dashboard/my-hours-widget";
 import { VolunteerOfMonthWidget } from "@/components/dashboard/volunteer-of-month-widget";
+import { WeatherWidget } from "@/components/dashboard/weather-widget";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database as DB } from "@/integrations/supabase/types";
