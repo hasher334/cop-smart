@@ -448,6 +448,7 @@ function ShiftList({
                   key={s.id}
                   shift={s}
                   unit={unitMap.get(s.unit_id)}
+                  vehicle={s.vehicle_id ? vehicles?.get(s.vehicle_id) : undefined}
                   volunteer1={s.volunteer_1 ? profiles.get(s.volunteer_1) : undefined}
                   volunteer2={s.volunteer_2 ? profiles.get(s.volunteer_2) : undefined}
                   currentUserId={currentUserId}
