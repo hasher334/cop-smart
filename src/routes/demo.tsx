@@ -87,7 +87,6 @@ function DemoPage() {
     // Fire-and-forget notification email to internal recipients.
     void notifyFormRecipients({
       formType: "Demo Request",
-      submissionId,
       fields: [
         { label: "Full Name", value: result.data.full_name },
         { label: "Work Email", value: result.data.work_email },
