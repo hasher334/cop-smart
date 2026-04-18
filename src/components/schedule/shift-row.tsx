@@ -27,6 +27,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatTimeRange } from "@/lib/format";
 import { useRequiredTrainingStatus } from "@/hooks/use-required-training-status";
+import { VolunteerTrainingBadge } from "@/components/schedule/volunteer-training-badge";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
@@ -195,14 +196,16 @@ export function ShiftRow({
           <dl className="mt-3 grid gap-1 text-base sm:grid-cols-2">
             <div>
               <dt className="text-sm text-muted-foreground">Volunteer 1</dt>
-              <dd className={shift.volunteer_1 ? "" : "text-muted-foreground italic"}>
-                {volName(volunteer1)}
+              <dd className={shift.volunteer_1 ? "flex flex-wrap items-center gap-2" : "text-muted-foreground italic"}>
+                <span>{volName(volunteer1)}</span>
+                {shift.volunteer_1 && <VolunteerTrainingBadge userId={shift.volunteer_1} />}
               </dd>
             </div>
             <div>
               <dt className="text-sm text-muted-foreground">Volunteer 2</dt>
-              <dd className={shift.volunteer_2 ? "" : "text-muted-foreground italic"}>
-                {volName(volunteer2)}
+              <dd className={shift.volunteer_2 ? "flex flex-wrap items-center gap-2" : "text-muted-foreground italic"}>
+                <span>{volName(volunteer2)}</span>
+                {shift.volunteer_2 && <VolunteerTrainingBadge userId={shift.volunteer_2} />}
               </dd>
             </div>
           </dl>
