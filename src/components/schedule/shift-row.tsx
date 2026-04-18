@@ -19,11 +19,13 @@ import { formatTimeRange } from "@/lib/format";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
+type Vehicle = Pick<Database["public"]["Tables"]["vehicles"]["Row"], "id" | "vehicle_no" | "make" | "model" | "year">;
 type Profile = Pick<Database["public"]["Tables"]["profiles"]["Row"], "user_id" | "full_name" | "badge_no">;
 
 interface Props {
   shift: Shift;
   unit?: Unit;
+  vehicle?: Vehicle;
   volunteer1?: Profile;
   volunteer2?: Profile;
   currentUserId?: string;
