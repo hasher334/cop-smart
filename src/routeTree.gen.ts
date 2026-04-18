@@ -36,6 +36,7 @@ import { Route as AuthedAdminUnitComparisonRouteImport } from './routes/_authed/
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 import { Route as AuthedAdminHoursReportRouteImport } from './routes/_authed/admin/hours-report'
 import { Route as AuthedAdminAnnouncementsRouteImport } from './routes/_authed/admin/announcements'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -173,6 +174,12 @@ const AuthedAdminAnnouncementsRoute =
     path: '/admin/announcements',
     getParentRoute: () => AuthedRoute,
   } as any)
+const LovableEmailQueueProcessRoute =
+  LovableEmailQueueProcessRouteImport.update({
+    id: '/lovable/email/queue/process',
+    path: '/lovable/email/queue/process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -201,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -229,6 +237,7 @@ export interface FileRoutesByTo {
   '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -259,6 +268,7 @@ export interface FileRoutesById {
   '/_authed/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/_authed/admin/users': typeof AuthedAdminUsersRoute
   '/_authed/schedule/print': typeof AuthedSchedulePrintRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/admin/unit-comparison'
     | '/admin/users'
     | '/schedule/print'
+    | '/lovable/email/queue/process'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/admin/unit-comparison'
     | '/admin/users'
     | '/schedule/print'
+    | '/lovable/email/queue/process'
   id:
     | '__root__'
     | '/'
@@ -346,6 +358,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/unit-comparison'
     | '/_authed/admin/users'
     | '/_authed/schedule/print'
+    | '/lovable/email/queue/process'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -359,6 +372,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProductRoute: typeof ProductRoute
   SignupRoute: typeof SignupRoute
+  LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -552,6 +566,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminAnnouncementsRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -619,6 +640,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProductRoute: ProductRoute,
   SignupRoute: SignupRoute,
+  LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
