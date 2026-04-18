@@ -212,11 +212,26 @@ export function ShiftRow({
         </div>
 
         <div className="flex flex-col gap-2 sm:min-w-[180px]">
-          {canSignUp && (
+          {canSignUp && !trainingBlocked && (
             <Button onClick={signUp} className="h-12 gap-2">
               <UserPlus className="h-5 w-5" />
               Sign me up
             </Button>
+          )}
+          {canSignUp && trainingBlocked && (
+            <>
+              <Button
+                onClick={() => setBlockDialogOpen(true)}
+                variant="outline"
+                className="h-12 gap-2 border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              >
+                <ShieldAlert className="h-5 w-5" />
+                Training required
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Your required certifications aren't current.
+              </p>
+            </>
           )}
           {isAssigned && shift.status === "reserved" && (
             <Button onClick={() => setStatus("on_duty")} variant="outline" className="h-12 gap-2">
