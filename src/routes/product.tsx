@@ -28,8 +28,8 @@ function ProductPage() {
             <p className="mt-6 text-xl text-[#4B5563] leading-relaxed max-w-2xl">
               The complete operational record for your volunteer unit. Roster,
               scheduling, training, fleet, hours, and dispatch — unified in one
-              auditable system used today by the Palm Beach County Sheriff's
-              Office Volunteer Services division.
+              auditable system trusted by sworn agencies to manage their
+              auxiliary volunteer programs.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/demo" className="inline-flex items-center gap-2 bg-[#13243A] text-white px-7 py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-[#0D141E]">
@@ -44,13 +44,13 @@ function ProductPage() {
             <div className="bg-[#13243A] text-white p-8 lg:p-10 border border-[#13243A]">
               <div className="flex items-center gap-3 mb-6">
                 <ShieldCheck className="h-6 w-6 text-[#B48A44]" />
-                <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Active Deployment</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">In Production</span>
               </div>
               <SerifHeading as="h2" className="text-3xl text-white">
-                Palm Beach County Sheriff's Office
+                Trusted by Sworn Agencies
               </SerifHeading>
               <p className="mt-4 text-white/80 leading-relaxed">
-                CopSmart powers the daily operations of PBSO Volunteer Services
+                CopSmart powers daily operations for volunteer services divisions
                 — managing hundreds of citizen observer patrol members, vehicle
                 fleets, and recurring training cycles.
               </p>

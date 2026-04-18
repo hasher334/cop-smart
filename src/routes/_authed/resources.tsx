@@ -41,9 +41,9 @@ export const Route = createFileRoute("/_authed/resources")({
   component: ResourcesPage,
 });
 
-// Patrol area: West Palm Beach, FL (PBSO HQ area). Adjust if needed.
+// Default patrol area. Adjust per deployment.
 const PATROL_LOCATION = {
-  name: "West Palm Beach, FL",
+  name: "Local Patrol Area",
   lat: 26.7153,
   lon: -80.0534,
 };
@@ -313,9 +313,9 @@ function ResourcesPage() {
                 desc="Live road conditions & closures"
               />
               <ExternalCard
-                href="https://www.pbso.org/"
-                title="PBSO"
-                desc="Palm Beach Sheriff's Office"
+                href="https://www.fdle.state.fl.us/"
+                title="FDLE"
+                desc="FL Dept. of Law Enforcement"
               />
               <ExternalCard
                 href="https://www.flhsmv.gov/"

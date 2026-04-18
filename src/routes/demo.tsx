@@ -183,7 +183,7 @@ function DemoPage() {
                       onChange={update("agency")}
                       maxLength={150}
                       className={inputClass(!!errors.agency)}
-                      placeholder="Palm Beach County Sheriff's Office"
+                      placeholder="e.g., Metropolitan County Sheriff's Office"
                     />
                   </Field>
                   <Field label="Role / Title" error={errors.role_title}>

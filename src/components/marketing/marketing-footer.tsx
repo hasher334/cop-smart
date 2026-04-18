@@ -15,7 +15,7 @@ export function MarketingFooter() {
           <div className="mt-6 flex items-center gap-3">
             <div className="h-px w-8 bg-[#B48A44]" />
             <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">
-              Est. Palm Beach County, FL
+              Headquartered in Florida
             </span>
           </div>
         </div>

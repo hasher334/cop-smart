@@ -47,8 +47,8 @@ const DEMO_COURSES: Array<{
 }> = [
   { id: "c0000000-0000-0000-0000-000000000001", code: "CPR",      name: "CPR Certification",        category: "safety",   required: true,  validity_months: 24, description: "American Red Cross CPR/AED certification." },
   { id: "c0000000-0000-0000-0000-000000000002", code: "FA",       name: "First Aid",                category: "safety",   required: true,  validity_months: 24, description: "Basic First Aid course." },
-  { id: "c0000000-0000-0000-0000-000000000003", code: "RADIO",    name: "Radio Communications",     category: "comms",    required: true,  validity_months: 36, description: "PBSO radio procedures and 10-codes." },
-  { id: "c0000000-0000-0000-0000-000000000004", code: "DEFDRIVE", name: "Defensive Driving",        category: "patrol",   required: true,  validity_months: 24, description: "Required for all volunteers operating PBSO vehicles." },
+  { id: "c0000000-0000-0000-0000-000000000003", code: "RADIO",    name: "Radio Communications",     category: "comms",    required: true,  validity_months: 36, description: "Agency radio procedures and 10-codes." },
+  { id: "c0000000-0000-0000-0000-000000000004", code: "DEFDRIVE", name: "Defensive Driving",        category: "patrol",   required: true,  validity_months: 24, description: "Required for all volunteers operating agency vehicles." },
   { id: "c0000000-0000-0000-0000-000000000005", code: "ORIENT",   name: "Volunteer Orientation",    category: "general",  required: true,  validity_months: null, description: "One-time orientation for new volunteers." },
   { id: "c0000000-0000-0000-0000-000000000006", code: "TRAFFIC",  name: "Traffic Direction",        category: "patrol",   required: false, validity_months: 36, description: "Hand signals and intersection control for special events." },
 ];
@@ -67,12 +67,12 @@ const DEMO_VEHICLES: Array<{
   last_service_date: string | null;
   next_service_date: string | null;
 }> = [
-  { id: "e0000000-0000-0000-0000-000000000001", vehicle_no: "V-201", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "PBSO-201", status: "in_service",     unit_code: "D1", mileage: 28450, last_service_date: "2025-09-15", next_service_date: "2026-03-15" },
-  { id: "e0000000-0000-0000-0000-000000000002", vehicle_no: "V-202", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "PBSO-202", status: "in_service",     unit_code: "D2", mileage: 31200, last_service_date: "2025-10-02", next_service_date: "2026-04-02" },
-  { id: "e0000000-0000-0000-0000-000000000003", vehicle_no: "V-203", make: "Chevrolet", model: "Tahoe",     year: 2021, license_plate: "PBSO-203", status: "maintenance",    unit_code: "D3", mileage: 47800, last_service_date: "2025-11-20", next_service_date: "2026-05-20" },
-  { id: "e0000000-0000-0000-0000-000000000004", vehicle_no: "V-204", make: "Ford",      model: "F-150",     year: 2020, license_plate: "PBSO-204", status: "in_service",     unit_code: "SE", mileage: 62100, last_service_date: "2025-08-11", next_service_date: "2026-02-11" },
-  { id: "e0000000-0000-0000-0000-000000000005", vehicle_no: "V-205", make: "Dodge",     model: "Charger",   year: 2023, license_plate: "PBSO-205", status: "in_service",     unit_code: "HQ", mileage: 12300, last_service_date: "2025-11-01", next_service_date: "2026-05-01" },
-  { id: "e0000000-0000-0000-0000-000000000006", vehicle_no: "V-206", make: "Ford",      model: "Explorer",  year: 2019, license_plate: "PBSO-206", status: "out_of_service", unit_code: "D1", mileage: 89400, last_service_date: "2025-06-10", next_service_date: null },
+  { id: "e0000000-0000-0000-0000-000000000001", vehicle_no: "V-201", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "VOL-201", status: "in_service",     unit_code: "D1", mileage: 28450, last_service_date: "2025-09-15", next_service_date: "2026-03-15" },
+  { id: "e0000000-0000-0000-0000-000000000002", vehicle_no: "V-202", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "VOL-202", status: "in_service",     unit_code: "D2", mileage: 31200, last_service_date: "2025-10-02", next_service_date: "2026-04-02" },
+  { id: "e0000000-0000-0000-0000-000000000003", vehicle_no: "V-203", make: "Chevrolet", model: "Tahoe",     year: 2021, license_plate: "VOL-203", status: "maintenance",    unit_code: "D3", mileage: 47800, last_service_date: "2025-11-20", next_service_date: "2026-05-20" },
+  { id: "e0000000-0000-0000-0000-000000000004", vehicle_no: "V-204", make: "Ford",      model: "F-150",     year: 2020, license_plate: "VOL-204", status: "in_service",     unit_code: "SE", mileage: 62100, last_service_date: "2025-08-11", next_service_date: "2026-02-11" },
+  { id: "e0000000-0000-0000-0000-000000000005", vehicle_no: "V-205", make: "Dodge",     model: "Charger",   year: 2023, license_plate: "VOL-205", status: "in_service",     unit_code: "HQ", mileage: 12300, last_service_date: "2025-11-01", next_service_date: "2026-05-01" },
+  { id: "e0000000-0000-0000-0000-000000000006", vehicle_no: "V-206", make: "Ford",      model: "Explorer",  year: 2019, license_plate: "VOL-206", status: "out_of_service", unit_code: "D1", mileage: 89400, last_service_date: "2025-06-10", next_service_date: null },
 ];
 
 // Document/form metadata
@@ -261,7 +261,7 @@ export const seedDemoData = createServerFn({ method: "POST" }).handler(
     };
 
     // Everyone has orientation (no expiration)
-    for (const u of DEMO_USERS) addTraining(u.badge, "ORIENT", monthsAgo(20), null, "PBSO Volunteer Services");
+    for (const u of DEMO_USERS) addTraining(u.badge, "ORIENT", monthsAgo(20), null, "Volunteer Services");
 
     // CPR — most current, one expiring soon
     addTraining("D100", "CPR", monthsAgo(3),  monthsAhead(21), "Red Cross");
@@ -283,22 +283,22 @@ export const seedDemoData = createServerFn({ method: "POST" }).handler(
     addTraining("D403", "FA", monthsAgo(9),  monthsAhead(15), "Local FD");
 
     // Radio
-    addTraining("D201", "RADIO", monthsAgo(10), monthsAhead(26), "PBSO Comms");
-    addTraining("D202", "RADIO", monthsAgo(12), monthsAhead(24), "PBSO Comms");
-    addTraining("D301", "RADIO", monthsAgo(15), monthsAhead(21), "PBSO Comms");
-    addTraining("D401", "RADIO", monthsAgo(11), monthsAhead(25), "PBSO Comms");
-    addTraining("D402", "RADIO", monthsAgo(13), monthsAhead(23), "PBSO Comms");
+    addTraining("D201", "RADIO", monthsAgo(10), monthsAhead(26), "Agency Comms");
+    addTraining("D202", "RADIO", monthsAgo(12), monthsAhead(24), "Agency Comms");
+    addTraining("D301", "RADIO", monthsAgo(15), monthsAhead(21), "Agency Comms");
+    addTraining("D401", "RADIO", monthsAgo(11), monthsAhead(25), "Agency Comms");
+    addTraining("D402", "RADIO", monthsAgo(13), monthsAhead(23), "Agency Comms");
 
     // Defensive Driving
-    addTraining("D201", "DEFDRIVE", monthsAgo(9),  monthsAhead(15), "PBSO Driving School");
-    addTraining("D202", "DEFDRIVE", monthsAgo(7),  monthsAhead(17), "PBSO Driving School");
-    addTraining("D301", "DEFDRIVE", monthsAgo(6),  monthsAhead(18), "PBSO Driving School");
-    addTraining("D401", "DEFDRIVE", monthsAgo(10), monthsAhead(14), "PBSO Driving School");
-    addTraining("D402", "DEFDRIVE", monthsAgo(8),  monthsAhead(16), "PBSO Driving School");
+    addTraining("D201", "DEFDRIVE", monthsAgo(9),  monthsAhead(15), "Defensive Driving Course");
+    addTraining("D202", "DEFDRIVE", monthsAgo(7),  monthsAhead(17), "Defensive Driving Course");
+    addTraining("D301", "DEFDRIVE", monthsAgo(6),  monthsAhead(18), "Defensive Driving Course");
+    addTraining("D401", "DEFDRIVE", monthsAgo(10), monthsAhead(14), "Defensive Driving Course");
+    addTraining("D402", "DEFDRIVE", monthsAgo(8),  monthsAhead(16), "Defensive Driving Course");
 
     // Traffic — only a couple of volunteers
-    addTraining("D302", "TRAFFIC", monthsAgo(4),  monthsAhead(32), "PBSO Traffic Division");
-    addTraining("D401", "TRAFFIC", monthsAgo(5),  monthsAhead(31), "PBSO Traffic Division");
+    addTraining("D302", "TRAFFIC", monthsAgo(4),  monthsAhead(32), "Traffic Division");
+    addTraining("D401", "TRAFFIC", monthsAgo(5),  monthsAhead(31), "Traffic Division");
 
     if (trainingRows.length > 0) {
       await supabaseAdmin

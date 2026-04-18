@@ -32,7 +32,7 @@ export function SiteHeader() {
                 CopSmart
               </div>
               <div className="text-xs leading-tight text-primary-foreground/80">
-                PBSO Volunteer Services
+                Volunteer Services
               </div>
             </div>
           </Link>

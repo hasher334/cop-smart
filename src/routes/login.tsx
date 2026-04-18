@@ -73,7 +73,7 @@ function LoginPage() {
             </div>
             <div>
               <div className="font-display text-xl font-bold">CopSmart</div>
-              <div className="text-xs text-primary-foreground/80">PBSO Volunteer Services</div>
+              <div className="text-xs text-primary-foreground/80">Volunteer Services</div>
             </div>
           </Link>
         </div>
@@ -88,7 +88,7 @@ function LoginPage() {
               </div>
               <h1 className="mt-4">Volunteer Sign In</h1>
               <p className="mt-2 text-base text-muted-foreground">
-                Use your PBSO badge number and password.
+                Use your badge number and password.
               </p>
             </div>
 

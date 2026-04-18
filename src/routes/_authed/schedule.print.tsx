@@ -214,7 +214,7 @@ function PrintSchedulePage() {
             </div>
             <div>
               <div className="text-xs uppercase tracking-wide text-muted-foreground">
-                PBSO Volunteer Services
+                Volunteer Services
               </div>
               <h1 className="text-2xl font-bold leading-tight">
                 Monthly Patrol Schedule

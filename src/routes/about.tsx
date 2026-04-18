@@ -32,8 +32,8 @@ function AboutPage() {
               and consumer apps that weren't built for sworn agencies.
             </p>
             <p>
-              Our founders worked alongside the Palm Beach County Sheriff's
-              Office Volunteer Services division to build CopSmart from the
+              Our founders worked alongside sworn law enforcement volunteer
+              services divisions to build CopSmart from the
               ground up. Every feature reflects a real problem we watched a
               real coordinator solve the hard way.
             </p>
