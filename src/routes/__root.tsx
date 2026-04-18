@@ -51,10 +51,10 @@ export const Route = createRootRoute({
       },
     ],
     scripts: [
-      { src: "https://www.googletagmanager.com/gtag/js?id=G-G07CXFK8RH", async: true },
+      { src: "https://www.googletagmanager.com/gtag/js?id=G-DJ1SCJK6Z6", async: true },
       {
         children:
-          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-G07CXFK8RH');",
+          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-DJ1SCJK6Z6');",
       },
     ],
   }),
