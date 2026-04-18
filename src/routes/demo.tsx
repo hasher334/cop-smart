@@ -4,6 +4,7 @@ import { z } from "zod";
 import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marketing/marketing-shell";
 import { supabase } from "@/integrations/supabase/client";
+import { notifyFormRecipients } from "@/lib/email/send";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/demo")({
@@ -63,21 +64,41 @@ function DemoPage() {
     }
 
     setSubmitting(true);
-    const { error } = await supabase.from("demo_requests").insert({
-      full_name: result.data.full_name,
-      work_email: result.data.work_email,
-      agency: result.data.agency,
-      agency_size: result.data.agency_size || null,
-      role_title: result.data.role_title || null,
-      phone: result.data.phone || null,
-      message: result.data.message || null,
-    });
+    const { data: inserted, error } = await supabase
+      .from("demo_requests")
+      .insert({
+        full_name: result.data.full_name,
+        work_email: result.data.work_email,
+        agency: result.data.agency,
+        agency_size: result.data.agency_size || null,
+        role_title: result.data.role_title || null,
+        phone: result.data.phone || null,
+        message: result.data.message || null,
+      })
+      .select("id")
+      .maybeSingle();
     setSubmitting(false);
 
     if (error) {
       toast.error("Submission failed. Please try again or email sales@volcop.com.");
       return;
     }
+
+    // Fire-and-forget notification email to internal recipients.
+    void notifyFormRecipients({
+      formType: "Demo Request",
+      submissionId: inserted?.id ?? crypto.randomUUID(),
+      fields: [
+        { label: "Full Name", value: result.data.full_name },
+        { label: "Work Email", value: result.data.work_email },
+        { label: "Agency", value: result.data.agency },
+        { label: "Agency Size", value: result.data.agency_size || "—" },
+        { label: "Role / Title", value: result.data.role_title || "—" },
+        { label: "Phone", value: result.data.phone || "—" },
+        { label: "Message", value: result.data.message || "—" },
+      ],
+    });
+
     setSubmitted(true);
     toast.success("Demo request received — we'll be in touch within one business day.");
   };
