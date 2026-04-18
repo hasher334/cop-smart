@@ -25,6 +25,7 @@ import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as AuthedSchedulePrintRouteImport } from './routes/_authed/schedule.print'
 import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/users'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
+import { Route as AuthedAdminHoursReportRouteImport } from './routes/_authed/admin/hours-report'
 import { Route as AuthedAdminAnnouncementsRouteImport } from './routes/_authed/admin/announcements'
 
 const SignupRoute = SignupRouteImport.update({
@@ -106,6 +107,11 @@ const AuthedAdminMigrationRoute = AuthedAdminMigrationRouteImport.update({
   path: '/admin/migration',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdminHoursReportRoute = AuthedAdminHoursReportRouteImport.update({
+  id: '/admin/hours-report',
+  path: '/admin/hours-report',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedAdminAnnouncementsRoute =
   AuthedAdminAnnouncementsRouteImport.update({
     id: '/admin/announcements',
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
@@ -165,6 +173,7 @@ export interface FileRoutesById {
   '/_authed/training': typeof AuthedTrainingRoute
   '/_authed/vehicles': typeof AuthedVehiclesRoute
   '/_authed/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/_authed/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
   '/_authed/admin/users': typeof AuthedAdminUsersRoute
   '/_authed/schedule/print': typeof AuthedSchedulePrintRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/announcements'
+    | '/admin/hours-report'
     | '/admin/migration'
     | '/admin/users'
     | '/schedule/print'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/announcements'
+    | '/admin/hours-report'
     | '/admin/migration'
     | '/admin/users'
     | '/schedule/print'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/_authed/training'
     | '/_authed/vehicles'
     | '/_authed/admin/announcements'
+    | '/_authed/admin/hours-report'
     | '/_authed/admin/migration'
     | '/_authed/admin/users'
     | '/_authed/schedule/print'
@@ -348,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminMigrationRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/admin/hours-report': {
+      id: '/_authed/admin/hours-report'
+      path: '/admin/hours-report'
+      fullPath: '/admin/hours-report'
+      preLoaderRoute: typeof AuthedAdminHoursReportRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/admin/announcements': {
       id: '/_authed/admin/announcements'
       path: '/admin/announcements'
@@ -381,6 +400,7 @@ interface AuthedRouteChildren {
   AuthedTrainingRoute: typeof AuthedTrainingRoute
   AuthedVehiclesRoute: typeof AuthedVehiclesRoute
   AuthedAdminAnnouncementsRoute: typeof AuthedAdminAnnouncementsRoute
+  AuthedAdminHoursReportRoute: typeof AuthedAdminHoursReportRoute
   AuthedAdminMigrationRoute: typeof AuthedAdminMigrationRoute
   AuthedAdminUsersRoute: typeof AuthedAdminUsersRoute
 }
@@ -396,6 +416,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedTrainingRoute: AuthedTrainingRoute,
   AuthedVehiclesRoute: AuthedVehiclesRoute,
   AuthedAdminAnnouncementsRoute: AuthedAdminAnnouncementsRoute,
+  AuthedAdminHoursReportRoute: AuthedAdminHoursReportRoute,
   AuthedAdminMigrationRoute: AuthedAdminMigrationRoute,
   AuthedAdminUsersRoute: AuthedAdminUsersRoute,
 }
