@@ -44,20 +44,50 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           )
         }
 
-        // Verify the caller has a valid Supabase auth token.
-        // In TanStack, there is no Supabase gateway — we validate the JWT ourselves.
-        const authHeader = request.headers.get('Authorization')
-        if (!authHeader?.startsWith('Bearer ')) {
-          return Response.json({ error: 'Unauthorized' }, { status: 401 })
-        }
+        // Templates that may be triggered by anonymous (unauthenticated) visitors,
+        // e.g. public marketing form submissions. These templates must always send
+        // to a fixed internal recipient list — never accept arbitrary recipientEmail
+        // from untrusted callers without server-side validation.
+        const PUBLIC_TEMPLATES = new Set(['form-submission-notification'])
+        const ALLOWED_PUBLIC_RECIPIENTS = new Set([
+          'jordank@volcop.com',
+          'arodseo@gmail.com',
+        ])
 
-        const token = authHeader.slice('Bearer '.length).trim()
         const supabase = createClient(supabaseUrl, supabaseServiceKey)
-        const { data: { user }, error: authError } = await supabase.auth.getUser(token)
 
-        if (authError || !user) {
-          return Response.json({ error: 'Unauthorized' }, { status: 401 })
+        // Peek at template name in body to decide auth strategy.
+        const rawBody = await request.text()
+        let parsedBody: any = {}
+        try {
+          parsedBody = JSON.parse(rawBody)
+        } catch {
+          return Response.json({ error: 'Invalid JSON in request body' }, { status: 400 })
         }
+        const peekedTemplateName: string | undefined = parsedBody.templateName || parsedBody.template_name
+        const peekedRecipient: string | undefined = parsedBody.recipientEmail || parsedBody.recipient_email
+        const isPublicCall = !!peekedTemplateName && PUBLIC_TEMPLATES.has(peekedTemplateName)
+
+        if (isPublicCall) {
+          // Lock down public-template calls to the fixed internal recipient list.
+          if (!peekedRecipient || !ALLOWED_PUBLIC_RECIPIENTS.has(peekedRecipient.toLowerCase())) {
+            return Response.json({ error: 'Recipient not allowed' }, { status: 403 })
+          }
+        } else {
+          // Authenticated path — require a valid Supabase JWT.
+          const authHeader = request.headers.get('Authorization')
+          if (!authHeader?.startsWith('Bearer ')) {
+            return Response.json({ error: 'Unauthorized' }, { status: 401 })
+          }
+          const token = authHeader.slice('Bearer '.length).trim()
+          const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+          if (authError || !user) {
+            return Response.json({ error: 'Unauthorized' }, { status: 401 })
+          }
+        }
+
+        // Re-stuff body for downstream parser
+        ;(request as any).__prereadBody = parsedBody
 
         // Parse request body
         let templateName: string
