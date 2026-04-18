@@ -1,4 +1,4 @@
-// Dispatch reference data — Florida Sheriff/PBSO-style 10-codes, signals, and a sample radio directory.
+// Dispatch reference data — Florida Sheriff-style 10-codes, signals, and a sample radio directory.
 // Common-use set; admins can extend later via DB. Keep human-readable.
 
 export interface CodeEntry {

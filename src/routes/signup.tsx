@@ -63,7 +63,7 @@ function SignupPage() {
             </div>
             <div>
               <div className="font-display text-xl font-bold">CopSmart</div>
-              <div className="text-xs text-primary-foreground/80">PBSO Volunteer Services</div>
+              <div className="text-xs text-primary-foreground/80">Volunteer Services</div>
             </div>
           </Link>
         </div>
@@ -78,7 +78,7 @@ function SignupPage() {
               </div>
               <h1 className="mt-4">Create Account</h1>
               <p className="mt-2 text-base text-muted-foreground">
-                For approved PBSO volunteers only.
+                For approved volunteers only.
               </p>
             </div>
 

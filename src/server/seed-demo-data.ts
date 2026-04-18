@@ -47,8 +47,8 @@ const DEMO_COURSES: Array<{
 }> = [
   { id: "c0000000-0000-0000-0000-000000000001", code: "CPR",      name: "CPR Certification",        category: "safety",   required: true,  validity_months: 24, description: "American Red Cross CPR/AED certification." },
   { id: "c0000000-0000-0000-0000-000000000002", code: "FA",       name: "First Aid",                category: "safety",   required: true,  validity_months: 24, description: "Basic First Aid course." },
-  { id: "c0000000-0000-0000-0000-000000000003", code: "RADIO",    name: "Radio Communications",     category: "comms",    required: true,  validity_months: 36, description: "PBSO radio procedures and 10-codes." },
-  { id: "c0000000-0000-0000-0000-000000000004", code: "DEFDRIVE", name: "Defensive Driving",        category: "patrol",   required: true,  validity_months: 24, description: "Required for all volunteers operating PBSO vehicles." },
+  { id: "c0000000-0000-0000-0000-000000000003", code: "RADIO",    name: "Radio Communications",     category: "comms",    required: true,  validity_months: 36, description: "Agency radio procedures and 10-codes." },
+  { id: "c0000000-0000-0000-0000-000000000004", code: "DEFDRIVE", name: "Defensive Driving",        category: "patrol",   required: true,  validity_months: 24, description: "Required for all volunteers operating agency vehicles." },
   { id: "c0000000-0000-0000-0000-000000000005", code: "ORIENT",   name: "Volunteer Orientation",    category: "general",  required: true,  validity_months: null, description: "One-time orientation for new volunteers." },
   { id: "c0000000-0000-0000-0000-000000000006", code: "TRAFFIC",  name: "Traffic Direction",        category: "patrol",   required: false, validity_months: 36, description: "Hand signals and intersection control for special events." },
 ];
@@ -67,12 +67,12 @@ const DEMO_VEHICLES: Array<{
   last_service_date: string | null;
   next_service_date: string | null;
 }> = [
-  { id: "e0000000-0000-0000-0000-000000000001", vehicle_no: "V-201", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "PBSO-201", status: "in_service",     unit_code: "D1", mileage: 28450, last_service_date: "2025-09-15", next_service_date: "2026-03-15" },
-  { id: "e0000000-0000-0000-0000-000000000002", vehicle_no: "V-202", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "PBSO-202", status: "in_service",     unit_code: "D2", mileage: 31200, last_service_date: "2025-10-02", next_service_date: "2026-04-02" },
-  { id: "e0000000-0000-0000-0000-000000000003", vehicle_no: "V-203", make: "Chevrolet", model: "Tahoe",     year: 2021, license_plate: "PBSO-203", status: "maintenance",    unit_code: "D3", mileage: 47800, last_service_date: "2025-11-20", next_service_date: "2026-05-20" },
-  { id: "e0000000-0000-0000-0000-000000000004", vehicle_no: "V-204", make: "Ford",      model: "F-150",     year: 2020, license_plate: "PBSO-204", status: "in_service",     unit_code: "SE", mileage: 62100, last_service_date: "2025-08-11", next_service_date: "2026-02-11" },
-  { id: "e0000000-0000-0000-0000-000000000005", vehicle_no: "V-205", make: "Dodge",     model: "Charger",   year: 2023, license_plate: "PBSO-205", status: "in_service",     unit_code: "HQ", mileage: 12300, last_service_date: "2025-11-01", next_service_date: "2026-05-01" },
-  { id: "e0000000-0000-0000-0000-000000000006", vehicle_no: "V-206", make: "Ford",      model: "Explorer",  year: 2019, license_plate: "PBSO-206", status: "out_of_service", unit_code: "D1", mileage: 89400, last_service_date: "2025-06-10", next_service_date: null },
+  { id: "e0000000-0000-0000-0000-000000000001", vehicle_no: "V-201", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "VOL-201", status: "in_service",     unit_code: "D1", mileage: 28450, last_service_date: "2025-09-15", next_service_date: "2026-03-15" },
+  { id: "e0000000-0000-0000-0000-000000000002", vehicle_no: "V-202", make: "Ford",      model: "Explorer",  year: 2022, license_plate: "VOL-202", status: "in_service",     unit_code: "D2", mileage: 31200, last_service_date: "2025-10-02", next_service_date: "2026-04-02" },
+  { id: "e0000000-0000-0000-0000-000000000003", vehicle_no: "V-203", make: "Chevrolet", model: "Tahoe",     year: 2021, license_plate: "VOL-203", status: "maintenance",    unit_code: "D3", mileage: 47800, last_service_date: "2025-11-20", next_service_date: "2026-05-20" },
+  { id: "e0000000-0000-0000-0000-000000000004", vehicle_no: "V-204", make: "Ford",      model: "F-150",     year: 2020, license_plate: "VOL-204", status: "in_service",     unit_code: "SE", mileage: 62100, last_service_date: "2025-08-11", next_service_date: "2026-02-11" },
+  { id: "e0000000-0000-0000-0000-000000000005", vehicle_no: "V-205", make: "Dodge",     model: "Charger",   year: 2023, license_plate: "VOL-205", status: "in_service",     unit_code: "HQ", mileage: 12300, last_service_date: "2025-11-01", next_service_date: "2026-05-01" },
+  { id: "e0000000-0000-0000-0000-000000000006", vehicle_no: "V-206", make: "Ford",      model: "Explorer",  year: 2019, license_plate: "VOL-206", status: "out_of_service", unit_code: "D1", mileage: 89400, last_service_date: "2025-06-10", next_service_date: null },
 ];
 
 // Document/form metadata

@@ -13,7 +13,7 @@ interface ForecastPeriod {
   icon: string;
 }
 
-// PBSO HQ — West Palm Beach, FL
+// Default patrol coordinates — agencies can customize per deployment.
 const LAT = 26.6845;
 const LON = -80.1086;
 
@@ -60,7 +60,7 @@ export function WeatherWidget() {
     <section aria-label="Weather forecast" className="mb-8">
       <h2 className="mb-4 flex items-center gap-2 text-2xl">
         <CloudSun className="h-6 w-6 text-info" />
-        Patrol Weather — West Palm Beach
+        Patrol Weather
       </h2>
 
       {error ? (
