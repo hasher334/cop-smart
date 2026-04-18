@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { z } from "zod";
+import { Mail, Phone, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marketing/marketing-shell";
+import { notifyFormRecipients } from "@/lib/email/send";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
