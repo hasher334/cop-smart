@@ -72,6 +72,36 @@ const HIGHLIGHTS = [
   },
 ];
 
+const STATS = [
+  { value: "1,500+", label: "Active Volunteers" },
+  { value: "100+", label: "Specialized Units" },
+  { value: "3–12", label: "Hours / Week (C.O.P.)" },
+  { value: "0", label: "Prior Experience Required" },
+];
+
+const OPPORTUNITIES = [
+  {
+    icon: Car,
+    title: "Citizen Observer Patrol (C.O.P.)",
+    desc: "Be the eyes and ears of the Sheriff's Office — patrol your neighborhood in marked vehicles and report suspicious activity to 9-1-1. Typically 3–12 hours per week plus a monthly meeting.",
+  },
+  {
+    icon: Users,
+    title: "Volunteer Mounted Unit",
+    desc: "Horse owners ride alongside deputies for neighborhood patrols, parades, and special events. Must be 21+, hold a valid driver's license, and have access to a horse.",
+  },
+  {
+    icon: Building2,
+    title: "Administrative & Clerical",
+    desc: "Support detectives, the crime lab, vehicle maintenance, or general office operations — vital roles that keep the agency running.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Community Events",
+    desc: "Lead and support initiatives like Shop With a Volunteer (holiday shopping for children) and back-to-school backpack drives.",
+  },
+];
+
 function CopSmartLanding() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
