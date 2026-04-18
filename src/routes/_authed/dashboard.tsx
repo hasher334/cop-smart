@@ -120,6 +120,7 @@ function Dashboard() {
       </section>
 
       <UpcomingShiftsWidget />
+      <WeatherWidget />
       <MyHoursWidget />
       <ServiceDueWidget />
       <ExpiringTrainingWidget />
