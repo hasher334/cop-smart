@@ -50,111 +50,198 @@ function HomePage() {
   return (
     <MarketingShell>
       {/* HERO */}
-      <section className="border-b border-[#0D141E]/10">
-        <div className="mx-auto max-w-[1440px] px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 py-20 lg:py-28 items-center">
+      <section className="relative overflow-hidden border-b border-[#0D141E]/10 bg-gradient-to-br from-[#0B1828] via-[#13243A] to-[#0B1828] text-white">
+        {/* Ambient background */}
+        <div
+          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #B48A44 1px, transparent 1px), linear-gradient(to bottom, #B48A44 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage:
+              "radial-gradient(ellipse at 70% 40%, black 30%, transparent 75%)",
+          }}
+        />
+        <div className="absolute -top-40 -right-40 size-[600px] rounded-full bg-[#B48A44]/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-40 -left-40 size-[500px] rounded-full bg-[#B48A44]/5 blur-3xl pointer-events-none" />
+
+        <div className="relative mx-auto max-w-[1440px] px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-12 py-20 lg:py-28 items-center">
+          {/* LEFT — Copy */}
           <div className="lg:col-span-5 flex flex-col gap-7">
-            <SectionEyebrow>The CopSmart Standard</SectionEyebrow>
-            <SerifHeading as="h1" className="text-5xl lg:text-6xl text-balance">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-8 bg-[#B48A44]" />
+              <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">
+                The CopSmart Standard
+              </span>
+            </div>
+            <h1 className="font-['Libre_Baskerville',serif] text-5xl lg:text-6xl text-balance leading-[1.1] text-white">
               Deploy your volunteers with absolute certainty.
-            </SerifHeading>
-            <p className="text-lg text-[#4B5563] max-w-[48ch] leading-relaxed">
+            </h1>
+            <p className="text-lg text-white/75 max-w-[48ch] leading-relaxed">
               VolCop builds custom volunteer management software for law
               enforcement and government agencies. Centralize rosters,
-              background clearances, training, scheduling, and fleet — into a
-              single, immutable record.
+              clearances, training, scheduling, and fleet — into one immutable
+              record.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
                 to="/demo"
-                className="inline-flex items-center gap-2 bg-[#13243A] text-white px-7 py-3.5 text-sm font-bold uppercase tracking-wide border border-[#13243A] hover:bg-white hover:text-[#13243A] transition-colors"
+                className="inline-flex items-center gap-2 bg-[#B48A44] text-[#0B1828] px-7 py-3.5 text-sm font-bold uppercase tracking-wide border border-[#B48A44] hover:bg-white hover:border-white transition-colors"
               >
                 Request a Demo
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/product"
-                className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#13243A] border border-[#0D141E]/20 hover:border-[#B48A44] hover:text-[#B48A44] transition-colors"
+                to="/copsmart"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white border border-white/25 hover:border-[#B48A44] hover:text-[#B48A44] transition-colors"
               >
-                See CopSmart
+                Launch CopSmart
               </Link>
             </div>
-            <div className="pt-10 mt-2 border-t border-[#0D141E]/10 flex items-center gap-5">
+            <div className="pt-8 mt-2 border-t border-white/10 flex items-center gap-5">
               <div className="flex -space-x-2">
-                <div className="size-10 bg-white border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-[#13243A]">PB</div>
-                <div className="size-10 bg-[#F3F1EC] border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-[#13243A]">DA</div>
-                <div className="size-10 bg-[#B48A44] border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-white">+14</div>
+                <div className="size-10 bg-white border border-white/20 flex items-center justify-center text-xs font-bold text-[#13243A]">PB</div>
+                <div className="size-10 bg-[#1F3552] border border-white/20 flex items-center justify-center text-xs font-bold text-white">DA</div>
+                <div className="size-10 bg-[#B48A44] border border-white/20 flex items-center justify-center text-xs font-bold text-white">+14</div>
               </div>
-              <p className="text-sm text-[#4B5563]">
+              <p className="text-sm text-white/70">
                 Trusted by sworn law enforcement and government agencies.
               </p>
             </div>
           </div>
 
-          {/* Ledger preview */}
+          {/* RIGHT — Live CopSmart slide */}
           <div className="lg:col-span-7 relative">
-            <div className="absolute -inset-4 border border-[#0D141E]/5 bg-white/40 hidden lg:block" />
-            <div className="relative bg-white shadow-sm border border-[#0D141E]/15">
-              <div className="p-6 border-b-2 border-[#13243A] bg-[#13243A] text-white flex justify-between items-end">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-widest text-[#B48A44] mb-2">
-                    Master Manifest
-                  </div>
-                  <div className="text-2xl font-['Libre_Baskerville',serif]">
-                    Metropolitan Division
-                  </div>
+            {/* Floating metadata badges */}
+            <div className="hidden lg:flex absolute -top-4 left-4 z-20 items-center gap-2 px-3 py-1.5 bg-[#0B1828]/80 backdrop-blur border border-[#B48A44]/40 text-[10px] font-mono uppercase tracking-widest text-[#B48A44]">
+              <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Live · CopSmart v2.4
+            </div>
+            <div className="hidden lg:block absolute -bottom-4 right-6 z-20 px-3 py-1.5 bg-[#0B1828]/80 backdrop-blur border border-white/15 text-[10px] font-mono uppercase tracking-widest text-white/70">
+              Dashboard · Sector Overview
+            </div>
+
+            {/* Browser chrome wrapper */}
+            <div className="relative rounded-lg overflow-hidden shadow-2xl shadow-black/50 border border-white/10 bg-[#F3F1EC] rotate-[0.3deg] hover:rotate-0 transition-transform duration-500">
+              {/* Chrome bar */}
+              <div className="flex items-center gap-2 px-4 py-2.5 bg-[#0B1828] border-b border-white/10">
+                <div className="flex gap-1.5">
+                  <div className="size-2.5 rounded-full bg-[#FF5F57]" />
+                  <div className="size-2.5 rounded-full bg-[#FEBC2E]" />
+                  <div className="size-2.5 rounded-full bg-[#28C840]" />
                 </div>
-                <div className="text-right text-sm">
-                  <div className="text-white/70">Date of Record</div>
-                  <div className="font-medium tabular-nums mt-1">Today</div>
+                <div className="flex-1 mx-4 px-3 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono text-white/50 text-center">
+                  copsmart.app/dashboard
                 </div>
+                <div className="text-[10px] font-mono text-[#B48A44]">SECURE</div>
               </div>
-              <div className="grid grid-cols-3 border-b border-[#0D141E]/10 bg-[#F3F1EC]/50">
-                <div className="p-4 border-r border-[#0D141E]/10">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Active Duty</div>
-                  <div className="text-2xl font-semibold tabular-nums text-[#13243A] mt-1">142</div>
-                </div>
-                <div className="p-4 border-r border-[#0D141E]/10">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Pending</div>
-                  <div className="text-2xl font-semibold tabular-nums text-[#13243A] mt-1">18</div>
-                </div>
-                <div className="p-4">
-                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Flagged</div>
-                  <div className="text-2xl font-semibold tabular-nums text-[#B48A44] mt-1">03</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-[#0D141E]/15 text-xs font-bold uppercase tracking-wider text-[#4B5563]">
-                <div className="col-span-2">ID No.</div>
-                <div className="col-span-4">Personnel</div>
-                <div className="col-span-3">Clearance</div>
-                <div className="col-span-3 text-right">Assignment</div>
-              </div>
-              {[
-                { id: "AX-992", name: "Callahan, Marcus T.", level: "Level 4", shift: "14:00 — Sector 7", flag: false },
-                { id: "AX-104", name: "Reyes, Elena M.", level: "Level 4", shift: "16:30 — Event Detail", flag: false },
-                { id: "AX-842", name: "Donovan, James R.", level: "Review Required", shift: "Standby", flag: true },
-                { id: "BX-019", name: "Chen, Arthur", level: "Level 3", shift: "08:00 — Traffic", flag: false },
-              ].map((r) => (
-                <div
-                  key={r.id}
-                  className={`grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#0D141E]/5 items-center ${r.flag ? "bg-[#B48A44]/5" : ""}`}
-                >
-                  <div className={`col-span-2 font-mono text-sm tabular-nums ${r.flag ? "text-[#8F6D33]" : "text-[#4B5563]"}`}>{r.id}</div>
-                  <div className="col-span-4 font-semibold text-[#13243A]">{r.name}</div>
-                  <div className="col-span-3">
-                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 bg-white border text-xs font-medium ${r.flag ? "border-[#B48A44]/40 text-[#8F6D33]" : "border-[#0D141E]/20"}`}>
-                      <span className={`size-1.5 rounded-full ${r.flag ? "bg-[#B48A44]" : "bg-[#13243A]"}`} />
-                      {r.level}
-                    </span>
+
+              {/* Slide content — CopSmart dashboard */}
+              <div className="bg-[#F3F1EC] text-[#0D141E]">
+                {/* App header */}
+                <div className="flex items-center justify-between px-5 py-3 bg-[#13243A] text-white border-b-2 border-[#B48A44]">
+                  <div className="flex items-center gap-2.5">
+                    <div className="size-7 bg-[#B48A44] flex items-center justify-center">
+                      <ShieldCheck className="size-4 text-[#0B1828]" strokeWidth={2.5} />
+                    </div>
+                    <div>
+                      <div className="font-['Libre_Baskerville',serif] text-sm leading-tight">CopSmart</div>
+                      <div className="text-[9px] uppercase tracking-widest text-[#B48A44]">Volunteer Services</div>
+                    </div>
                   </div>
-                  <div className="col-span-3 text-right text-sm tabular-nums text-[#4B5563]">{r.shift}</div>
+                  <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider text-white/60">
+                    <span>Dashboard</span>
+                    <span>Roster</span>
+                    <span>Schedule</span>
+                    <span>Training</span>
+                    <span className="size-7 rounded-full bg-[#B48A44] text-[#0B1828] flex items-center justify-center font-bold">MC</span>
+                  </div>
                 </div>
-              ))}
-              <div className="p-4 bg-[#F3F1EC]/30 text-center">
-                <Link to="/product" className="text-xs font-bold uppercase tracking-widest text-[#13243A] hover:text-[#B48A44]">
-                  See the full platform →
-                </Link>
+
+                {/* KPI strip */}
+                <div className="grid grid-cols-4 gap-px bg-[#0D141E]/10">
+                  {[
+                    { label: "Active Volunteers", value: "142", accent: false },
+                    { label: "Shifts This Week", value: "37", accent: false },
+                    { label: "Hours YTD", value: "8,420", accent: false },
+                    { label: "Expiring Certs", value: "03", accent: true },
+                  ].map((k) => (
+                    <div key={k.label} className="bg-white p-3">
+                      <div className="text-[9px] font-bold uppercase tracking-wider text-[#4B5563]">{k.label}</div>
+                      <div className={`text-xl font-semibold tabular-nums mt-1 ${k.accent ? "text-[#B48A44]" : "text-[#13243A]"}`}>{k.value}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Body grid */}
+                <div className="grid grid-cols-12 gap-3 p-4 bg-[#F3F1EC]">
+                  {/* Roster panel */}
+                  <div className="col-span-7 bg-white border border-[#0D141E]/15">
+                    <div className="px-4 py-2.5 border-b border-[#0D141E]/10 flex items-center justify-between bg-[#13243A] text-white">
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[#B48A44]">Today's Manifest</div>
+                      <div className="text-[9px] font-mono text-white/60">04 ASSIGNED</div>
+                    </div>
+                    <div className="grid grid-cols-12 gap-2 px-4 py-2 border-b border-[#0D141E]/10 text-[9px] font-bold uppercase tracking-wider text-[#4B5563]">
+                      <div className="col-span-3">ID</div>
+                      <div className="col-span-5">Personnel</div>
+                      <div className="col-span-4 text-right">Assignment</div>
+                    </div>
+                    {[
+                      { id: "AX-992", name: "Callahan, M.", shift: "14:00 · Sec 7", flag: false },
+                      { id: "AX-104", name: "Reyes, E.", shift: "16:30 · Event", flag: false },
+                      { id: "AX-842", name: "Donovan, J.", shift: "Standby", flag: true },
+                      { id: "BX-019", name: "Chen, A.", shift: "08:00 · Traffic", flag: false },
+                    ].map((r) => (
+                      <div
+                        key={r.id}
+                        className={`grid grid-cols-12 gap-2 px-4 py-2 border-b border-[#0D141E]/5 items-center text-xs ${r.flag ? "bg-[#B48A44]/10" : ""}`}
+                      >
+                        <div className={`col-span-3 font-mono tabular-nums text-[10px] ${r.flag ? "text-[#8F6D33]" : "text-[#4B5563]"}`}>{r.id}</div>
+                        <div className="col-span-5 font-semibold text-[#13243A] text-[11px]">{r.name}</div>
+                        <div className="col-span-4 text-right tabular-nums text-[10px] text-[#4B5563]">{r.shift}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Side widgets */}
+                  <div className="col-span-5 flex flex-col gap-3">
+                    <div className="bg-white border border-[#0D141E]/15 p-3">
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44] mb-2">Hours · This Month</div>
+                      <div className="flex items-end gap-1 h-14">
+                        {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
+                          <div key={i} className="flex-1 bg-[#13243A]" style={{ height: `${h}%` }} />
+                        ))}
+                      </div>
+                      <div className="flex justify-between mt-1.5 text-[8px] font-mono text-[#4B5563]">
+                        <span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span>
+                      </div>
+                    </div>
+                    <div className="bg-[#13243A] text-white p-3">
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44] mb-2">Fleet Status</div>
+                      <div className="flex items-center justify-between text-[11px]">
+                        <div>
+                          <div className="font-semibold">12 In Service</div>
+                          <div className="text-white/50 text-[10px]">2 maintenance · 1 retired</div>
+                        </div>
+                        <Car className="size-7 text-[#B48A44]" strokeWidth={1.5} />
+                      </div>
+                    </div>
+                    <div className="bg-white border border-[#B48A44]/40 p-3">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="text-[9px] font-bold uppercase tracking-widest text-[#8F6D33]">Action Required</div>
+                          <div className="text-[11px] font-semibold text-[#13243A] mt-1">3 certs expire in 14 days</div>
+                        </div>
+                        <div className="size-2 rounded-full bg-[#B48A44] mt-1.5 animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Glow underneath */}
+            <div className="absolute inset-x-12 -bottom-8 h-12 bg-[#B48A44]/30 blur-2xl pointer-events-none" />
           </div>
         </div>
       </section>
