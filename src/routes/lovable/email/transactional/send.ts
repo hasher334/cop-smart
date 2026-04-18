@@ -1,8 +1,20 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
 import { createFileRoute } from '@tanstack/react-router'
-import { supabaseAdmin } from '@/integrations/supabase/client.server'
+import { createClient } from '@supabase/supabase-js'
+import type { Database } from '@/integrations/supabase/types'
 import { TEMPLATES } from '@/lib/email-templates/registry'
+
+function getSupabaseAdmin() {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing Supabase env vars (VITE_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)')
+  }
+  return createClient<Database>(supabaseUrl, supabaseServiceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+}
 
 // Configuration baked in at scaffold time
 const SITE_NAME = "cop-smart"
@@ -60,7 +72,7 @@ async function handleSend(request: Request) {
           'arodseo@gmail.com',
         ])
 
-        const supabase = supabaseAdmin
+        const supabase = getSupabaseAdmin()
 
         // Peek at template name in body to decide auth strategy.
         const rawBody = await request.text()
