@@ -22,6 +22,7 @@ import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as AuthedFormsRouteImport } from './routes/_authed/forms'
 import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/users'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 
 const SignupRoute = SignupRouteImport.update({
@@ -88,6 +89,11 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdminUsersRoute = AuthedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedAdminMigrationRoute = AuthedAdminMigrationRouteImport.update({
   id: '/admin/migration',
   path: '/admin/migration',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
+  '/admin/users': typeof AuthedAdminUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
+  '/admin/users': typeof AuthedAdminUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/_authed/training': typeof AuthedTrainingRoute
   '/_authed/vehicles': typeof AuthedVehiclesRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
+  '/_authed/admin/users': typeof AuthedAdminUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/migration'
+    | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/migration'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/_authed/training'
     | '/_authed/vehicles'
     | '/_authed/admin/migration'
+    | '/_authed/admin/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -290,6 +302,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/admin/users': {
+      id: '/_authed/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthedAdminUsersRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/admin/migration': {
       id: '/_authed/admin/migration'
       path: '/admin/migration'
@@ -311,6 +330,7 @@ interface AuthedRouteChildren {
   AuthedTrainingRoute: typeof AuthedTrainingRoute
   AuthedVehiclesRoute: typeof AuthedVehiclesRoute
   AuthedAdminMigrationRoute: typeof AuthedAdminMigrationRoute
+  AuthedAdminUsersRoute: typeof AuthedAdminUsersRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
@@ -324,6 +344,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedTrainingRoute: AuthedTrainingRoute,
   AuthedVehiclesRoute: AuthedVehiclesRoute,
   AuthedAdminMigrationRoute: AuthedAdminMigrationRoute,
+  AuthedAdminUsersRoute: AuthedAdminUsersRoute,
 }
 
 const AuthedRouteWithChildren =
