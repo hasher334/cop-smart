@@ -1,40 +1,46 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import {
   ShieldCheck,
-  HeartHandshake,
-  Phone,
-  MapPin,
-  FileDown,
+  Users,
+  CalendarClock,
+  GraduationCap,
+  Car,
+  BarChart3,
   ArrowRight,
+  CheckCircle2,
 } from "lucide-react";
-import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { SiteFooter } from "@/components/site-footer";
+import {
+  MarketingShell,
+  SectionEyebrow,
+  SerifHeading,
+} from "@/components/marketing/marketing-shell";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Volunteer with PBSO — CopSmart" },
+      { title: "VolCop — Volunteer Software for Law Enforcement" },
       {
         name: "description",
         content:
-          "Join the Palm Beach County Sheriff's Office Volunteer Program. Make a difference in your community.",
+          "VolCop builds custom volunteer management software for law enforcement and government agencies. Meet CopSmart — our flagship platform for rosters, training, scheduling, and fleet.",
       },
-      { property: "og:title", content: "Volunteer with PBSO" },
+      { property: "og:title", content: "VolCop — Volunteer Software for Law Enforcement" },
       {
         property: "og:description",
-        content: "Become a PBSO volunteer. Apply today.",
+        content:
+          "Custom volunteer management software for agencies. Meet CopSmart — request a live demo.",
       },
     ],
   }),
-  component: PublicLanding,
+  component: HomePage,
 });
 
-function PublicLanding() {
+function HomePage() {
   const navigate = useNavigate();
 
-  // If already signed in, send to dashboard
+  // If a CopSmart user is already signed in, send them to the app
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: "/dashboard" });
@@ -42,191 +48,248 @@ function PublicLanding() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      {/* Top bar */}
-      <header className="border-b-4 border-gold bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold text-primary">
-              <ShieldCheck className="h-7 w-7" strokeWidth={2.5} />
+    <MarketingShell>
+      {/* HERO */}
+      <section className="border-b border-[#0D141E]/10">
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 py-20 lg:py-28 items-center">
+          <div className="lg:col-span-5 flex flex-col gap-7">
+            <SectionEyebrow>The CopSmart Standard</SectionEyebrow>
+            <SerifHeading as="h1" className="text-5xl lg:text-6xl text-balance">
+              Deploy your volunteers with absolute certainty.
+            </SerifHeading>
+            <p className="text-lg text-[#4B5563] max-w-[48ch] leading-relaxed">
+              VolCop builds custom volunteer management software for law
+              enforcement and government agencies. Centralize rosters,
+              background clearances, training, scheduling, and fleet — into a
+              single, immutable record.
+            </p>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link
+                to="/demo"
+                className="inline-flex items-center gap-2 bg-[#13243A] text-white px-7 py-3.5 text-sm font-bold uppercase tracking-wide border border-[#13243A] hover:bg-white hover:text-[#13243A] transition-colors"
+              >
+                Request a Demo
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/product"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#13243A] border border-[#0D141E]/20 hover:border-[#B48A44] hover:text-[#B48A44] transition-colors"
+              >
+                See CopSmart
+              </Link>
             </div>
-            <div>
-              <div className="font-display text-xl font-bold leading-tight">CopSmart</div>
-              <div className="text-xs leading-tight text-primary-foreground/80">
-                PBSO Volunteer Services
+            <div className="pt-10 mt-2 border-t border-[#0D141E]/10 flex items-center gap-5">
+              <div className="flex -space-x-2">
+                <div className="size-10 bg-white border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-[#13243A]">PB</div>
+                <div className="size-10 bg-[#F3F1EC] border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-[#13243A]">DA</div>
+                <div className="size-10 bg-[#B48A44] border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-white">+14</div>
               </div>
+              <p className="text-sm text-[#4B5563]">
+                Trusted by municipal departments and state agencies across Florida.
+              </p>
             </div>
           </div>
-          <Button asChild variant="secondary" className="h-12 text-base">
-            <Link to="/login">Volunteer Sign In</Link>
-          </Button>
-        </div>
-      </header>
 
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary to-primary/85 text-primary-foreground">
-        <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <span className="inline-flex items-center gap-2 rounded-full bg-gold/20 px-4 py-1.5 text-sm font-semibold text-gold">
-                <HeartHandshake className="h-4 w-4" />
-                Now Recruiting
-              </span>
-              <h1 className="mt-4 text-balance text-4xl text-primary-foreground lg:text-5xl">
-                Serve your community as a PBSO volunteer.
-              </h1>
-              <p className="mt-4 max-w-xl text-balance text-lg text-primary-foreground/90">
-                Join hundreds of volunteers supporting the Palm Beach County
-                Sheriff's Office. Patrol your neighborhood, assist with events,
-                or help in the office — your time makes a difference.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button
-                  asChild
-                  className="h-14 bg-gold px-6 text-base font-semibold text-primary hover:bg-gold/90"
-                >
-                  <a href="/ApplicationForm.pdf" download>
-                    <FileDown className="mr-2 h-5 w-5" />
-                    Download Application
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  variant="secondary"
-                  className="h-14 px-6 text-base"
-                >
-                  <a href="#contact">
-                    <Phone className="mr-2 h-5 w-5" />
-                    Contact Us
-                  </a>
-                </Button>
+          {/* Ledger preview */}
+          <div className="lg:col-span-7 relative">
+            <div className="absolute -inset-4 border border-[#0D141E]/5 bg-white/40 hidden lg:block" />
+            <div className="relative bg-white shadow-sm border border-[#0D141E]/15">
+              <div className="p-6 border-b-2 border-[#13243A] bg-[#13243A] text-white flex justify-between items-end">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-widest text-[#B48A44] mb-2">
+                    Master Manifest
+                  </div>
+                  <div className="text-2xl font-['Libre_Baskerville',serif]">
+                    Metropolitan Division
+                  </div>
+                </div>
+                <div className="text-right text-sm">
+                  <div className="text-white/70">Date of Record</div>
+                  <div className="font-medium tabular-nums mt-1">Today</div>
+                </div>
               </div>
-            </div>
-
-            <div className="relative aspect-video overflow-hidden rounded-2xl border-4 border-gold bg-black shadow-elevated">
-              <iframe
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
-                src="https://www.youtube.com/embed/oNlm1QOpjN4?autoplay=1&mute=1&loop=1&playlist=oNlm1QOpjN4&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&playsinline=1&fs=0"
-                title="A day in the life of a PBSO volunteer"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
+              <div className="grid grid-cols-3 border-b border-[#0D141E]/10 bg-[#F3F1EC]/50">
+                <div className="p-4 border-r border-[#0D141E]/10">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Active Duty</div>
+                  <div className="text-2xl font-semibold tabular-nums text-[#13243A] mt-1">142</div>
+                </div>
+                <div className="p-4 border-r border-[#0D141E]/10">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Pending</div>
+                  <div className="text-2xl font-semibold tabular-nums text-[#13243A] mt-1">18</div>
+                </div>
+                <div className="p-4">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#4B5563]">Flagged</div>
+                  <div className="text-2xl font-semibold tabular-nums text-[#B48A44] mt-1">03</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-[#0D141E]/15 text-xs font-bold uppercase tracking-wider text-[#4B5563]">
+                <div className="col-span-2">ID No.</div>
+                <div className="col-span-4">Personnel</div>
+                <div className="col-span-3">Clearance</div>
+                <div className="col-span-3 text-right">Assignment</div>
+              </div>
+              {[
+                { id: "AX-992", name: "Callahan, Marcus T.", level: "Level 4", shift: "14:00 — Sector 7", flag: false },
+                { id: "AX-104", name: "Reyes, Elena M.", level: "Level 4", shift: "16:30 — Event Detail", flag: false },
+                { id: "AX-842", name: "Donovan, James R.", level: "Review Required", shift: "Standby", flag: true },
+                { id: "BX-019", name: "Chen, Arthur", level: "Level 3", shift: "08:00 — Traffic", flag: false },
+              ].map((r) => (
+                <div
+                  key={r.id}
+                  className={`grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#0D141E]/5 items-center ${r.flag ? "bg-[#B48A44]/5" : ""}`}
+                >
+                  <div className={`col-span-2 font-mono text-sm tabular-nums ${r.flag ? "text-[#8F6D33]" : "text-[#4B5563]"}`}>{r.id}</div>
+                  <div className="col-span-4 font-semibold text-[#13243A]">{r.name}</div>
+                  <div className="col-span-3">
+                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 bg-white border text-xs font-medium ${r.flag ? "border-[#B48A44]/40 text-[#8F6D33]" : "border-[#0D141E]/20"}`}>
+                      <span className={`size-1.5 rounded-full ${r.flag ? "bg-[#B48A44]" : "bg-[#13243A]"}`} />
+                      {r.level}
+                    </span>
+                  </div>
+                  <div className="col-span-3 text-right text-sm tabular-nums text-[#4B5563]">{r.shift}</div>
+                </div>
+              ))}
+              <div className="p-4 bg-[#F3F1EC]/30 text-center">
+                <Link to="/product" className="text-xs font-bold uppercase tracking-widest text-[#13243A] hover:text-[#B48A44]">
+                  See the full platform →
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Program highlights */}
-      <section className="py-16">
-        <div className="mx-auto max-w-7xl px-4">
-          <h2 className="text-balance text-center">What volunteers do</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-center text-lg text-muted-foreground">
-            Choose the role that fits your skills and schedule.
-          </p>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+      {/* WHY VOLCOP */}
+      <section className="py-20 lg:py-28 border-b border-[#0D141E]/10">
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-8">
+          <div className="grid lg:grid-cols-12 gap-12 mb-16">
+            <div className="lg:col-span-5">
+              <SectionEyebrow>Why Agencies Choose VolCop</SectionEyebrow>
+              <SerifHeading className="text-4xl lg:text-5xl mt-6">
+                Built for the chain of command, not for tech bros.
+              </SerifHeading>
+            </div>
+            <div className="lg:col-span-7 lg:pt-12">
+              <p className="text-lg text-[#4B5563] leading-relaxed">
+                Generic volunteer apps weren't designed with badges, ranks,
+                background clearances, patrol vehicles, and FCIC training
+                requirements in mind. VolCop was. Every workflow in CopSmart
+                reflects how a real auxiliary unit actually operates.
+              </p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-px bg-[#0D141E]/10 border border-[#0D141E]/10">
             {[
               {
-                title: "Citizen Observer Patrol",
-                body: "Patrol neighborhoods in marked PBSO vehicles, report suspicious activity, and serve as extra eyes and ears for deputies.",
+                title: "Purpose-built",
+                body: "Roles map to your real ranks: Admin, Officer, Corporal+, Volunteer. Permissions match your SOPs.",
               },
               {
-                title: "Office & Administrative",
-                body: "Support PBSO staff with reception, paperwork, records, and community-outreach coordination.",
+                title: "Audit-ready",
+                body: "Every shift, training certificate, and roster change is logged. CJIS-aware data handling.",
               },
               {
-                title: "Special Events & Outreach",
-                body: "Help at parades, school visits, fairs, and emergency response operations across the county.",
+                title: "Senior-friendly",
+                body: "Large type, high contrast, 48px touch targets. Your retired members will actually use it.",
               },
             ].map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl border bg-card p-6 shadow-card"
-              >
-                <h3 className="text-card-foreground">{c.title}</h3>
-                <p className="mt-3 text-base text-muted-foreground">{c.body}</p>
+              <div key={c.title} className="bg-white p-8">
+                <SerifHeading as="h3" className="text-2xl">{c.title}</SerifHeading>
+                <p className="mt-3 text-[#4B5563] leading-relaxed">{c.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Apply steps */}
-      <section className="bg-surface py-16">
-        <div className="mx-auto max-w-5xl px-4">
-          <h2 className="text-balance text-center">How to apply</h2>
-          <ol className="mt-10 grid gap-6 md:grid-cols-3">
+      {/* FEATURE GRID */}
+      <section className="py-20 lg:py-28 border-b border-[#0D141E]/10 bg-white/40">
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <SectionEyebrow>
+              <span className="block">Inside CopSmart</span>
+            </SectionEyebrow>
+            <SerifHeading className="text-4xl lg:text-5xl mt-6 max-w-3xl mx-auto">
+              One platform. Every volunteer workflow.
+            </SerifHeading>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { n: 1, t: "Download the application", b: "Print and complete the volunteer application packet." },
-              { n: 2, t: "Submit at PBSO HQ", b: "Bring your packet to Volunteer Services during interview hours." },
-              { n: 3, t: "Background & training", b: "Pass screening, complete orientation, then start your service." },
-            ].map((s) => (
-              <li
-                key={s.n}
-                className="rounded-2xl border bg-card p-6 shadow-card"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
-                  {s.n}
-                </div>
-                <h3 className="mt-4">{s.t}</h3>
-                <p className="mt-2 text-base text-muted-foreground">{s.b}</p>
-              </li>
+              { Icon: Users, t: "Roster & Profiles", b: "Badge numbers, ranks, units, photos, hire dates, contact info — searchable and exportable." },
+              { Icon: CalendarClock, t: "Scheduling & Dispatch", b: "Calendar view, shift sign-up, dispatch assignment, vehicle pairing, and reservations." },
+              { Icon: GraduationCap, t: "Training & Certs", b: "Course catalog, completion records, expiration tracking, and required-training gates." },
+              { Icon: Car, t: "Fleet Management", b: "Vehicle inventory, service intervals, mileage, status, and assignment history." },
+              { Icon: BarChart3, t: "Hours & Leaderboards", b: "Auto-tallied service hours, monthly leaderboard, milestone badges, and unit comparisons." },
+              { Icon: ShieldCheck, t: "Forms & Documents", b: "Centralized SOPs, waivers, application packets, and announcements with role-based access." },
+            ].map(({ Icon, t, b }) => (
+              <div key={t} className="bg-white border border-[#0D141E]/15 p-7 hover:border-[#B48A44] transition-colors">
+                <Icon className="h-7 w-7 text-[#B48A44]" strokeWidth={1.75} />
+                <SerifHeading as="h3" className="text-xl mt-5">{t}</SerifHeading>
+                <p className="mt-2 text-[#4B5563] leading-relaxed text-sm">{b}</p>
+              </div>
             ))}
-          </ol>
-          <div className="mt-10 text-center">
-            <Button asChild className="h-14 px-6 text-base">
-              <a href="/ApplicationForm.pdf" download>
-                <FileDown className="mr-2 h-5 w-5" />
-                Download Application Packet
-              </a>
-            </Button>
+          </div>
+          <div className="text-center mt-12">
+            <Link to="/features" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[#13243A] hover:text-[#B48A44]">
+              See every feature <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Contact */}
-      <section id="contact" className="py-16">
-        <div className="mx-auto max-w-5xl px-4">
-          <h2 className="text-center">Visit Volunteer Services</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border bg-card p-6 shadow-card">
-              <h3 className="flex items-center gap-2">
-                <MapPin className="h-6 w-6 text-gold" />
-                Location
-              </h3>
-              <address className="mt-3 text-base not-italic text-muted-foreground">
-                PBSO Headquarters<br />
-                3228 Gun Club Road<br />
-                West Palm Beach, FL 33406
-              </address>
-            </div>
-            <div className="rounded-2xl border bg-card p-6 shadow-card">
-              <h3 className="flex items-center gap-2">
-                <Phone className="h-6 w-6 text-gold" />
-                Interview Hours
-              </h3>
-              <p className="mt-3 text-base text-muted-foreground">
-                Monday – Friday<br />
-                9:00 AM – 3:00 PM<br />
-                Walk-ins welcome.
+      {/* DEMO CTA */}
+      <section className="py-20 lg:py-28">
+        <div className="mx-auto max-w-[1440px] px-6 lg:px-8">
+          <div className="bg-[#13243A] text-white border border-[#13243A] p-10 lg:p-16 grid lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px w-8 bg-[#B48A44]" />
+                <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Live Demo Available</span>
+              </div>
+              <SerifHeading as="h2" className="text-4xl lg:text-5xl text-white">
+                See CopSmart with your agency's data.
+              </SerifHeading>
+              <p className="mt-5 text-white/80 leading-relaxed text-lg max-w-2xl">
+                Tell us about your unit. We'll schedule a 30-minute walkthrough
+                with seeded sample data that mirrors your size and structure.
               </p>
+              <ul className="mt-6 grid sm:grid-cols-2 gap-3 text-sm">
+                {[
+                  "30-minute live walkthrough",
+                  "No commitment, no pricing pitch",
+                  "Tailored to your agency size",
+                  "Q&A with the founders",
+                ].map((b) => (
+                  <li key={b} className="flex items-center gap-2 text-white/90">
+                    <CheckCircle2 className="h-4 w-4 text-[#B48A44]" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-
-          <div className="mt-10 text-center">
-            <p className="text-base text-muted-foreground">
-              Already a volunteer?
-            </p>
-            <Button asChild variant="link" className="mt-1 text-lg">
-              <Link to="/login">
-                Sign in to the volunteer portal
-                <ArrowRight className="ml-1 h-5 w-5" />
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <Link
+                to="/demo"
+                className="bg-[#B48A44] text-[#13243A] px-8 py-4 text-sm font-bold uppercase tracking-wide hover:bg-white transition-colors text-center"
+              >
+                Request a Demo
               </Link>
-            </Button>
+              <Link
+                to="/product"
+                className="border border-white/30 text-white px-8 py-4 text-sm font-bold uppercase tracking-wide hover:bg-white/10 transition-colors text-center"
+              >
+                Explore CopSmart First
+              </Link>
+              <Link
+                to="/contact"
+                className="text-center text-sm text-white/70 hover:text-[#B48A44] mt-2"
+              >
+                Or contact sales directly →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
-
-      <SiteFooter />
-    </div>
+    </MarketingShell>
   );
 }
