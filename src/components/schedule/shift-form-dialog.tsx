@@ -117,15 +117,41 @@ export function ShiftFormDialog({
     }
   }, [open, shift, defaultUnitId, defaultDate, units]);
 
-  const handleSave = async () => {
-    if (!unitId) {
-      toast.error("Please select a unit.");
+  // Live vehicle-conflict detection: any other shift on same date with same vehicle whose time range overlaps.
+  useEffect(() => {
+    if (!open || vehicleId === NO_VEHICLE || !shiftDate || !startTime || !endTime) {
+      setConflicts([]);
       return;
     }
     if (endTime <= startTime) {
-      toast.error("End time must be after start time.");
+      setConflicts([]);
       return;
     }
+    let cancelled = false;
+    setCheckingConflicts(true);
+    (async () => {
+      // Overlap rule: existing.start < new.end AND existing.end > new.start
+      let q = supabase
+        .from("patrol_shifts")
+        .select("*")
+        .eq("vehicle_id", vehicleId)
+        .eq("shift_date", shiftDate)
+        .neq("status", "cancelled")
+        .lt("start_time", endTime)
+        .gt("end_time", startTime);
+      if (isEdit && shift) q = q.neq("id", shift.id);
+      const { data } = await q;
+      if (!cancelled) {
+        setConflicts(data ?? []);
+        setCheckingConflicts(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open, vehicleId, shiftDate, startTime, endTime, isEdit, shift]);
+
+  const commitSave = async () => {
     setSaving(true);
     const payload = {
       unit_id: unitId,
@@ -151,8 +177,25 @@ export function ShiftFormDialog({
       return;
     }
     toast.success(isEdit ? "Shift updated." : "Shift created.");
+    setConfirmOpen(false);
     onSaved();
     onOpenChange(false);
+  };
+
+  const handleSave = async () => {
+    if (!unitId) {
+      toast.error("Please select a unit.");
+      return;
+    }
+    if (endTime <= startTime) {
+      toast.error("End time must be after start time.");
+      return;
+    }
+    if (conflicts.length > 0) {
+      setConfirmOpen(true);
+      return;
+    }
+    await commitSave();
   };
 
   // Include the currently-assigned vehicle in the dropdown even if it's not "in_service"
