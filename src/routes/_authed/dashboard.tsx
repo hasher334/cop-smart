@@ -19,6 +19,7 @@ import { ServiceDueWidget } from "@/components/dashboard/service-due-widget";
 import { ExpiringTrainingWidget } from "@/components/dashboard/expiring-training-widget";
 import { UpcomingShiftsWidget } from "@/components/dashboard/upcoming-shifts-widget";
 import { TrainingStatusBadge } from "@/components/dashboard/training-status-badge";
+import { MyHoursWidget } from "@/components/dashboard/my-hours-widget";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database as DB } from "@/integrations/supabase/types";
@@ -115,6 +116,7 @@ function Dashboard() {
       </section>
 
       <UpcomingShiftsWidget />
+      <MyHoursWidget />
       <ServiceDueWidget />
       <ExpiringTrainingWidget />
 
