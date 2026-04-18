@@ -25,6 +25,7 @@ import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as AuthedSchedulePrintRouteImport } from './routes/_authed/schedule.print'
 import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/users'
+import { Route as AuthedAdminUnitComparisonRouteImport } from './routes/_authed/admin/unit-comparison'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 import { Route as AuthedAdminHoursReportRouteImport } from './routes/_authed/admin/hours-report'
 import { Route as AuthedAdminAnnouncementsRouteImport } from './routes/_authed/admin/announcements'
@@ -108,6 +109,12 @@ const AuthedAdminUsersRoute = AuthedAdminUsersRouteImport.update({
   path: '/admin/users',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdminUnitComparisonRoute =
+  AuthedAdminUnitComparisonRouteImport.update({
+    id: '/admin/unit-comparison',
+    path: '/admin/unit-comparison',
+    getParentRoute: () => AuthedRoute,
+  } as any)
 const AuthedAdminMigrationRoute = AuthedAdminMigrationRouteImport.update({
   id: '/admin/migration',
   path: '/admin/migration',
@@ -142,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
+  '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
 }
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
+  '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/admin/users': typeof AuthedAdminUsersRoute
   '/schedule/print': typeof AuthedSchedulePrintRoute
 }
@@ -184,6 +193,7 @@ export interface FileRoutesById {
   '/_authed/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/_authed/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
+  '/_authed/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
   '/_authed/admin/users': typeof AuthedAdminUsersRoute
   '/_authed/schedule/print': typeof AuthedSchedulePrintRoute
 }
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/hours-report'
     | '/admin/migration'
+    | '/admin/unit-comparison'
     | '/admin/users'
     | '/schedule/print'
   fileRoutesByTo: FileRoutesByTo
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/hours-report'
     | '/admin/migration'
+    | '/admin/unit-comparison'
     | '/admin/users'
     | '/schedule/print'
   id:
@@ -247,6 +259,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/announcements'
     | '/_authed/admin/hours-report'
     | '/_authed/admin/migration'
+    | '/_authed/admin/unit-comparison'
     | '/_authed/admin/users'
     | '/_authed/schedule/print'
   fileRoutesById: FileRoutesById
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminUsersRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/admin/unit-comparison': {
+      id: '/_authed/admin/unit-comparison'
+      path: '/admin/unit-comparison'
+      fullPath: '/admin/unit-comparison'
+      preLoaderRoute: typeof AuthedAdminUnitComparisonRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/admin/migration': {
       id: '/_authed/admin/migration'
       path: '/admin/migration'
@@ -422,6 +442,7 @@ interface AuthedRouteChildren {
   AuthedAdminAnnouncementsRoute: typeof AuthedAdminAnnouncementsRoute
   AuthedAdminHoursReportRoute: typeof AuthedAdminHoursReportRoute
   AuthedAdminMigrationRoute: typeof AuthedAdminMigrationRoute
+  AuthedAdminUnitComparisonRoute: typeof AuthedAdminUnitComparisonRoute
   AuthedAdminUsersRoute: typeof AuthedAdminUsersRoute
 }
 
@@ -439,6 +460,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedAdminAnnouncementsRoute: AuthedAdminAnnouncementsRoute,
   AuthedAdminHoursReportRoute: AuthedAdminHoursReportRoute,
   AuthedAdminMigrationRoute: AuthedAdminMigrationRoute,
+  AuthedAdminUnitComparisonRoute: AuthedAdminUnitComparisonRoute,
   AuthedAdminUsersRoute: AuthedAdminUsersRoute,
 }
 
@@ -454,3 +476,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
