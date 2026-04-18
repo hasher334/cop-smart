@@ -3,6 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Mail, Phone, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marketing/marketing-shell";
+import { supabase } from "@/integrations/supabase/client";
 import { notifyFormRecipients } from "@/lib/email/send";
 import { toast } from "sonner";
 
