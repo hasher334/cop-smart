@@ -43,6 +43,7 @@ export const Route = createFileRoute("/_authed/schedule")({
 function SchedulePage() {
   const auth = useAuth();
   const [units, setUnits] = useState<Unit[]>([]);
+  const [vehicles, setVehicles] = useState<Map<string, Vehicle>>(new Map());
   const [profiles, setProfiles] = useState<Map<string, Profile>>(new Map());
   const [tab, setTab] = useState("calendar");
 
