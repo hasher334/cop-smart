@@ -12,6 +12,7 @@ import {
   Database,
   ShieldCheck,
   Megaphone,
+  BarChart3,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -20,6 +21,7 @@ interface NavItem {
   label: string;
   icon: typeof Home;
   adminOnly?: boolean;
+  officerOnly?: boolean;
 }
 
 const items: NavItem[] = [
@@ -32,6 +34,7 @@ const items: NavItem[] = [
   { to: "/forms", label: "Forms", icon: FileText },
   { to: "/resources", label: "Resources", icon: CloudSun },
   { to: "/profile", label: "My Profile", icon: Settings },
+  { to: "/admin/hours-report", label: "Hours Report", icon: BarChart3, officerOnly: true },
   { to: "/admin/announcements", label: "Announcements", icon: Megaphone, adminOnly: true },
   { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, adminOnly: true },
   { to: "/admin/migration", label: "Data Migration", icon: Database, adminOnly: true },
@@ -44,7 +47,13 @@ interface Props {
 
 export function MainNav({ onNavigate, mobile }: Props) {
   const auth = useAuth();
-  const visible = items.filter((i) => !i.adminOnly || auth.isAdmin);
+  const isOfficer =
+    auth.isAdmin || auth.hasRole("officer") || auth.hasRole("corporal_plus");
+  const visible = items.filter((i) => {
+    if (i.adminOnly && !auth.isAdmin) return false;
+    if (i.officerOnly && !isOfficer) return false;
+    return true;
+  });
 
   return (
     <nav
