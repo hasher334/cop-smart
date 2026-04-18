@@ -331,6 +331,33 @@ function MigrationPage() {
         </Card>
       </div>
 
+      {/* Demo data seeder */}
+      <Card className="mt-6 p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gold/15 text-gold">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold">Seed demo dataset</h2>
+              <p className="text-sm text-muted-foreground">
+                Creates 8 demo accounts (1 admin, 2 officers, 2 corporals, 3
+                volunteers) plus shifts, training, and announcements. Sign in
+                with badges D100–D403, password <code>demo1234</code>.
+              </p>
+            </div>
+          </div>
+          <Button onClick={runSeed} disabled={seeding} className="shrink-0">
+            {seeding ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
+            Seed demo data
+          </Button>
+        </div>
+      </Card>
+
       {/* Dry-run preview */}
       {report && bundle && (
         <Card className="mt-6 p-6">
