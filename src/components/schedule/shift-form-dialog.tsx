@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { AlertTriangle, Loader2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -8,6 +9,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +32,7 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
-import { todayISO } from "@/lib/format";
+import { todayISO, formatTimeRange } from "@/lib/format";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
@@ -68,6 +79,9 @@ export function ShiftFormDialog({
   const [vehicleId, setVehicleId] = useState<string>(NO_VEHICLE);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [saving, setSaving] = useState(false);
+  const [conflicts, setConflicts] = useState<Shift[]>([]);
+  const [checkingConflicts, setCheckingConflicts] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Load in-service vehicles when dialog opens
   useEffect(() => {
@@ -103,15 +117,41 @@ export function ShiftFormDialog({
     }
   }, [open, shift, defaultUnitId, defaultDate, units]);
 
-  const handleSave = async () => {
-    if (!unitId) {
-      toast.error("Please select a unit.");
+  // Live vehicle-conflict detection: any other shift on same date with same vehicle whose time range overlaps.
+  useEffect(() => {
+    if (!open || vehicleId === NO_VEHICLE || !shiftDate || !startTime || !endTime) {
+      setConflicts([]);
       return;
     }
     if (endTime <= startTime) {
-      toast.error("End time must be after start time.");
+      setConflicts([]);
       return;
     }
+    let cancelled = false;
+    setCheckingConflicts(true);
+    (async () => {
+      // Overlap rule: existing.start < new.end AND existing.end > new.start
+      let q = supabase
+        .from("patrol_shifts")
+        .select("*")
+        .eq("vehicle_id", vehicleId)
+        .eq("shift_date", shiftDate)
+        .neq("status", "cancelled")
+        .lt("start_time", endTime)
+        .gt("end_time", startTime);
+      if (isEdit && shift) q = q.neq("id", shift.id);
+      const { data } = await q;
+      if (!cancelled) {
+        setConflicts(data ?? []);
+        setCheckingConflicts(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open, vehicleId, shiftDate, startTime, endTime, isEdit, shift]);
+
+  const commitSave = async () => {
     setSaving(true);
     const payload = {
       unit_id: unitId,
@@ -137,8 +177,25 @@ export function ShiftFormDialog({
       return;
     }
     toast.success(isEdit ? "Shift updated." : "Shift created.");
+    setConfirmOpen(false);
     onSaved();
     onOpenChange(false);
+  };
+
+  const handleSave = async () => {
+    if (!unitId) {
+      toast.error("Please select a unit.");
+      return;
+    }
+    if (endTime <= startTime) {
+      toast.error("End time must be after start time.");
+      return;
+    }
+    if (conflicts.length > 0) {
+      setConfirmOpen(true);
+      return;
+    }
+    await commitSave();
   };
 
   // Include the currently-assigned vehicle in the dropdown even if it's not "in_service"
@@ -262,6 +319,33 @@ export function ShiftFormDialog({
                 )}
               </SelectContent>
             </Select>
+            {checkingConflicts && vehicleId !== NO_VEHICLE && (
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Checking vehicle availability…
+              </p>
+            )}
+            {!checkingConflicts && conflicts.length > 0 && (
+              <div className="rounded-md border border-amber-500/50 bg-amber-500/10 p-3 text-sm">
+                <div className="flex items-start gap-2 font-medium text-amber-700 dark:text-amber-400">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                  Vehicle double-booked
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  This vehicle is already assigned to {conflicts.length}{" "}
+                  overlapping shift{conflicts.length === 1 ? "" : "s"} on this date:
+                </p>
+                <ul className="mt-2 space-y-1 text-xs">
+                  {conflicts.map((c) => (
+                    <li key={c.id} className="rounded bg-background/60 px-2 py-1">
+                      {formatTimeRange(c.start_time, c.end_time)}
+                      {c.patrol_area ? ` · ${c.patrol_area}` : ""}
+                      <span className="ml-2 uppercase text-muted-foreground">{c.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="grid gap-2">
@@ -284,6 +368,37 @@ export function ShiftFormDialog({
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-500" />
+              Vehicle conflict — save anyway?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This vehicle is already assigned to {conflicts.length} overlapping shift
+              {conflicts.length === 1 ? "" : "s"} on {shiftDate}. You can still proceed if you
+              know what you're doing — for example, the conflicting shift will be reassigned.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <ul className="space-y-1 rounded-md bg-muted p-3 text-sm">
+            {conflicts.map((c) => (
+              <li key={c.id}>
+                {formatTimeRange(c.start_time, c.end_time)}
+                {c.patrol_area ? ` · ${c.patrol_area}` : ""}
+                <span className="ml-2 text-xs uppercase text-muted-foreground">{c.status}</span>
+              </li>
+            ))}
+          </ul>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={saving}>Go back</AlertDialogCancel>
+            <AlertDialogAction onClick={commitSave} disabled={saving}>
+              {saving ? "Saving…" : "Save anyway"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Dialog>
   );
 }
