@@ -22,6 +22,7 @@ import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as AuthedFormsRouteImport } from './routes/_authed/forms'
 import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as AuthedSchedulePrintRouteImport } from './routes/_authed/schedule.print'
 import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/users'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 import { Route as AuthedAdminAnnouncementsRouteImport } from './routes/_authed/admin/announcements'
@@ -90,6 +91,11 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedSchedulePrintRoute = AuthedSchedulePrintRouteImport.update({
+  id: '/print',
+  path: '/print',
+  getParentRoute: () => AuthedScheduleRoute,
+} as any)
 const AuthedAdminUsersRoute = AuthedAdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
@@ -117,12 +123,13 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
   '/roster': typeof AuthedRosterRoute
-  '/schedule': typeof AuthedScheduleRoute
+  '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/users': typeof AuthedAdminUsersRoute
+  '/schedule/print': typeof AuthedSchedulePrintRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,12 +141,13 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
   '/roster': typeof AuthedRosterRoute
-  '/schedule': typeof AuthedScheduleRoute
+  '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/users': typeof AuthedAdminUsersRoute
+  '/schedule/print': typeof AuthedSchedulePrintRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,12 +161,13 @@ export interface FileRoutesById {
   '/_authed/profile': typeof AuthedProfileRoute
   '/_authed/resources': typeof AuthedResourcesRoute
   '/_authed/roster': typeof AuthedRosterRoute
-  '/_authed/schedule': typeof AuthedScheduleRoute
+  '/_authed/schedule': typeof AuthedScheduleRouteWithChildren
   '/_authed/training': typeof AuthedTrainingRoute
   '/_authed/vehicles': typeof AuthedVehiclesRoute
   '/_authed/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
   '/_authed/admin/users': typeof AuthedAdminUsersRoute
+  '/_authed/schedule/print': typeof AuthedSchedulePrintRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/migration'
     | '/admin/users'
+    | '/schedule/print'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/admin/announcements'
     | '/admin/migration'
     | '/admin/users'
+    | '/schedule/print'
   id:
     | '__root__'
     | '/'
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/_authed/admin/announcements'
     | '/_authed/admin/migration'
     | '/_authed/admin/users'
+    | '/_authed/schedule/print'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -315,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/schedule/print': {
+      id: '/_authed/schedule/print'
+      path: '/print'
+      fullPath: '/schedule/print'
+      preLoaderRoute: typeof AuthedSchedulePrintRouteImport
+      parentRoute: typeof AuthedScheduleRoute
+    }
     '/_authed/admin/users': {
       id: '/_authed/admin/users'
       path: '/admin/users'
@@ -339,6 +358,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthedScheduleRouteChildren {
+  AuthedSchedulePrintRoute: typeof AuthedSchedulePrintRoute
+}
+
+const AuthedScheduleRouteChildren: AuthedScheduleRouteChildren = {
+  AuthedSchedulePrintRoute: AuthedSchedulePrintRoute,
+}
+
+const AuthedScheduleRouteWithChildren = AuthedScheduleRoute._addFileChildren(
+  AuthedScheduleRouteChildren,
+)
+
 interface AuthedRouteChildren {
   AuthedDashboardRoute: typeof AuthedDashboardRoute
   AuthedDispatchRoute: typeof AuthedDispatchRoute
@@ -346,7 +377,7 @@ interface AuthedRouteChildren {
   AuthedProfileRoute: typeof AuthedProfileRoute
   AuthedResourcesRoute: typeof AuthedResourcesRoute
   AuthedRosterRoute: typeof AuthedRosterRoute
-  AuthedScheduleRoute: typeof AuthedScheduleRoute
+  AuthedScheduleRoute: typeof AuthedScheduleRouteWithChildren
   AuthedTrainingRoute: typeof AuthedTrainingRoute
   AuthedVehiclesRoute: typeof AuthedVehiclesRoute
   AuthedAdminAnnouncementsRoute: typeof AuthedAdminAnnouncementsRoute
@@ -361,7 +392,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedProfileRoute: AuthedProfileRoute,
   AuthedResourcesRoute: AuthedResourcesRoute,
   AuthedRosterRoute: AuthedRosterRoute,
-  AuthedScheduleRoute: AuthedScheduleRoute,
+  AuthedScheduleRoute: AuthedScheduleRouteWithChildren,
   AuthedTrainingRoute: AuthedTrainingRoute,
   AuthedVehiclesRoute: AuthedVehiclesRoute,
   AuthedAdminAnnouncementsRoute: AuthedAdminAnnouncementsRoute,
@@ -381,3 +412,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
