@@ -5,7 +5,6 @@ import {
   Phone,
   MapPin,
   FileDown,
-  PlayCircle,
   ArrowRight,
 } from "lucide-react";
 import { useEffect } from "react";
