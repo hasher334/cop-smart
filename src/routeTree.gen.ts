@@ -19,6 +19,7 @@ import { Route as AuthedScheduleRouteImport } from './routes/_authed/schedule'
 import { Route as AuthedRosterRouteImport } from './routes/_authed/roster'
 import { Route as AuthedResourcesRouteImport } from './routes/_authed/resources'
 import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
+import { Route as AuthedLeaderboardRouteImport } from './routes/_authed/leaderboard'
 import { Route as AuthedFormsRouteImport } from './routes/_authed/forms'
 import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
@@ -77,6 +78,11 @@ const AuthedProfileRoute = AuthedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedLeaderboardRoute = AuthedLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedFormsRoute = AuthedFormsRouteImport.update({
   id: '/forms',
   path: '/forms',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthedDashboardRoute
   '/dispatch': typeof AuthedDispatchRoute
   '/forms': typeof AuthedFormsRoute
+  '/leaderboard': typeof AuthedLeaderboardRoute
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
   '/roster': typeof AuthedRosterRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthedDashboardRoute
   '/dispatch': typeof AuthedDispatchRoute
   '/forms': typeof AuthedFormsRoute
+  '/leaderboard': typeof AuthedLeaderboardRoute
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
   '/roster': typeof AuthedRosterRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/dispatch': typeof AuthedDispatchRoute
   '/_authed/forms': typeof AuthedFormsRoute
+  '/_authed/leaderboard': typeof AuthedLeaderboardRoute
   '/_authed/profile': typeof AuthedProfileRoute
   '/_authed/resources': typeof AuthedResourcesRoute
   '/_authed/roster': typeof AuthedRosterRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dispatch'
     | '/forms'
+    | '/leaderboard'
     | '/profile'
     | '/resources'
     | '/roster'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dispatch'
     | '/forms'
+    | '/leaderboard'
     | '/profile'
     | '/resources'
     | '/roster'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/_authed/dashboard'
     | '/_authed/dispatch'
     | '/_authed/forms'
+    | '/_authed/leaderboard'
     | '/_authed/profile'
     | '/_authed/resources'
     | '/_authed/roster'
@@ -318,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedProfileRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/leaderboard': {
+      id: '/_authed/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AuthedLeaderboardRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/forms': {
       id: '/_authed/forms'
       path: '/forms'
@@ -393,6 +412,7 @@ interface AuthedRouteChildren {
   AuthedDashboardRoute: typeof AuthedDashboardRoute
   AuthedDispatchRoute: typeof AuthedDispatchRoute
   AuthedFormsRoute: typeof AuthedFormsRoute
+  AuthedLeaderboardRoute: typeof AuthedLeaderboardRoute
   AuthedProfileRoute: typeof AuthedProfileRoute
   AuthedResourcesRoute: typeof AuthedResourcesRoute
   AuthedRosterRoute: typeof AuthedRosterRoute
@@ -409,6 +429,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedDashboardRoute: AuthedDashboardRoute,
   AuthedDispatchRoute: AuthedDispatchRoute,
   AuthedFormsRoute: AuthedFormsRoute,
+  AuthedLeaderboardRoute: AuthedLeaderboardRoute,
   AuthedProfileRoute: AuthedProfileRoute,
   AuthedResourcesRoute: AuthedResourcesRoute,
   AuthedRosterRoute: AuthedRosterRoute,
