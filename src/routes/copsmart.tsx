@@ -216,7 +216,163 @@ function CopSmartLanding() {
         </div>
       </section>
 
-      {/* CTA strip */}
+      {/* Stats strip */}
+      <section className="border-y-2 border-gold/30 bg-card py-10">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 md:grid-cols-4">
+          {STATS.map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="font-display text-4xl font-bold text-primary md:text-5xl">
+                {s.value}
+              </div>
+              <div className="mt-1 text-sm font-medium uppercase tracking-wide text-muted-foreground">
+                {s.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Volunteer Opportunities */}
+      <section className="bg-background py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              Ways to Volunteer
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground">
+              From neighborhood patrols to mounted units to community events — there's
+              a role that fits your time, talent, and interests.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {OPPORTUNITIES.map((o) => (
+              <div
+                key={o.title}
+                className="flex gap-5 rounded-xl border-2 border-border bg-card p-6 shadow-sm transition hover:border-gold hover:shadow-elevated"
+              >
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-primary text-gold">
+                  <o.icon className="h-7 w-7" />
+                </div>
+                <div>
+                  <h3 className="font-display text-xl font-semibold">{o.title}</h3>
+                  <p className="mt-2 text-base text-muted-foreground">{o.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How to Join */}
+      <section className="bg-card py-16">
+        <div className="mx-auto max-w-6xl px-4">
+          <div className="text-center">
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
+              How to Join
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground">
+              No prior law-enforcement experience required — all training is provided
+              at the Volunteer Training Center in Greenacres.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            <div className="rounded-xl border-2 border-border bg-background p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-gold">
+                <ClipboardCheck className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 font-display text-xl font-semibold">1. Apply</h3>
+              <p className="mt-2 text-base text-muted-foreground">
+                Complete the Volunteer Security Application and pass a background check.
+              </p>
+              <a
+                href="https://pbso-application.pdffiller.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+              >
+                Start application →
+              </a>
+            </div>
+            <div className="rounded-xl border-2 border-border bg-background p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-gold">
+                <GraduationCap className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 font-display text-xl font-semibold">2. Train</h3>
+              <p className="mt-2 text-base text-muted-foreground">
+                Attend orientation and role-specific training. PBSO provides
+                everything you need to get started.
+              </p>
+            </div>
+            <div className="rounded-xl border-2 border-border bg-background p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-gold">
+                <Shield className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 font-display text-xl font-semibold">3. Serve</h3>
+              <p className="mt-2 text-base text-muted-foreground">
+                Receive your assignment and start making an impact in your community.
+              </p>
+            </div>
+          </div>
+
+          {/* Training Center & Contact */}
+          <div className="mt-10 grid gap-6 rounded-xl border-2 border-gold/30 bg-background p-6 md:grid-cols-3">
+            <div className="flex gap-3">
+              <MapPin className="h-5 w-5 shrink-0 text-gold" />
+              <div>
+                <div className="font-semibold">Training Center</div>
+                <div className="text-sm text-muted-foreground">
+                  301 Swain Blvd
+                  <br />
+                  Greenacres, FL 33463
+                </div>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  Mon–Thu, 9:30 a.m. – 2:30 p.m.
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Mail className="h-5 w-5 shrink-0 text-gold" />
+              <div>
+                <div className="font-semibold">Contact</div>
+                <a
+                  href="mailto:volunteer@pbso.org"
+                  className="text-sm text-primary hover:underline"
+                >
+                  volunteer@pbso.org
+                </a>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Facebook className="h-5 w-5 shrink-0 text-gold" />
+              <div>
+                <div className="font-semibold">Community</div>
+                <a
+                  href="https://www.facebook.com/groups/PBSOVolunteers/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-primary hover:underline"
+                >
+                  PBSO Volunteer Unit Group
+                </a>
+                <div className="mt-1 text-sm text-muted-foreground">
+                  Equipment & uniforms supported by{" "}
+                  <a
+                    href="https://www.friendsofthevolunteers.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Friends of the Volunteers
+                  </a>
+                  .
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
       <section className="border-t-4 border-gold bg-primary py-12 text-primary-foreground">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-4 text-center md:flex-row md:text-left">
           <div>
