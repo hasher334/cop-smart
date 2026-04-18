@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Bell, AlertTriangle, Clock, ShieldAlert, X } from "lucide-react";
+import { Bell, AlertTriangle, Clock, ShieldAlert, X, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -23,14 +23,16 @@ interface ExpiringRow {
 
 interface Notification {
   id: string;
-  type: "expired" | "expiring";
+  type: "expired" | "expiring" | "milestone";
   title: string;
   body: string;
-  days: number;
+  href: "/training" | "/profile";
 }
 
 const HORIZON_DAYS = 30;
 const DISMISS_KEY = "copsmart:dismissed-notifications";
+const MILESTONE_SEEN_KEY = "copsmart:milestones-seen";
+const MILESTONES = [50, 100, 250, 500];
 
 function loadDismissed(): Set<string> {
   if (typeof window === "undefined") return new Set();
@@ -46,6 +48,32 @@ function loadDismissed(): Set<string> {
 function saveDismissed(set: Set<string>) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(DISMISS_KEY, JSON.stringify(Array.from(set)));
+}
+
+function loadSeenMilestones(userId: string): number[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(`${MILESTONE_SEEN_KEY}:${userId}`);
+    return raw ? (JSON.parse(raw) as number[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveSeenMilestones(userId: string, tiers: number[]) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(
+    `${MILESTONE_SEEN_KEY}:${userId}`,
+    JSON.stringify(tiers),
+  );
+}
+
+function shiftHours(start: string, end: string): number {
+  const [sh, sm] = start.split(":").map(Number);
+  const [eh, em] = end.split(":").map(Number);
+  let mins = eh * 60 + em - (sh * 60 + sm);
+  if (mins <= 0) mins += 24 * 60;
+  return mins / 60;
 }
 
 function horizonISO(): string {
@@ -64,21 +92,29 @@ export function NotificationsBell() {
     if (!user) return;
     let cancelled = false;
     (async () => {
-      const { data } = await supabase
-        .from("training_records")
-        .select(
-          "id, course_id, expiration_date, training_courses!inner(code, name, required, active)"
-        )
-        .eq("user_id", user.id)
-        .eq("training_courses.required", true)
-        .eq("training_courses.active", true)
-        .not("expiration_date", "is", null)
-        .lte("expiration_date", horizonISO())
-        .order("expiration_date", { ascending: true });
+      const [trainingRes, shiftsRes] = await Promise.all([
+        supabase
+          .from("training_records")
+          .select(
+            "id, course_id, expiration_date, training_courses!inner(code, name, required, active)",
+          )
+          .eq("user_id", user.id)
+          .eq("training_courses.required", true)
+          .eq("training_courses.active", true)
+          .not("expiration_date", "is", null)
+          .lte("expiration_date", horizonISO())
+          .order("expiration_date", { ascending: true }),
+        supabase
+          .from("patrol_shifts")
+          .select("start_time,end_time,volunteer_1,volunteer_2")
+          .eq("status", "completed")
+          .or(`volunteer_1.eq.${user.id},volunteer_2.eq.${user.id}`),
+      ]);
 
       if (cancelled) return;
 
-      const rows = (data ?? []) as unknown as Array<{
+      // Training notifications
+      const rows = (trainingRes.data ?? []) as unknown as Array<{
         id: string;
         course_id: string;
         expiration_date: string;
@@ -110,9 +146,32 @@ export function NotificationsBell() {
             ? `${r.code} expired`
             : `${r.code} expires in ${days} day${days === 1 ? "" : "s"}`,
           body: `${r.name} — ${formatShortDate(r.expiration_date)}`,
-          days,
+          href: "/training",
         };
       });
+
+      // Milestone notifications
+      const lifetimeHours = (shiftsRes.data ?? []).reduce(
+        (sum, s) => sum + shiftHours(s.start_time, s.end_time),
+        0,
+      );
+      const earned = MILESTONES.filter((m) => lifetimeHours >= m);
+      const seen = loadSeenMilestones(user.id);
+      const newlyEarned = earned.filter((m) => !seen.includes(m));
+
+      for (const tier of newlyEarned) {
+        notes.unshift({
+          id: `milestone:${tier}`,
+          type: "milestone",
+          title: `🏅 ${tier}-hour milestone reached!`,
+          body: `Congratulations — you've logged ${lifetimeHours.toFixed(1)} lifetime hours of service.`,
+          href: "/profile",
+        });
+      }
+
+      if (newlyEarned.length > 0) {
+        saveSeenMilestones(user.id, earned);
+      }
 
       setNotifications(notes);
     })();
@@ -124,7 +183,7 @@ export function NotificationsBell() {
 
   const visible = useMemo(
     () => notifications.filter((n) => !dismissed.has(n.id)),
-    [notifications, dismissed]
+    [notifications, dismissed],
   );
 
   const dismiss = (id: string) => {
@@ -185,29 +244,33 @@ export function NotificationsBell() {
             <ShieldAlert className="h-8 w-8 opacity-40" />
             <p>You're all caught up.</p>
             <p className="text-xs">
-              We'll notify you when a required certification is within 30 days of
-              expiration.
+              We'll notify you about expiring certifications and service milestones.
             </p>
           </div>
         ) : (
           <ul className="max-h-96 divide-y overflow-y-auto">
             {visible.map((n) => {
+              const isMilestone = n.type === "milestone";
               const expired = n.type === "expired";
               return (
                 <li key={n.id} className="group relative">
                   <Link
-                    to="/training"
+                    to={n.href}
                     onClick={() => setOpen(false)}
                     className="flex items-start gap-3 px-4 py-3 pr-10 transition hover:bg-accent/40"
                   >
                     <div
                       className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
-                        expired
-                          ? "bg-destructive/15 text-destructive"
-                          : "bg-amber-500/15 text-amber-600"
+                        isMilestone
+                          ? "bg-gold/20 text-gold"
+                          : expired
+                            ? "bg-destructive/15 text-destructive"
+                            : "bg-amber-500/15 text-amber-600"
                       }`}
                     >
-                      {expired ? (
+                      {isMilestone ? (
+                        <Award className="h-4 w-4" />
+                      ) : expired ? (
                         <AlertTriangle className="h-4 w-4" />
                       ) : (
                         <Clock className="h-4 w-4" />
