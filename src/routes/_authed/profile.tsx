@@ -44,7 +44,9 @@ function ProfilePage() {
       subtitle="Keep your contact info up to date."
       crumbs={[{ label: "My Profile" }]}
     >
-      <div className="max-w-2xl rounded-2xl border bg-card p-6 shadow-card">
+      <div className="max-w-2xl space-y-6">
+        {auth.user && <MilestoneBadges userId={auth.user.id} />}
+        <div className="rounded-2xl border bg-card p-6 shadow-card">
         <dl className="grid grid-cols-2 gap-4 border-b pb-4 text-base">
           <div>
             <dt className="text-sm text-muted-foreground">Badge Number</dt>
