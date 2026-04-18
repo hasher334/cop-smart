@@ -3,6 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Mail, Phone, MapPin, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marketing/marketing-shell";
+import { supabase } from "@/integrations/supabase/client";
 import { notifyFormRecipients } from "@/lib/email/send";
 import { toast } from "sonner";
 
@@ -43,9 +44,21 @@ function ContactPage() {
     }
     setErrors({});
     setSubmitting(true);
-    await notifyFormRecipients({
+    const submissionId = crypto.randomUUID();
+    const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
+      name: result.data.name,
+      email: result.data.email,
+      message: result.data.message,
+    });
+    if (error) {
+      setSubmitting(false);
+      toast.error("Could not send your message. Please try again.");
+      return;
+    }
+    void notifyFormRecipients({
       formType: "Contact Inquiry",
-      submissionId: crypto.randomUUID(),
+      submissionId,
       fields: [
         { label: "Name", value: result.data.name },
         { label: "Email", value: result.data.email },
