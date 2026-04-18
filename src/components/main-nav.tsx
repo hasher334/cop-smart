@@ -36,6 +36,7 @@ const items: NavItem[] = [
   { to: "/forms", label: "Forms", icon: FileText },
   { to: "/resources", label: "Resources", icon: CloudSun },
   { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { to: "/roles", label: "Roles & Access", icon: ShieldCheck },
   { to: "/profile", label: "My Profile", icon: Settings },
   { to: "/admin/hours-report", label: "Hours Report", icon: BarChart3, officerOnly: true },
   { to: "/admin/unit-comparison", label: "Unit Comparison", icon: Building2, officerOnly: true },
