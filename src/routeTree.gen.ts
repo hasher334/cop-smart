@@ -17,6 +17,7 @@ import { Route as AuthedVehiclesRouteImport } from './routes/_authed/vehicles'
 import { Route as AuthedTrainingRouteImport } from './routes/_authed/training'
 import { Route as AuthedScheduleRouteImport } from './routes/_authed/schedule'
 import { Route as AuthedRosterRouteImport } from './routes/_authed/roster'
+import { Route as AuthedRolesRouteImport } from './routes/_authed/roles'
 import { Route as AuthedResourcesRouteImport } from './routes/_authed/resources'
 import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as AuthedLeaderboardRouteImport } from './routes/_authed/leaderboard'
@@ -67,6 +68,11 @@ const AuthedScheduleRoute = AuthedScheduleRouteImport.update({
 const AuthedRosterRoute = AuthedRosterRouteImport.update({
   id: '/roster',
   path: '/roster',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedRolesRoute = AuthedRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
   getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedResourcesRoute = AuthedResourcesRouteImport.update({
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/leaderboard': typeof AuthedLeaderboardRoute
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
+  '/roles': typeof AuthedRolesRoute
   '/roster': typeof AuthedRosterRoute
   '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/leaderboard': typeof AuthedLeaderboardRoute
   '/profile': typeof AuthedProfileRoute
   '/resources': typeof AuthedResourcesRoute
+  '/roles': typeof AuthedRolesRoute
   '/roster': typeof AuthedRosterRoute
   '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/_authed/leaderboard': typeof AuthedLeaderboardRoute
   '/_authed/profile': typeof AuthedProfileRoute
   '/_authed/resources': typeof AuthedResourcesRoute
+  '/_authed/roles': typeof AuthedRolesRoute
   '/_authed/roster': typeof AuthedRosterRoute
   '/_authed/schedule': typeof AuthedScheduleRouteWithChildren
   '/_authed/training': typeof AuthedTrainingRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/profile'
     | '/resources'
+    | '/roles'
     | '/roster'
     | '/schedule'
     | '/training'
@@ -230,6 +240,7 @@ export interface FileRouteTypes {
     | '/leaderboard'
     | '/profile'
     | '/resources'
+    | '/roles'
     | '/roster'
     | '/schedule'
     | '/training'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/_authed/leaderboard'
     | '/_authed/profile'
     | '/_authed/resources'
+    | '/_authed/roles'
     | '/_authed/roster'
     | '/_authed/schedule'
     | '/_authed/training'
@@ -327,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/roster'
       fullPath: '/roster'
       preLoaderRoute: typeof AuthedRosterRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/roles': {
+      id: '/_authed/roles'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof AuthedRolesRouteImport
       parentRoute: typeof AuthedRoute
     }
     '/_authed/resources': {
@@ -435,6 +454,7 @@ interface AuthedRouteChildren {
   AuthedLeaderboardRoute: typeof AuthedLeaderboardRoute
   AuthedProfileRoute: typeof AuthedProfileRoute
   AuthedResourcesRoute: typeof AuthedResourcesRoute
+  AuthedRolesRoute: typeof AuthedRolesRoute
   AuthedRosterRoute: typeof AuthedRosterRoute
   AuthedScheduleRoute: typeof AuthedScheduleRouteWithChildren
   AuthedTrainingRoute: typeof AuthedTrainingRoute
@@ -453,6 +473,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedLeaderboardRoute: AuthedLeaderboardRoute,
   AuthedProfileRoute: AuthedProfileRoute,
   AuthedResourcesRoute: AuthedResourcesRoute,
+  AuthedRolesRoute: AuthedRolesRoute,
   AuthedRosterRoute: AuthedRosterRoute,
   AuthedScheduleRoute: AuthedScheduleRouteWithChildren,
   AuthedTrainingRoute: AuthedTrainingRoute,

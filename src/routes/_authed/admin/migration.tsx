@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Loader2,
   FileArchive,
+  Sparkles,
 } from "lucide-react";
 import JSZip from "jszip";
 import { toast } from "sonner";
@@ -28,6 +29,7 @@ import {
   type DryRunReport,
   type ExportableTable,
 } from "@/lib/migration";
+import { seedDemoData } from "@/server/seed-demo-data";
 
 export const Route = createFileRoute("/_authed/admin/migration")({
   head: () => ({ meta: [{ title: "Data Migration — CopSmart" }] }),
@@ -41,6 +43,7 @@ function MigrationPage() {
   const [bundle, setBundle] = useState<ExportBundle | null>(null);
   const [report, setReport] = useState<DryRunReport[] | null>(null);
   const [applying, setApplying] = useState(false);
+  const [seeding, setSeeding] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   if (!auth.isAdmin) {
@@ -206,6 +209,32 @@ function MigrationPage() {
     }
   };
 
+  const runSeed = async () => {
+    if (
+      !window.confirm(
+        "This creates 8 demo accounts (admin, officers, corporals, volunteers) with shifts and training. Re-running is safe — it updates existing demo records. Continue?",
+      )
+    )
+      return;
+    setSeeding(true);
+    try {
+      const result = await seedDemoData();
+      toast.success(
+        `Demo data ready — ${result.usersCreated} created, ${result.usersUpdated} updated.`,
+        {
+          description: `Sign in with badges D100/D201/D301/D401 etc. Password: ${result.password}`,
+          duration: 8000,
+        },
+      );
+    } catch (err) {
+      toast.error("Seeding failed", {
+        description: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   return (
     <PageShell
       title="Data Migration"
@@ -301,6 +330,33 @@ function MigrationPage() {
           </Button>
         </Card>
       </div>
+
+      {/* Demo data seeder */}
+      <Card className="mt-6 p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gold/15 text-gold">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="text-lg font-semibold">Seed demo dataset</h2>
+              <p className="text-sm text-muted-foreground">
+                Creates 8 demo accounts (1 admin, 2 officers, 2 corporals, 3
+                volunteers) plus shifts, training, and announcements. Sign in
+                with badges D100–D403, password <code>demo1234</code>.
+              </p>
+            </div>
+          </div>
+          <Button onClick={runSeed} disabled={seeding} className="shrink-0">
+            {seeding ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="h-4 w-4" />
+            )}
+            Seed demo data
+          </Button>
+        </div>
+      </Card>
 
       {/* Dry-run preview */}
       {report && bundle && (
