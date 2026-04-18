@@ -9,6 +9,14 @@ import {
   Radio,
   Award,
   FileText,
+  Car,
+  Users,
+  Building2,
+  HeartHandshake,
+  Mail,
+  MapPin,
+  ClipboardCheck,
+  Facebook,
 } from "lucide-react";
 
 export const Route = createFileRoute("/copsmart")({
