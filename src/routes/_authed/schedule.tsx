@@ -43,7 +43,7 @@ function SchedulePage() {
   const auth = useAuth();
   const [units, setUnits] = useState<Unit[]>([]);
   const [profiles, setProfiles] = useState<Map<string, Profile>>(new Map());
-  const [tab, setTab] = useState("day");
+  const [tab, setTab] = useState("calendar");
 
   // shared dialog state
   const [dialogOpen, setDialogOpen] = useState(false);
