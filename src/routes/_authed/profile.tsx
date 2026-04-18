@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/page-shell";
+import { MilestoneBadges } from "@/components/profile/milestone-badges";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,7 +44,9 @@ function ProfilePage() {
       subtitle="Keep your contact info up to date."
       crumbs={[{ label: "My Profile" }]}
     >
-      <div className="max-w-2xl rounded-2xl border bg-card p-6 shadow-card">
+      <div className="max-w-2xl space-y-6">
+        {auth.user && <MilestoneBadges userId={auth.user.id} />}
+        <div className="rounded-2xl border bg-card p-6 shadow-card">
         <dl className="grid grid-cols-2 gap-4 border-b pb-4 text-base">
           <div>
             <dt className="text-sm text-muted-foreground">Badge Number</dt>
@@ -72,6 +75,7 @@ function ProfilePage() {
             {saving ? "Saving…" : "Save Changes"}
           </Button>
         </form>
+        </div>
       </div>
     </PageShell>
   );
