@@ -108,7 +108,7 @@ function CopSmartLanding() {
           <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-4 border-gold bg-primary-foreground/5">
             <Shield className="h-14 w-14 text-gold" strokeWidth={2.2} />
           </div>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-tight md:text-6xl">
+          <h1 className="mt-6 font-display text-5xl font-bold leading-tight md:text-6xl text-center">
             Welcome to <span className="text-gold">CopSmart</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/80 md:text-xl">
