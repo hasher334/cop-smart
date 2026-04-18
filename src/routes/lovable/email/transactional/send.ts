@@ -95,8 +95,8 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
         let idempotencyKey: string
         let messageId: string
         let templateData: Record<string, any> = {}
-        try {
-          const body = await request.json()
+        {
+          const body = parsedBody
           templateName = body.templateName || body.template_name
           recipientEmail = body.recipientEmail || body.recipient_email
           messageId = crypto.randomUUID()
@@ -104,11 +104,6 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           if (body.templateData && typeof body.templateData === 'object') {
             templateData = body.templateData
           }
-        } catch {
-          return Response.json(
-            { error: 'Invalid JSON in request body' },
-            { status: 400 }
-          )
         }
 
         if (!templateName) {
