@@ -319,6 +319,33 @@ export function ShiftFormDialog({
                 )}
               </SelectContent>
             </Select>
+            {checkingConflicts && vehicleId !== NO_VEHICLE && (
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Loader2 className="h-3 w-3 animate-spin" />
+                Checking vehicle availability…
+              </p>
+            )}
+            {!checkingConflicts && conflicts.length > 0 && (
+              <div className="rounded-md border border-amber-500/50 bg-amber-500/10 p-3 text-sm">
+                <div className="flex items-start gap-2 font-medium text-amber-700 dark:text-amber-400">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                  Vehicle double-booked
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  This vehicle is already assigned to {conflicts.length}{" "}
+                  overlapping shift{conflicts.length === 1 ? "" : "s"} on this date:
+                </p>
+                <ul className="mt-2 space-y-1 text-xs">
+                  {conflicts.map((c) => (
+                    <li key={c.id} className="rounded bg-background/60 px-2 py-1">
+                      {formatTimeRange(c.start_time, c.end_time)}
+                      {c.patrol_area ? ` · ${c.patrol_area}` : ""}
+                      <span className="ml-2 uppercase text-muted-foreground">{c.status}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="grid gap-2">
@@ -341,6 +368,37 @@ export function ShiftFormDialog({
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-amber-500" />
+              Vehicle conflict — save anyway?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This vehicle is already assigned to {conflicts.length} overlapping shift
+              {conflicts.length === 1 ? "" : "s"} on {shiftDate}. You can still proceed if you
+              know what you're doing — for example, the conflicting shift will be reassigned.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <ul className="space-y-1 rounded-md bg-muted p-3 text-sm">
+            {conflicts.map((c) => (
+              <li key={c.id}>
+                {formatTimeRange(c.start_time, c.end_time)}
+                {c.patrol_area ? ` · ${c.patrol_area}` : ""}
+                <span className="ml-2 text-xs uppercase text-muted-foreground">{c.status}</span>
+              </li>
+            ))}
+          </ul>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={saving}>Go back</AlertDialogCancel>
+            <AlertDialogAction onClick={commitSave} disabled={saving}>
+              {saving ? "Saving…" : "Save anyway"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Dialog>
   );
 }
