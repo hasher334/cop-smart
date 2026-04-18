@@ -1,74 +1,28 @@
 /**
- * Helper for sending transactional emails via the internal server route.
- * Calls /lovable/email/transactional/send with the user's Supabase JWT.
+ * Simple form-notification helper.
+ * POSTs form submissions to /api/notify, which emails arodseo@gmail.com via Resend.
+ * No auth, no queue, no DB — direct send.
  */
-import { supabase } from "@/integrations/supabase/client";
 
-export interface SendTransactionalEmailParams {
-  templateName: string;
-  recipientEmail: string;
-  idempotencyKey?: string;
-  templateData?: Record<string, unknown>;
+export interface NotifyFormArgs {
+  formType: string;
+  fields: Array<{ label: string; value: string }>;
 }
 
-export async function sendTransactionalEmail(
-  params: SendTransactionalEmailParams,
-): Promise<{ ok: boolean; error?: string }> {
+export async function notifyFormRecipients(args: NotifyFormArgs): Promise<{ ok: boolean }> {
   try {
-    const { data: { session } } = await supabase.auth.getSession();
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (session?.access_token) {
-      headers["Authorization"] = `Bearer ${session.access_token}`;
-    }
-    const res = await fetch("/lovable/email/transactional/send", {
+    const res = await fetch("/api/notify", {
       method: "POST",
-      headers,
-      body: JSON.stringify(params),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(args),
     });
     if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      console.warn("sendTransactionalEmail failed", res.status, text);
-      return { ok: false, error: `HTTP ${res.status}` };
+      console.warn("notifyFormRecipients failed", res.status);
+      return { ok: false };
     }
     return { ok: true };
   } catch (err) {
-    console.warn("sendTransactionalEmail error", err);
-    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    console.warn("notifyFormRecipients error", err);
+    return { ok: false };
   }
-}
-
-/** Notification recipients for marketing-site form submissions. */
-export const FORM_NOTIFICATION_RECIPIENTS = [
-  "jordank@volcop.com",
-  "arodseo@gmail.com",
-];
-
-/** Send the same notification to all recipients in parallel. */
-export async function notifyFormRecipients(args: {
-  formType: string;
-  submissionId: string;
-  fields: Array<{ label: string; value: string }>;
-}) {
-  const submittedAt = new Date().toLocaleString("en-US", {
-    timeZone: "America/New_York",
-    dateStyle: "medium",
-    timeStyle: "short",
-  }) + " ET";
-
-  await Promise.allSettled(
-    FORM_NOTIFICATION_RECIPIENTS.map((to) =>
-      sendTransactionalEmail({
-        templateName: "form-submission-notification",
-        recipientEmail: to,
-        idempotencyKey: `${args.submissionId}-${to}`,
-        templateData: {
-          formType: args.formType,
-          submittedAt,
-          fields: args.fields,
-        },
-      }),
-    ),
-  );
 }

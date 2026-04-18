@@ -21,6 +21,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
+import { Route as ApiNotifyRouteImport } from './routes/api/notify'
 import { Route as AuthedVehiclesRouteImport } from './routes/_authed/vehicles'
 import { Route as AuthedTrainingRouteImport } from './routes/_authed/training'
 import { Route as AuthedScheduleRouteImport } from './routes/_authed/schedule'
@@ -100,6 +101,11 @@ const IndexRoute = IndexRouteImport.update({
 const EmailUnsubscribeRoute = EmailUnsubscribeRouteImport.update({
   id: '/email/unsubscribe',
   path: '/email/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotifyRoute = ApiNotifyRouteImport.update({
+  id: '/api/notify',
+  path: '/api/notify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthedVehiclesRoute = AuthedVehiclesRouteImport.update({
@@ -235,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
+  '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
@@ -269,6 +276,7 @@ export interface FileRoutesByTo {
   '/schedule': typeof AuthedScheduleRouteWithChildren
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
+  '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/_authed/schedule': typeof AuthedScheduleRouteWithChildren
   '/_authed/training': typeof AuthedTrainingRoute
   '/_authed/vehicles': typeof AuthedVehiclesRoute
+  '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/_authed/admin/announcements': typeof AuthedAdminAnnouncementsRoute
   '/_authed/admin/hours-report': typeof AuthedAdminHoursReportRoute
@@ -341,6 +350,7 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/training'
     | '/vehicles'
+    | '/api/notify'
     | '/email/unsubscribe'
     | '/admin/announcements'
     | '/admin/hours-report'
@@ -375,6 +385,7 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/training'
     | '/vehicles'
+    | '/api/notify'
     | '/email/unsubscribe'
     | '/admin/announcements'
     | '/admin/hours-report'
@@ -410,6 +421,7 @@ export interface FileRouteTypes {
     | '/_authed/schedule'
     | '/_authed/training'
     | '/_authed/vehicles'
+    | '/api/notify'
     | '/email/unsubscribe'
     | '/_authed/admin/announcements'
     | '/_authed/admin/hours-report'
@@ -435,6 +447,7 @@ export interface RootRouteChildren {
   ProductRoute: typeof ProductRoute
   SignupRoute: typeof SignupRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
+  ApiNotifyRoute: typeof ApiNotifyRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   LovableEmailSuppressionRoute: typeof LovableEmailSuppressionRoute
   LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
@@ -526,6 +539,13 @@ declare module '@tanstack/react-router' {
       path: '/email/unsubscribe'
       fullPath: '/email/unsubscribe'
       preLoaderRoute: typeof EmailUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notify': {
+      id: '/api/notify'
+      path: '/api/notify'
+      fullPath: '/api/notify'
+      preLoaderRoute: typeof ApiNotifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authed/vehicles': {
@@ -743,6 +763,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductRoute: ProductRoute,
   SignupRoute: SignupRoute,
   UnsubscribeRoute: UnsubscribeRoute,
+  ApiNotifyRoute: ApiNotifyRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   LovableEmailSuppressionRoute: LovableEmailSuppressionRoute,
   LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,

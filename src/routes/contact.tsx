@@ -58,7 +58,6 @@ function ContactPage() {
     }
     void notifyFormRecipients({
       formType: "Contact Inquiry",
-      submissionId,
       fields: [
         { label: "Name", value: result.data.name },
         { label: "Email", value: result.data.email },
