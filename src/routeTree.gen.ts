@@ -9,38 +9,217 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthedVehiclesRouteImport } from './routes/_authed/vehicles'
+import { Route as AuthedTrainingRouteImport } from './routes/_authed/training'
+import { Route as AuthedScheduleRouteImport } from './routes/_authed/schedule'
+import { Route as AuthedRosterRouteImport } from './routes/_authed/roster'
+import { Route as AuthedResourcesRouteImport } from './routes/_authed/resources'
+import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
+import { Route as AuthedFormsRouteImport } from './routes/_authed/forms'
+import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
+import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedVehiclesRoute = AuthedVehiclesRouteImport.update({
+  id: '/vehicles',
+  path: '/vehicles',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedTrainingRoute = AuthedTrainingRouteImport.update({
+  id: '/training',
+  path: '/training',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedScheduleRoute = AuthedScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedRosterRoute = AuthedRosterRouteImport.update({
+  id: '/roster',
+  path: '/roster',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedResourcesRoute = AuthedResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedProfileRoute = AuthedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedFormsRoute = AuthedFormsRouteImport.update({
+  id: '/forms',
+  path: '/forms',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedDispatchRoute = AuthedDispatchRouteImport.update({
+  id: '/dispatch',
+  path: '/dispatch',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminMigrationRoute = AuthedAdminMigrationRouteImport.update({
+  id: '/admin/migration',
+  path: '/admin/migration',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/dispatch': typeof AuthedDispatchRoute
+  '/forms': typeof AuthedFormsRoute
+  '/profile': typeof AuthedProfileRoute
+  '/resources': typeof AuthedResourcesRoute
+  '/roster': typeof AuthedRosterRoute
+  '/schedule': typeof AuthedScheduleRoute
+  '/training': typeof AuthedTrainingRoute
+  '/vehicles': typeof AuthedVehiclesRoute
+  '/admin/migration': typeof AuthedAdminMigrationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/dispatch': typeof AuthedDispatchRoute
+  '/forms': typeof AuthedFormsRoute
+  '/profile': typeof AuthedProfileRoute
+  '/resources': typeof AuthedResourcesRoute
+  '/roster': typeof AuthedRosterRoute
+  '/schedule': typeof AuthedScheduleRoute
+  '/training': typeof AuthedTrainingRoute
+  '/vehicles': typeof AuthedVehiclesRoute
+  '/admin/migration': typeof AuthedAdminMigrationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authed': typeof AuthedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/_authed/dashboard': typeof AuthedDashboardRoute
+  '/_authed/dispatch': typeof AuthedDispatchRoute
+  '/_authed/forms': typeof AuthedFormsRoute
+  '/_authed/profile': typeof AuthedProfileRoute
+  '/_authed/resources': typeof AuthedResourcesRoute
+  '/_authed/roster': typeof AuthedRosterRoute
+  '/_authed/schedule': typeof AuthedScheduleRoute
+  '/_authed/training': typeof AuthedTrainingRoute
+  '/_authed/vehicles': typeof AuthedVehiclesRoute
+  '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/dispatch'
+    | '/forms'
+    | '/profile'
+    | '/resources'
+    | '/roster'
+    | '/schedule'
+    | '/training'
+    | '/vehicles'
+    | '/admin/migration'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/dashboard'
+    | '/dispatch'
+    | '/forms'
+    | '/profile'
+    | '/resources'
+    | '/roster'
+    | '/schedule'
+    | '/training'
+    | '/vehicles'
+    | '/admin/migration'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/login'
+    | '/signup'
+    | '/_authed/dashboard'
+    | '/_authed/dispatch'
+    | '/_authed/forms'
+    | '/_authed/profile'
+    | '/_authed/resources'
+    | '/_authed/roster'
+    | '/_authed/schedule'
+    | '/_authed/training'
+    | '/_authed/vehicles'
+    | '/_authed/admin/migration'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +227,113 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/vehicles': {
+      id: '/_authed/vehicles'
+      path: '/vehicles'
+      fullPath: '/vehicles'
+      preLoaderRoute: typeof AuthedVehiclesRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/training': {
+      id: '/_authed/training'
+      path: '/training'
+      fullPath: '/training'
+      preLoaderRoute: typeof AuthedTrainingRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/schedule': {
+      id: '/_authed/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof AuthedScheduleRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/roster': {
+      id: '/_authed/roster'
+      path: '/roster'
+      fullPath: '/roster'
+      preLoaderRoute: typeof AuthedRosterRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/resources': {
+      id: '/_authed/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof AuthedResourcesRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/profile': {
+      id: '/_authed/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthedProfileRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/forms': {
+      id: '/_authed/forms'
+      path: '/forms'
+      fullPath: '/forms'
+      preLoaderRoute: typeof AuthedFormsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/dispatch': {
+      id: '/_authed/dispatch'
+      path: '/dispatch'
+      fullPath: '/dispatch'
+      preLoaderRoute: typeof AuthedDispatchRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/dashboard': {
+      id: '/_authed/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthedDashboardRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin/migration': {
+      id: '/_authed/admin/migration'
+      path: '/admin/migration'
+      fullPath: '/admin/migration'
+      preLoaderRoute: typeof AuthedAdminMigrationRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
+interface AuthedRouteChildren {
+  AuthedDashboardRoute: typeof AuthedDashboardRoute
+  AuthedDispatchRoute: typeof AuthedDispatchRoute
+  AuthedFormsRoute: typeof AuthedFormsRoute
+  AuthedProfileRoute: typeof AuthedProfileRoute
+  AuthedResourcesRoute: typeof AuthedResourcesRoute
+  AuthedRosterRoute: typeof AuthedRosterRoute
+  AuthedScheduleRoute: typeof AuthedScheduleRoute
+  AuthedTrainingRoute: typeof AuthedTrainingRoute
+  AuthedVehiclesRoute: typeof AuthedVehiclesRoute
+  AuthedAdminMigrationRoute: typeof AuthedAdminMigrationRoute
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardRoute: AuthedDashboardRoute,
+  AuthedDispatchRoute: AuthedDispatchRoute,
+  AuthedFormsRoute: AuthedFormsRoute,
+  AuthedProfileRoute: AuthedProfileRoute,
+  AuthedResourcesRoute: AuthedResourcesRoute,
+  AuthedRosterRoute: AuthedRosterRoute,
+  AuthedScheduleRoute: AuthedScheduleRoute,
+  AuthedTrainingRoute: AuthedTrainingRoute,
+  AuthedVehiclesRoute: AuthedVehiclesRoute,
+  AuthedAdminMigrationRoute: AuthedAdminMigrationRoute,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthedRoute: AuthedRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
