@@ -10,7 +10,9 @@ export default defineConfig({
       "process.env.LOVABLE_API_KEY": JSON.stringify(env.LOVABLE_API_KEY ?? ""),
       "process.env.SUPABASE_URL": JSON.stringify(env.SUPABASE_URL ?? env.VITE_SUPABASE_URL ?? ""),
       "process.env.SUPABASE_PUBLISHABLE_KEY": JSON.stringify(env.SUPABASE_PUBLISHABLE_KEY ?? env.VITE_SUPABASE_PUBLISHABLE_KEY ?? ""),
-      "process.env.SUPABASE_SERVICE_ROLE_KEY": JSON.stringify(env.SUPABASE_SERVICE_ROLE_KEY ?? ""),
+      // NOTE: SUPABASE_SERVICE_ROLE_KEY is intentionally NOT defined here.
+      // It's a runtime Worker secret — defining it at build time would replace
+      // it with an empty string and shadow the actual runtime value.
     },
     resolve: {
       alias: {
