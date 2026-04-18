@@ -402,6 +402,7 @@ function MyUnitTodayView(props: ViewProps & { homeUnitId: string | null }) {
 function ShiftList({
   shifts,
   units,
+  vehicles,
   profiles,
   currentUserId,
   canManage,
