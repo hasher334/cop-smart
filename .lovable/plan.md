@@ -1,49 +1,31 @@
 
-What I verified:
-- The app email sender is now enqueuing successfully. Production logs show `POST /lovable/email/transactional/send → 200` and `Transactional email enqueued` for both recipients.
-- The sender domain `notify.volcop.com` is verified.
-- The recipients are not suppressed.
-- `email_send_log` contains only `pending` rows, not `sent` rows.
-- The current blocker is not the send secret anymore.
 
-Root cause:
-- The queue dispatcher cron job is still pointing to the old preview URL, not the live site.
-- Current cron target:
-  `https://id-preview--9dd4191b-5a55-4efa-a125-32ec5a6b3e86.lovable.app/lovable/email/queue/process?...`
-- Because of that, emails get queued but never drained in production, so nothing is actually delivered.
+### Root cause confirmed
 
-Why this proves the secret is not the current issue:
-- The send route is successfully reading the service-role-backed tables and inserting:
-  - `email_unsubscribe_tokens`
-  - `email_send_log`
-  - queue entries via `enqueue_email`
-- If the service role secret were still wrong, those writes would be failing before the emails reached `pending`.
+The cron is hitting the route every 5 seconds and getting `200` back, but **`read_ct` on every queue message is still `0`**. That means the handler is never actually reading the queue.
 
-Implementation plan:
-1. Stop chasing the send-route secret and treat the queue job as the real failure point.
-2. Refresh the email infrastructure so the queue processor cron job is recreated against the published/live app URL and the queue auth secret is refreshed at the same time.
-3. Re-check the cron job definition to confirm it now targets the live domain instead of the preview domain.
-4. Submit one fresh demo form after the cron fix.
-5. Verify success in two places:
-   - production logs show requests hitting `/lovable/email/queue/process`
-   - `email_send_log` gains `sent` entries instead of remaining `pending`
-6. If delivery still fails after the cron target is corrected, then inspect the queue processor logs specifically for provider-side errors, but only after confirming the cron is calling the correct live endpoint.
+Two confirmed problems:
 
-Technical details:
-- Current evidence chain:
-  - send route works
-  - domain verified
-  - no suppression
-  - queue exists
-  - cron exists
-  - cron target is wrong
-- This means the system is stuck between “queued” and “processed.”
-- The most likely concrete fix is to re-run the backend email infrastructure setup so it updates:
-  - the cron job URL
-  - the queue auth secret used by that cron job
-- After that, the expected state change is:
-  `pending -> sent`
+1. **HTTP method mismatch.** Server logs show `GET https://volcop.com/lovable/email/queue/process → 200`, but the route file only registers a `POST` handler. The 200 is likely a default fall-through, not the queue processor running. The cron's `net.http_post` is being logged as GET in worker logs — regardless, the real handler is not executing.
 
-Expected outcome after implementation:
-- New demo/contact form submissions will enqueue and then actually send.
-- Existing pending rows may also begin draining once the cron job points to the correct live endpoint.
+2. **Even if POST were hitting, the cron auth would also need to match.** Need to also accept GET (or change cron to a method the route handles).
+
+### Fix
+
+Update `src/routes/lovable/email/queue/process.ts` to register the same handler under **both `GET` and `POST`** (sharing one implementation). This guarantees that whichever method the cron / pg_net actually sends, the queue gets drained.
+
+No other changes:
+- Auth check stays (Bearer service role key).
+- Cron job stays as-is (already pointing at production URL with correct vault secret).
+- DB schema, queues, secrets — all already correct.
+
+### Verification after deploy
+
+1. Wait ~10 seconds for one cron tick.
+2. Re-query `pgmq.q_transactional_emails` — `read_ct` should be > 0 (or rows gone).
+3. Re-query `email_send_log` — recent rows should flip from `pending` to `sent`.
+4. Confirm receipt in inbox.
+
+### Files to change
+- `src/routes/lovable/email/queue/process.ts` — add `GET` handler that delegates to the same logic as `POST`.
+
