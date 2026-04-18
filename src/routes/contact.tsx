@@ -18,7 +18,45 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Name is required").max(100),
+  email: z.string().trim().email("Valid email required").max(255),
+  message: z.string().trim().min(5, "Message is required").max(2000),
+});
+
 function ContactPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = contactSchema.safeParse({ name, email, message });
+    if (!result.success) {
+      const fe: typeof errors = {};
+      for (const i of result.error.issues) fe[i.path[0] as keyof typeof errors] = i.message;
+      setErrors(fe);
+      return;
+    }
+    setErrors({});
+    setSubmitting(true);
+    await notifyFormRecipients({
+      formType: "Contact Inquiry",
+      submissionId: crypto.randomUUID(),
+      fields: [
+        { label: "Name", value: result.data.name },
+        { label: "Email", value: result.data.email },
+        { label: "Message", value: result.data.message },
+      ],
+    });
+    setSubmitting(false);
+    setSubmitted(true);
+    toast.success("Message sent — we'll be in touch shortly.");
+  };
+
   return (
     <MarketingShell>
       <section className="py-20 lg:py-28 border-b border-[#0D141E]/10">
