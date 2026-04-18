@@ -27,7 +27,7 @@ export function MarketingFooter() {
             <li><Link to="/product" className="hover:text-[#B48A44]">CopSmart Platform</Link></li>
             <li><Link to="/features" className="hover:text-[#B48A44]">All Features</Link></li>
             <li><Link to="/demo" className="hover:text-[#B48A44]">Request a Demo</Link></li>
-            <li><Link to="/login" className="hover:text-[#B48A44]">Client Login</Link></li>
+            <li><Link to="/copsmart" className="hover:text-[#B48A44]">Client Login</Link></li>
           </ul>
         </div>
         <div>
