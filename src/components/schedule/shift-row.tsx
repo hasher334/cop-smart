@@ -281,6 +281,51 @@ export function ShiftRow({
           )}
         </div>
       </div>
+
+      <Dialog open={blockDialogOpen} onOpenChange={setBlockDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <ShieldAlert className="h-5 w-5 text-destructive" />
+              Can't sign up — training required
+            </DialogTitle>
+            <DialogDescription>
+              You're missing one or more required certifications, or they've expired. Get current
+              with your training officer to unlock shift sign-ups.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            {training.missing.map((m) => (
+              <div
+                key={m.courseId}
+                className="flex items-start justify-between gap-3 rounded-md border bg-muted/30 p-3 text-sm"
+              >
+                <div>
+                  <div className="font-medium">{m.name}</div>
+                  <div className="text-xs text-muted-foreground">{m.code}</div>
+                </div>
+                <Badge
+                  variant={m.status === "expired" ? "destructive" : "outline"}
+                  className={m.status === "missing" ? "border-amber-500 text-amber-600" : ""}
+                >
+                  {m.status === "expired" ? "Expired" : "Missing"}
+                </Badge>
+              </div>
+            ))}
+          </div>
+          <DialogFooter className="sm:justify-between">
+            <Button variant="ghost" onClick={() => setBlockDialogOpen(false)}>
+              Close
+            </Button>
+            <Button asChild>
+              <Link to="/training" onClick={() => setBlockDialogOpen(false)}>
+                <GraduationCap className="mr-2 h-4 w-4" />
+                View my training
+              </Link>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
