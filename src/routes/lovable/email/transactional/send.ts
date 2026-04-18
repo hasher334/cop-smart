@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { render } from '@react-email/components'
-import { createClient } from '@supabase/supabase-js'
 import { createFileRoute } from '@tanstack/react-router'
+import { supabaseAdmin } from '@/integrations/supabase/client.server'
 import { TEMPLATES } from '@/lib/email-templates/registry'
 
 // Configuration baked in at scaffold time
@@ -33,17 +33,6 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-        const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-        if (!supabaseUrl || !supabaseServiceKey) {
-          console.error('Missing required environment variables')
-          return Response.json(
-            { error: 'Server configuration error' },
-            { status: 500 }
-          )
-        }
-
         // Templates that may be triggered by anonymous (unauthenticated) visitors,
         // e.g. public marketing form submissions. These templates must always send
         // to a fixed internal recipient list — never accept arbitrary recipientEmail
@@ -54,7 +43,7 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
           'arodseo@gmail.com',
         ])
 
-        const supabase = createClient(supabaseUrl, supabaseServiceKey)
+        const supabase = supabaseAdmin
 
         // Peek at template name in body to decide auth strategy.
         const rawBody = await request.text()
