@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { Plus, ChevronLeft, ChevronRight, CalendarDays, CalendarRange, Globe2, Home as HomeIcon, Grid3x3 } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight, CalendarDays, CalendarRange, Globe2, Home as HomeIcon, Grid3x3, Printer } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,10 +101,18 @@ function SchedulePage() {
       crumbs={[{ label: "Schedule" }]}
       actions={
         canManage && (
-          <Button onClick={openCreate} className="h-12 gap-2">
-            <Plus className="h-5 w-5" />
-            New shift
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline" className="h-12 gap-2">
+              <Link to="/schedule/print">
+                <Printer className="h-5 w-5" />
+                Print month
+              </Link>
+            </Button>
+            <Button onClick={openCreate} className="h-12 gap-2">
+              <Plus className="h-5 w-5" />
+              New shift
+            </Button>
+          </div>
         )
       }
     >

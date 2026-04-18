@@ -159,3 +159,17 @@
 @layer utilities {
   .text-balance { text-wrap: balance; }
 }
+
+/* Print: landscape, tight margins, white background */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0.4in;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11px;
+  }
+  .print\:hidden { display: none !important; }
+}
