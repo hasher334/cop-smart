@@ -209,6 +209,32 @@ function MigrationPage() {
     }
   };
 
+  const runSeed = async () => {
+    if (
+      !window.confirm(
+        "This creates 8 demo accounts (admin, officers, corporals, volunteers) with shifts and training. Re-running is safe — it updates existing demo records. Continue?",
+      )
+    )
+      return;
+    setSeeding(true);
+    try {
+      const result = await seedDemoData();
+      toast.success(
+        `Demo data ready — ${result.usersCreated} created, ${result.usersUpdated} updated.`,
+        {
+          description: `Sign in with badges D100/D201/D301/D401 etc. Password: ${result.password}`,
+          duration: 8000,
+        },
+      );
+    } catch (err) {
+      toast.error("Seeding failed", {
+        description: err instanceof Error ? err.message : String(err),
+      });
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   return (
     <PageShell
       title="Data Migration"
