@@ -14,9 +14,12 @@ export function MarketingHeader() {
         <div className="flex items-center gap-12">
           <Link
             to="/"
-            className="font-['Libre_Baskerville',serif] text-2xl font-bold text-[#13243A] hover:text-[#B48A44] transition-colors"
+            aria-label="VolCop home"
+            className="group inline-flex flex-col items-center leading-none text-[#13243A] hover:text-[#B48A44] transition-colors font-['Public_Sans',sans-serif]"
           >
-            VolCop.
+            <span className="text-base font-extrabold tracking-[0.28em]">VOL</span>
+            <span className="my-[3px] h-px w-full bg-[#B48A44] transition-colors group-hover:bg-[#13243A]" />
+            <span className="text-base font-extrabold tracking-[0.28em]">COP</span>
           </Link>
           <div className="hidden md:flex gap-8 text-sm font-semibold uppercase tracking-wide text-[#0D141E]/80 font-['Public_Sans',sans-serif]">
             {links.map((l) => (
