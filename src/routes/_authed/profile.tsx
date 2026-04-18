@@ -75,6 +75,7 @@ function ProfilePage() {
             {saving ? "Saving…" : "Save Changes"}
           </Button>
         </form>
+        </div>
       </div>
     </PageShell>
   );
