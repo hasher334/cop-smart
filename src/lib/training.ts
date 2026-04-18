@@ -1,7 +1,3 @@
-import type { Database } from "@/integrations/supabase/types";
-
-type Record = Database["public"]["Tables"]["training_records"]["Row"];
-
 export type ExpirationStatus = "valid" | "expiring" | "expired" | "no_expiry";
 
 export const EXPIRATION_META: Record<
