@@ -77,6 +77,45 @@ export type Database = {
         }
         Relationships: []
       }
+      demo_requests: {
+        Row: {
+          agency: string
+          agency_size: string | null
+          created_at: string
+          full_name: string
+          id: string
+          message: string | null
+          phone: string | null
+          role_title: string | null
+          source: string | null
+          work_email: string
+        }
+        Insert: {
+          agency: string
+          agency_size?: string | null
+          created_at?: string
+          full_name: string
+          id?: string
+          message?: string | null
+          phone?: string | null
+          role_title?: string | null
+          source?: string | null
+          work_email: string
+        }
+        Update: {
+          agency?: string
+          agency_size?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          phone?: string | null
+          role_title?: string | null
+          source?: string | null
+          work_email?: string
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           category: string
