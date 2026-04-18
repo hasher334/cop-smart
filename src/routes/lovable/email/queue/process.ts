@@ -316,8 +316,14 @@ const handleProcess = async ({ request }: { request: Request }) => {
           }
         }
 
-        return Response.json({ processed: totalProcessed })
-      },
+  return Response.json({ processed: totalProcessed })
+}
+
+export const Route = createFileRoute("/lovable/email/queue/process")({
+  server: {
+    handlers: {
+      GET: handleProcess,
+      POST: handleProcess,
     },
   },
 })
