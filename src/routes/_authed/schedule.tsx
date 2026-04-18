@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { Plus, ChevronLeft, ChevronRight, CalendarDays, CalendarRange, Globe2, Home as HomeIcon } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight, CalendarDays, CalendarRange, Globe2, Home as HomeIcon, Grid3x3 } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,7 @@ import {
 } from "@/lib/format";
 import { ShiftFormDialog } from "@/components/schedule/shift-form-dialog";
 import { ShiftRow } from "@/components/schedule/shift-row";
+import { CalendarMonthView } from "@/components/schedule/calendar-month-view";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
@@ -97,7 +98,11 @@ function SchedulePage() {
       }
     >
       <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="grid h-auto w-full grid-cols-2 gap-1 bg-surface p-1 sm:grid-cols-4">
+        <TabsList className="grid h-auto w-full grid-cols-2 gap-1 bg-surface p-1 sm:grid-cols-3 lg:grid-cols-5">
+          <TabsTrigger value="calendar" className="h-12 gap-2">
+            <Grid3x3 className="h-5 w-5" />
+            <span>Calendar</span>
+          </TabsTrigger>
           <TabsTrigger value="day" className="h-12 gap-2">
             <CalendarDays className="h-5 w-5" />
             <span>By Day</span>
@@ -115,6 +120,18 @@ function SchedulePage() {
             <span>My Unit Today</span>
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="calendar" className="mt-6">
+          <CalendarMonthView
+            key={`cal-${refreshKey}`}
+            units={units}
+            profiles={profiles}
+            currentUserId={auth.user?.id}
+            canManage={canManage}
+            onEdit={openEdit}
+            onChanged={onChanged}
+          />
+        </TabsContent>
 
         <TabsContent value="day" className="mt-6">
           <DayView
