@@ -32,6 +32,7 @@ import { CalendarMonthView } from "@/components/schedule/calendar-month-view";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
+type Vehicle = Pick<Database["public"]["Tables"]["vehicles"]["Row"], "id" | "vehicle_no" | "make" | "model" | "year">;
 type Profile = Pick<Database["public"]["Tables"]["profiles"]["Row"], "user_id" | "full_name" | "badge_no">;
 
 export const Route = createFileRoute("/_authed/schedule")({
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/_authed/schedule")({
 function SchedulePage() {
   const auth = useAuth();
   const [units, setUnits] = useState<Unit[]>([]);
+  const [vehicles, setVehicles] = useState<Map<string, Vehicle>>(new Map());
   const [profiles, setProfiles] = useState<Map<string, Profile>>(new Map());
   const [tab, setTab] = useState("calendar");
 
@@ -66,6 +68,14 @@ function SchedulePage() {
         const map = new Map<string, Profile>();
         (data ?? []).forEach((p) => map.set(p.user_id, p));
         setProfiles(map);
+      });
+    supabase
+      .from("vehicles")
+      .select("id, vehicle_no, make, model, year")
+      .then(({ data }) => {
+        const map = new Map<string, Vehicle>();
+        (data ?? []).forEach((v) => map.set(v.id, v));
+        setVehicles(map);
       });
   }, []);
 
@@ -137,6 +147,7 @@ function SchedulePage() {
           <DayView
             key={`day-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -148,6 +159,7 @@ function SchedulePage() {
           <UnitMonthView
             key={`um-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -160,6 +172,7 @@ function SchedulePage() {
           <AllUnitsMonthView
             key={`am-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -171,6 +184,7 @@ function SchedulePage() {
           <MyUnitTodayView
             key={`mu-${refreshKey}`}
             units={units}
+            vehicles={vehicles}
             profiles={profiles}
             currentUserId={auth.user?.id}
             canManage={canManage}
@@ -195,6 +209,7 @@ function SchedulePage() {
 
 interface ViewProps {
   units: Unit[];
+  vehicles?: Map<string, Vehicle>;
   profiles: Map<string, Profile>;
   currentUserId?: string;
   canManage: boolean;
@@ -387,6 +402,7 @@ function MyUnitTodayView(props: ViewProps & { homeUnitId: string | null }) {
 function ShiftList({
   shifts,
   units,
+  vehicles,
   profiles,
   currentUserId,
   canManage,
@@ -432,6 +448,7 @@ function ShiftList({
                   key={s.id}
                   shift={s}
                   unit={unitMap.get(s.unit_id)}
+                  vehicle={s.vehicle_id ? vehicles?.get(s.vehicle_id) : undefined}
                   volunteer1={s.volunteer_1 ? profiles.get(s.volunteer_1) : undefined}
                   volunteer2={s.volunteer_2 ? profiles.get(s.volunteer_2) : undefined}
                   currentUserId={currentUserId}
@@ -454,6 +471,7 @@ function ShiftList({
           key={s.id}
           shift={s}
           unit={unitMap.get(s.unit_id)}
+          vehicle={s.vehicle_id ? vehicles?.get(s.vehicle_id) : undefined}
           volunteer1={s.volunteer_1 ? profiles.get(s.volunteer_1) : undefined}
           volunteer2={s.volunteer_2 ? profiles.get(s.volunteer_2) : undefined}
           currentUserId={currentUserId}

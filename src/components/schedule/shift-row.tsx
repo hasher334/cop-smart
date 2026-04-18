@@ -1,4 +1,4 @@
-import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle } from "lucide-react";
+import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,11 +19,13 @@ import { formatTimeRange } from "@/lib/format";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
+type Vehicle = Pick<Database["public"]["Tables"]["vehicles"]["Row"], "id" | "vehicle_no" | "make" | "model" | "year">;
 type Profile = Pick<Database["public"]["Tables"]["profiles"]["Row"], "user_id" | "full_name" | "badge_no">;
 
 interface Props {
   shift: Shift;
   unit?: Unit;
+  vehicle?: Vehicle;
   volunteer1?: Profile;
   volunteer2?: Profile;
   currentUserId?: string;
@@ -60,6 +62,7 @@ const TYPE_LABEL: Record<Shift["patrol_type"], string> = {
 export function ShiftRow({
   shift,
   unit,
+  vehicle,
   volunteer1,
   volunteer2,
   currentUserId,
@@ -156,6 +159,17 @@ export function ShiftRow({
           {shift.patrol_area && (
             <div className="mt-1 text-base text-muted-foreground">
               Area: <span className="font-medium text-foreground">{shift.patrol_area}</span>
+            </div>
+          )}
+          {vehicle && (
+            <div className="mt-1 flex items-center gap-1 text-base text-muted-foreground">
+              <Truck className="h-4 w-4" />
+              Vehicle:{" "}
+              <span className="font-medium text-foreground">
+                {vehicle.vehicle_no}
+                {[vehicle.year, vehicle.make, vehicle.model].filter(Boolean).length > 0 &&
+                  ` — ${[vehicle.year, vehicle.make, vehicle.model].filter(Boolean).join(" ")}`}
+              </span>
             </div>
           )}
           <dl className="mt-3 grid gap-1 text-base sm:grid-cols-2">
