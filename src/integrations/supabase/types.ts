@@ -198,6 +198,95 @@ export type Database = {
           },
         ]
       }
+      training_courses: {
+        Row: {
+          active: boolean
+          category: string | null
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          required: boolean
+          updated_at: string
+          validity_months: number | null
+        }
+        Insert: {
+          active?: boolean
+          category?: string | null
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          required?: boolean
+          updated_at?: string
+          validity_months?: number | null
+        }
+        Update: {
+          active?: boolean
+          category?: string | null
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          required?: boolean
+          updated_at?: string
+          validity_months?: number | null
+        }
+        Relationships: []
+      }
+      training_records: {
+        Row: {
+          certificate_no: string | null
+          completion_date: string
+          course_id: string
+          created_at: string
+          created_by: string | null
+          expiration_date: string | null
+          id: string
+          instructor: string | null
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          certificate_no?: string | null
+          completion_date: string
+          course_id: string
+          created_at?: string
+          created_by?: string | null
+          expiration_date?: string | null
+          id?: string
+          instructor?: string | null
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          certificate_no?: string | null
+          completion_date?: string
+          course_id?: string
+          created_at?: string
+          created_by?: string | null
+          expiration_date?: string | null
+          id?: string
+          instructor?: string | null
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_records_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "training_courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       units: {
         Row: {
           code: string
