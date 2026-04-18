@@ -49,7 +49,7 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
   },
 })
 
-async function handleSend(request: Request): Promise<Response> {
+async function handleSend(request: Request) {
         // Templates that may be triggered by anonymous (unauthenticated) visitors,
         // e.g. public marketing form submissions. These templates must always send
         // to a fixed internal recipient list — never accept arbitrary recipientEmail
