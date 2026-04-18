@@ -105,11 +105,10 @@ function PublicLanding() {
 
             <div className="relative aspect-video overflow-hidden rounded-2xl border-4 border-gold bg-black shadow-elevated">
               <iframe
-                className="absolute inset-0 h-full w-full"
-                src="https://www.youtube.com/embed/oNlm1QOpjN4?rel=0&modestbranding=1"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+                src="https://www.youtube.com/embed/oNlm1QOpjN4?autoplay=1&mute=1&loop=1&playlist=oNlm1QOpjN4&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&playsinline=1&fs=0"
                 title="A day in the life of a PBSO volunteer"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
             </div>
