@@ -1,4 +1,4 @@
-import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle } from "lucide-react";
+import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
