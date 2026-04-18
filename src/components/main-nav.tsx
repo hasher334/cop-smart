@@ -34,6 +34,7 @@ const items: NavItem[] = [
   { to: "/vehicles", label: "Vehicles", icon: Truck },
   { to: "/forms", label: "Forms", icon: FileText },
   { to: "/resources", label: "Resources", icon: CloudSun },
+  { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { to: "/profile", label: "My Profile", icon: Settings },
   { to: "/admin/hours-report", label: "Hours Report", icon: BarChart3, officerOnly: true },
   { to: "/admin/announcements", label: "Announcements", icon: Megaphone, adminOnly: true },
