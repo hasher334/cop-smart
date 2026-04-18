@@ -109,6 +109,7 @@ function Dashboard() {
         )}
       </section>
 
+      <UpcomingShiftsWidget />
       <ServiceDueWidget />
       <ExpiringTrainingWidget />
 
