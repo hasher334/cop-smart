@@ -77,6 +77,71 @@ export type Database = {
         }
         Relationships: []
       }
+      patrol_shifts: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          end_time: string
+          id: string
+          notes: string | null
+          patrol_area: string | null
+          patrol_type: Database["public"]["Enums"]["patrol_type"]
+          reserved_at: string | null
+          reserved_by: string | null
+          shift_date: string
+          start_time: string
+          status: Database["public"]["Enums"]["patrol_status"]
+          unit_id: string
+          updated_at: string
+          volunteer_1: string | null
+          volunteer_2: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          end_time: string
+          id?: string
+          notes?: string | null
+          patrol_area?: string | null
+          patrol_type?: Database["public"]["Enums"]["patrol_type"]
+          reserved_at?: string | null
+          reserved_by?: string | null
+          shift_date: string
+          start_time: string
+          status?: Database["public"]["Enums"]["patrol_status"]
+          unit_id: string
+          updated_at?: string
+          volunteer_1?: string | null
+          volunteer_2?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          end_time?: string
+          id?: string
+          notes?: string | null
+          patrol_area?: string | null
+          patrol_type?: Database["public"]["Enums"]["patrol_type"]
+          reserved_at?: string | null
+          reserved_by?: string | null
+          shift_date?: string
+          start_time?: string
+          status?: Database["public"]["Enums"]["patrol_status"]
+          unit_id?: string
+          updated_at?: string
+          volunteer_1?: string | null
+          volunteer_2?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patrol_shifts_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           badge_no: string
@@ -199,6 +264,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "corporal_plus" | "officer" | "volunteer"
+      patrol_status: "open" | "reserved" | "on_duty" | "completed" | "cancelled"
+      patrol_type: "patrol" | "special_event" | "training" | "meeting" | "other"
       volunteer_status: "active" | "inactive" | "leave" | "retired" | "pending"
     }
     CompositeTypes: {
@@ -328,6 +395,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "corporal_plus", "officer", "volunteer"],
+      patrol_status: ["open", "reserved", "on_duty", "completed", "cancelled"],
+      patrol_type: ["patrol", "special_event", "training", "meeting", "other"],
       volunteer_status: ["active", "inactive", "leave", "retired", "pending"],
     },
   },
