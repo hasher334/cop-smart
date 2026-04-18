@@ -104,15 +104,15 @@ function PublicLanding() {
               </div>
             </div>
 
-            <div className="relative aspect-video overflow-hidden rounded-2xl border-4 border-gold bg-black/20 shadow-elevated">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="h-20 w-20 text-gold/80" />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                <p className="text-sm text-primary-foreground/90">
-                  Watch: A day in the life of a PBSO volunteer
-                </p>
-              </div>
+            <div className="relative aspect-video overflow-hidden rounded-2xl border-4 border-gold bg-black shadow-elevated">
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/oNlm1QOpjN4?rel=0&modestbranding=1"
+                title="A day in the life of a PBSO volunteer"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
