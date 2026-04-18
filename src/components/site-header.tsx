@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { MainNav } from "@/components/main-nav";
+import { NotificationsBell } from "@/components/notifications-bell";
 
 export function SiteHeader() {
   const auth = useAuth();
@@ -48,6 +49,7 @@ export function SiteHeader() {
                   {auth.isAdmin && " · Admin"}
                 </div>
               </div>
+              <NotificationsBell />
               <Button
                 onClick={handleLogout}
                 variant="secondary"
@@ -60,12 +62,14 @@ export function SiteHeader() {
           )}
 
           {auth.session && (
-            <Button
-              variant="secondary"
-              className="h-12 lg:hidden"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-label="Toggle menu"
-            >
+            <div className="flex items-center gap-2 lg:hidden">
+              <NotificationsBell />
+              <Button
+                variant="secondary"
+                className="h-12"
+                onClick={() => setMobileOpen((v) => !v)}
+                aria-label="Toggle menu"
+              >
               {mobileOpen ? <X className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </Button>
           )}
