@@ -1,4 +1,6 @@
-import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck } from "lucide-react";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck, ShieldAlert, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,9 +15,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatTimeRange } from "@/lib/format";
+import { useRequiredTrainingStatus } from "@/hooks/use-required-training-status";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
@@ -77,8 +88,17 @@ export function ShiftRow({
   const slot2Open = !shift.volunteer_2;
   const canSignUp = currentUserId && !isAssigned && (slot1Open || slot2Open) && shift.status !== "cancelled" && shift.status !== "completed";
 
+  const [blockDialogOpen, setBlockDialogOpen] = useState(false);
+  const training = useRequiredTrainingStatus(canSignUp ? currentUserId : null);
+  // Officers/admins/corporals_plus can manage shifts and bypass the gate (e.g. emergency coverage).
+  const trainingBlocked = !canManage && training.blocked;
+
   const signUp = async () => {
     if (!currentUserId) return;
+    if (trainingBlocked) {
+      setBlockDialogOpen(true);
+      return;
+    }
     const updates: Partial<Shift> = {
       reserved_by: currentUserId,
       reserved_at: new Date().toISOString(),
