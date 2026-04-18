@@ -93,6 +93,7 @@ export type Database = {
           status: Database["public"]["Enums"]["patrol_status"]
           unit_id: string
           updated_at: string
+          vehicle_id: string | null
           volunteer_1: string | null
           volunteer_2: string | null
         }
@@ -111,6 +112,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["patrol_status"]
           unit_id: string
           updated_at?: string
+          vehicle_id?: string | null
           volunteer_1?: string | null
           volunteer_2?: string | null
         }
@@ -129,6 +131,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["patrol_status"]
           unit_id?: string
           updated_at?: string
+          vehicle_id?: string | null
           volunteer_1?: string | null
           volunteer_2?: string | null
         }
@@ -138,6 +141,13 @@ export type Database = {
             columns: ["unit_id"]
             isOneToOne: false
             referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "patrol_shifts_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
             referencedColumns: ["id"]
           },
         ]
