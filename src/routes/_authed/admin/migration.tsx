@@ -29,6 +29,7 @@ import {
   type DryRunReport,
   type ExportableTable,
 } from "@/lib/migration";
+import { seedDemoData } from "@/server/seed-demo-data";
 
 export const Route = createFileRoute("/_authed/admin/migration")({
   head: () => ({ meta: [{ title: "Data Migration — CopSmart" }] }),
