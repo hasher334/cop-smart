@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Megaphone,
   BarChart3,
+  Trophy,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
