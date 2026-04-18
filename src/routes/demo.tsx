@@ -64,9 +64,11 @@ function DemoPage() {
     }
 
     setSubmitting(true);
-    const { data: inserted, error } = await supabase
+    const submissionId = crypto.randomUUID();
+    const { error } = await supabase
       .from("demo_requests")
       .insert({
+        id: submissionId,
         full_name: result.data.full_name,
         work_email: result.data.work_email,
         agency: result.data.agency,
@@ -74,9 +76,7 @@ function DemoPage() {
         role_title: result.data.role_title || null,
         phone: result.data.phone || null,
         message: result.data.message || null,
-      })
-      .select("id")
-      .maybeSingle();
+      });
     setSubmitting(false);
 
     if (error) {
@@ -87,7 +87,7 @@ function DemoPage() {
     // Fire-and-forget notification email to internal recipients.
     void notifyFormRecipients({
       formType: "Demo Request",
-      submissionId: inserted?.id ?? crypto.randomUUID(),
+      submissionId,
       fields: [
         { label: "Full Name", value: result.data.full_name },
         { label: "Work Email", value: result.data.work_email },
