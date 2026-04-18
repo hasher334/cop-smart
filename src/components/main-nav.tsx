@@ -11,6 +11,7 @@ import {
   Settings,
   Database,
   ShieldCheck,
+  Megaphone,
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -31,6 +32,7 @@ const items: NavItem[] = [
   { to: "/forms", label: "Forms", icon: FileText },
   { to: "/resources", label: "Resources", icon: CloudSun },
   { to: "/profile", label: "My Profile", icon: Settings },
+  { to: "/admin/announcements", label: "Announcements", icon: Megaphone, adminOnly: true },
   { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, adminOnly: true },
   { to: "/admin/migration", label: "Data Migration", icon: Database, adminOnly: true },
 ];

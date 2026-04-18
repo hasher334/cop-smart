@@ -47,6 +47,7 @@ const tiles: Tile[] = [
   { to: "/forms", label: "Forms & Documents", icon: FileText, color: "bg-info text-info-foreground" },
   { to: "/resources", label: "Weather & Resources", icon: CloudSun, color: "bg-success text-success-foreground" },
   { to: "/profile", label: "My Profile", icon: Settings, color: "bg-secondary text-secondary-foreground" },
+  { to: "/admin/announcements", label: "Manage Announcements", icon: Megaphone, color: "bg-gold text-gold-foreground", adminOnly: true },
   { to: "/admin/migration", label: "Data Migration", icon: Database, color: "bg-warning text-warning-foreground", adminOnly: true },
 ];
 
@@ -55,9 +56,11 @@ function Dashboard() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 
   useEffect(() => {
+    const nowIso = new Date().toISOString();
     supabase
       .from("announcements")
       .select("*")
+      .or(`expires_at.is.null,expires_at.gt.${nowIso}`)
       .order("pinned", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(3)
