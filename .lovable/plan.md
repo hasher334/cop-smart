@@ -1,52 +1,41 @@
 
-The user wants form submissions from VolCop marketing site + CopSmart app routed to two emails: jordank@volcom.com and arodseo@gmail.com.
+Looking at the email send route, the only thing `supabaseAdmin` is used for is:
+1. Checking the `suppressed_emails` table (suppression list for unsubscribes/bounces)
+2. Recording the unsubscribe token in `email_unsubscribe_tokens`
+3. Logging the send attempt to `email_send_log`
+4. Enqueuing via `enqueue_email` RPC (pgmq)
 
-## Forms inventory
-Let me identify what forms exist:
-1. **Demo request** (`/demo`) — inserts to `demo_requests` table
-2. **Contact** (`/contact`) — need to check if form exists
-3. **Signup** (`/signup`) — auth, not really a "contact" form
+These are all **required** parts of Lovable's transactional email infrastructure — suppression checks, unsubscribe tokens, send logging, and the queue dispatcher. Removing them would break compliance (CAN-SPAM unsubscribe), bounce handling, and the retry/queue system.
 
-Likely also: any newsletter/CTA on marketing pages.
+**However** — for the immediate bug (emails failing because `SUPABASE_SERVICE_ROLE_KEY` is missing in the Worker runtime), there's a simpler question: do we need the `supabaseAdmin` (service role) client, or can we use the regular `supabase` client?
 
-## Approach
+Answer: We need service role because:
+- `suppressed_emails`, `email_unsubscribe_tokens`, `email_send_log` are RLS-protected tables that anonymous/user JWTs cannot write to
+- `enqueue_email` is a SECURITY DEFINER RPC, but inserts to log tables still need elevated privileges
 
-Use Lovable's built-in email system to send notification emails to both recipients whenever a form is submitted. This requires:
+### Real root cause
 
-1. **Email domain setup** — no email domain configured yet, need to set one up first (sender domain like `notify.volcop.com`)
-2. **Email infrastructure** — pgmq queue, dispatcher, tables
-3. **Transactional email scaffold** — the send route + templates
-4. **Notification template** — a "New form submission" email with all the details (form type, name, agency, message, etc.)
-5. **Wire up triggers** — call the send function from:
-   - `/demo` form submit (after the insert succeeds)
-   - `/contact` form submit (need to inspect)
-   - Any other forms found
+The `SUPABASE_SERVICE_ROLE_KEY` IS configured (it shows in the secrets list). The issue is that in TanStack Start's Cloudflare Worker build, `process.env.SUPABASE_SERVICE_ROLE_KEY` may not be populated the same way as in Node SSR. The fix from last turn (local `getSupabaseAdmin()` helper) should work — but we need to verify by reading the current state of the file and the actual server logs.
 
-Recipients are hardcoded in the trigger calls (or in a constant): `jordank@volcom.com`, `arodseo@gmail.com`.
+### Plan
 
-Note: since these are internal notifications going to YOUR team (not the form submitter), each send is one trigger → one recipient, called twice (once per recipient) per submission. That stays within transactional rules.
+1. Read the current `src/routes/lovable/email/transactional/send.ts` to confirm last edit landed correctly.
+2. Check actual server logs from the most recent submission to see the real error (not assumed).
+3. If `SUPABASE_SERVICE_ROLE_KEY` truly isn't reaching the Worker, the fix is to ensure it's read from the correct env source — Cloudflare Workers expose secrets via `globalThis` bindings or the request `env`, not always `process.env`. May need to use TanStack Start's getEvent/context to access bindings.
+4. Answer the user's direct question in chat: **Yes, Supabase is required** for the email infrastructure (suppression, unsubscribe, logging, queue). We can't remove it without breaking compliance.
 
-## What I need from you
+### Direct answer to the user's question
 
-Before building, two quick decisions:
+**Yes** — Supabase is required for the email pipeline. It's not just storing data; it powers:
+- Unsubscribe link generation/validation (legal compliance)
+- Suppression list (preventing emails to bounced/complained addresses)
+- Send log + queue (retries, rate limiting)
 
-1. **Sender domain** — what subdomain should emails come from? Recommended: `notify.volcop.com` (you own volcop.com). The "from" address would be something like `forms@notify.volcop.com`.
+The current bug isn't because we're using Supabase — it's because the **service role key isn't reaching the production Worker runtime correctly**. That's what needs fixing.
 
-2. **Confirm the email** — you wrote `jordank@volcom.com` (volcom, not volcop). Did you mean `jordank@volcop.com`? Please confirm the exact spelling.
+### Proposed next step
 
-3. **Also send a confirmation to the form submitter?** (e.g., "Thanks for requesting a demo, we'll be in touch") — or just internal notifications to your team?
-
-## Plan steps (after you confirm above)
-
-1. Inspect `/contact` and any other marketing forms to get full inventory
-2. Set up email domain (`notify.volcop.com`) — opens setup dialog for DNS
-3. Set up email infrastructure (queue, tables, cron)
-4. Scaffold transactional email system
-5. Create `form-submission-notification` React Email template (shows form type + all fields)
-6. Optionally create `submitter-confirmation` template
-7. Add `NOTIFICATION_RECIPIENTS = ['jordank@volcop.com', 'arodseo@gmail.com']` constant
-8. Wire trigger into `/demo` submit handler — loop the 2 recipients
-9. Wire trigger into `/contact` submit handler
-10. Test end-to-end
-
-Please answer the 3 questions above and I'll proceed.
+Switch to default mode and:
+1. View current `send.ts` to confirm state
+2. Pull server logs from the last submission to see the actual error message
+3. Fix env var access for the Worker runtime (likely needs `getRequestEvent().context.cloudflare.env` or similar pattern)
