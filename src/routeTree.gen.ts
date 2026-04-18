@@ -14,6 +14,7 @@ import { Route as ProductRouteImport } from './routes/product'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as DemoRouteImport } from './routes/demo'
+import { Route as CopsmartRouteImport } from './routes/copsmart'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthedRouteImport } from './routes/_authed'
@@ -59,6 +60,11 @@ const FeaturesRoute = FeaturesRouteImport.update({
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
   path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CopsmartRoute = CopsmartRouteImport.update({
+  id: '/copsmart',
+  path: '/copsmart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/copsmart': typeof CopsmartRoute
   '/demo': typeof DemoRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/copsmart': typeof CopsmartRoute
   '/demo': typeof DemoRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/_authed': typeof AuthedRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/copsmart': typeof CopsmartRoute
   '/demo': typeof DemoRoute
   '/features': typeof FeaturesRoute
   '/login': typeof LoginRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/copsmart'
     | '/demo'
     | '/features'
     | '/login'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/copsmart'
     | '/demo'
     | '/features'
     | '/login'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/_authed'
     | '/about'
     | '/contact'
+    | '/copsmart'
     | '/demo'
     | '/features'
     | '/login'
@@ -341,6 +353,7 @@ export interface RootRouteChildren {
   AuthedRoute: typeof AuthedRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CopsmartRoute: typeof CopsmartRoute
   DemoRoute: typeof DemoRoute
   FeaturesRoute: typeof FeaturesRoute
   LoginRoute: typeof LoginRoute
@@ -383,6 +396,13 @@ declare module '@tanstack/react-router' {
       path: '/demo'
       fullPath: '/demo'
       preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/copsmart': {
+      id: '/copsmart'
+      path: '/copsmart'
+      fullPath: '/copsmart'
+      preLoaderRoute: typeof CopsmartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -593,6 +613,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthedRoute: AuthedRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CopsmartRoute: CopsmartRoute,
   DemoRoute: DemoRoute,
   FeaturesRoute: FeaturesRoute,
   LoginRoute: LoginRoute,
