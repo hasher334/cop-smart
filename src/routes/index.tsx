@@ -169,7 +169,7 @@ function HomePage() {
                 {/* Screenshot collage */}
                 <div className="relative grid grid-cols-12 gap-3 p-5 bg-[#F3F1EC]">
                   {/* LEFT — large schedule board */}
-                  <div className="col-span-7 bg-white border border-[#0D141E]/15 shadow-md overflow-hidden">
+                  <div className="group/panel col-span-7 bg-white border border-[#0D141E]/15 shadow-md overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-[#B48A44]/20 hover:border-[#B48A44]/60 hover:ring-1 hover:ring-[#B48A44]/40">
                     <div className="flex items-center justify-between px-3 py-1.5 bg-[#13243A] border-b border-[#B48A44]/40">
                       <div className="flex items-center gap-1.5">
                         <CalendarClock className="size-3 text-[#B48A44]" />
