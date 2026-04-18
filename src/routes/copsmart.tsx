@@ -136,54 +136,127 @@ function CopSmartLanding() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-gold blur-3xl" />
-          <div className="absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-gold blur-3xl" />
-        </div>
-        <div className="relative mx-auto max-w-5xl px-4 py-20 text-center">
-          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border-4 border-gold bg-primary-foreground/5">
-            <Shield className="h-14 w-14 text-gold" strokeWidth={2.2} />
+      {/* Hero — Tactical Authenticator */}
+      <section className="relative overflow-hidden bg-primary py-16 text-primary-foreground md:py-24">
+        {/* Ambient glows */}
+        <div className="pointer-events-none absolute right-1/4 top-0 h-[40rem] w-[40rem] rounded-full bg-gold/10 blur-[120px]" />
+        <div className="pointer-events-none absolute bottom-0 left-1/4 h-[30rem] w-[30rem] rounded-full bg-gold/5 blur-[100px]" />
+        {/* Grid mask */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+            backgroundSize: "4rem 4rem",
+            maskImage:
+              "radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 60% at 50% 50%, #000 10%, transparent 100%)",
+          }}
+        />
+
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 lg:grid-cols-12 lg:gap-16">
+          {/* Left: Authenticator panel */}
+          <div className="flex flex-col justify-center lg:col-span-5">
+            <div className="relative rounded-2xl border border-white/10 bg-primary/60 p-8 shadow-2xl ring-1 ring-white/5 backdrop-blur-xl lg:p-10">
+              {/* Top edge highlight */}
+              <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+
+              <div className="mb-8">
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex size-7 items-center justify-center rounded-sm border-2 border-gold/80">
+                    <Shield className="size-4 text-gold" strokeWidth={2.5} />
+                  </div>
+                  <h1 className="font-display text-2xl font-bold tracking-tight text-white">
+                    CopSmart
+                  </h1>
+                </div>
+                <h2 className="font-mono text-xs uppercase tracking-widest text-primary-foreground/60">
+                  Volunteer Operations Terminal
+                </h2>
+                <p className="mt-3 max-w-[40ch] text-sm leading-relaxed text-primary-foreground/70">
+                  Secure access portal for active civilian support personnel.
+                  Sign in to manage your shifts, hours, training, and assignments.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <Link
+                  to="/login"
+                  className="group inline-flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-gold text-base font-semibold text-primary shadow-elevated transition hover:bg-gold/90"
+                >
+                  <LogIn className="h-5 w-5" />
+                  Sign In with Badge Number
+                </Link>
+                <Link
+                  to="/signup"
+                  className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 text-base font-medium text-primary-foreground transition hover:border-gold/40 hover:bg-white/10"
+                >
+                  <UserPlus className="h-5 w-5" />
+                  Create an Account
+                </Link>
+              </div>
+
+              <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
+                <p className="font-mono text-xs text-primary-foreground/50">
+                  Unregistered personnel?
+                </p>
+                <span className="font-mono text-xs text-primary-foreground/70">
+                  Speak with your unit coordinator
+                </span>
+              </div>
+            </div>
           </div>
-          <h1 className="mt-8 text-center font-display text-6xl font-bold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)] md:text-7xl lg:text-8xl">
-            <span className="block text-white">Welcome to</span>
-            <span className="mt-2 block bg-gradient-to-r from-gold via-gold to-gold/80 bg-clip-text text-transparent">
-              CopSmart
-            </span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/80 md:text-xl">
-            The volunteer portal for your agency. Sign in to manage your shifts, hours,
-            training, and assignments — all in one place.
-          </p>
-          <div className="mx-auto mt-10 aspect-video w-full max-w-3xl overflow-hidden rounded-xl border-2 border-gold/40 shadow-elevated">
-            <iframe
-              className="h-full w-full"
-              src="https://www.youtube.com/embed/Xh52ZRmCeTo?autoplay=1&mute=1&loop=1&playlist=Xh52ZRmCeTo&controls=0&modestbranding=1&playsinline=1&rel=0"
-              title="CopSmart preview video"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              allowFullScreen
-            />
+
+          {/* Right: Briefing media */}
+          <div className="flex flex-col justify-center lg:col-span-7">
+            {/* Metadata bar */}
+            <div className="mb-3 flex items-end justify-between px-1">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="size-1.5 animate-pulse rounded-full bg-emerald-400" />
+                  <span className="font-mono text-xs uppercase tracking-wider text-primary-foreground/60">
+                    System Online
+                  </span>
+                </div>
+                <span className="font-mono text-xs text-primary-foreground/30">
+                  |
+                </span>
+                <span className="font-mono text-xs uppercase tracking-wider text-primary-foreground/50">
+                  Node: Alpha-7
+                </span>
+              </div>
+              <span className="rounded-sm border border-gold/30 bg-gold/10 px-2 py-0.5 font-mono text-xs uppercase tracking-widest text-gold">
+                Clearance: General
+              </span>
+            </div>
+
+            {/* Media frame */}
+            <div className="group relative aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-black shadow-2xl">
+              {/* Corner markers */}
+              <div className="absolute left-0 top-0 z-20 h-4 w-4 border-l border-t border-white/30" />
+              <div className="absolute right-0 top-0 z-20 h-4 w-4 border-r border-t border-white/30" />
+              <div className="absolute bottom-0 left-0 z-20 h-4 w-4 border-b border-l border-white/30" />
+              <div className="absolute bottom-0 right-0 z-20 h-4 w-4 border-b border-r border-white/30" />
+
+              <iframe
+                className="absolute inset-0 h-full w-full"
+                src="https://www.youtube.com/embed/Xh52ZRmCeTo?autoplay=1&mute=1&loop=1&playlist=Xh52ZRmCeTo&controls=0&modestbranding=1&playsinline=1&rel=0"
+                title="CopSmart orientation briefing"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+
+            <div className="mt-4 px-1">
+              <h3 className="font-display text-lg font-medium text-white">
+                Orientation Briefing
+              </h3>
+              <p className="font-mono text-sm text-primary-foreground/60">
+                Recommended viewing for new volunteers
+              </p>
+            </div>
           </div>
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              to="/login"
-              className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-md bg-gold px-8 text-base font-semibold text-primary shadow-elevated hover:bg-gold/90 sm:w-auto"
-            >
-              <LogIn className="h-5 w-5" />
-              Sign In with Badge Number
-            </Link>
-            <Link
-              to="/signup"
-              className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-md border-2 border-primary-foreground/40 px-8 text-base font-semibold hover:bg-primary-foreground/10 sm:w-auto"
-            >
-              <UserPlus className="h-5 w-5" />
-              Create an Account
-            </Link>
-          </div>
-          <p className="mt-6 text-sm text-primary-foreground/70">
-            New volunteer? Speak with your unit coordinator before signing up.
-          </p>
         </div>
       </section>
 
