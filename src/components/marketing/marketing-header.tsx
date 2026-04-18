@@ -33,7 +33,7 @@ export function MarketingHeader() {
         </div>
         <div className="flex items-center gap-4">
           <Link
-            to="/login"
+            to="/copsmart"
             className="hidden sm:inline-flex text-sm font-semibold uppercase tracking-wide text-[#13243A] hover:text-[#B48A44] transition-colors font-['Public_Sans',sans-serif]"
           >
             Client Login
