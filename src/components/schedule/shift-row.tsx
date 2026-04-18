@@ -1,4 +1,6 @@
-import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck } from "lucide-react";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Pencil, Trash2, UserPlus, UserMinus, CheckCircle2, PlayCircle, Truck, ShieldAlert, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,9 +15,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatTimeRange } from "@/lib/format";
+import { useRequiredTrainingStatus } from "@/hooks/use-required-training-status";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
@@ -77,8 +88,17 @@ export function ShiftRow({
   const slot2Open = !shift.volunteer_2;
   const canSignUp = currentUserId && !isAssigned && (slot1Open || slot2Open) && shift.status !== "cancelled" && shift.status !== "completed";
 
+  const [blockDialogOpen, setBlockDialogOpen] = useState(false);
+  const training = useRequiredTrainingStatus(canSignUp ? currentUserId : null);
+  // Officers/admins/corporals_plus can manage shifts and bypass the gate (e.g. emergency coverage).
+  const trainingBlocked = !canManage && training.blocked;
+
   const signUp = async () => {
     if (!currentUserId) return;
+    if (trainingBlocked) {
+      setBlockDialogOpen(true);
+      return;
+    }
     const updates: Partial<Shift> = {
       reserved_by: currentUserId,
       reserved_at: new Date().toISOString(),
@@ -192,11 +212,26 @@ export function ShiftRow({
         </div>
 
         <div className="flex flex-col gap-2 sm:min-w-[180px]">
-          {canSignUp && (
+          {canSignUp && !trainingBlocked && (
             <Button onClick={signUp} className="h-12 gap-2">
               <UserPlus className="h-5 w-5" />
               Sign me up
             </Button>
+          )}
+          {canSignUp && trainingBlocked && (
+            <>
+              <Button
+                onClick={() => setBlockDialogOpen(true)}
+                variant="outline"
+                className="h-12 gap-2 border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+              >
+                <ShieldAlert className="h-5 w-5" />
+                Training required
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Your required certifications aren't current.
+              </p>
+            </>
           )}
           {isAssigned && shift.status === "reserved" && (
             <Button onClick={() => setStatus("on_duty")} variant="outline" className="h-12 gap-2">
@@ -246,6 +281,51 @@ export function ShiftRow({
           )}
         </div>
       </div>
+
+      <Dialog open={blockDialogOpen} onOpenChange={setBlockDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <ShieldAlert className="h-5 w-5 text-destructive" />
+              Can't sign up — training required
+            </DialogTitle>
+            <DialogDescription>
+              You're missing one or more required certifications, or they've expired. Get current
+              with your training officer to unlock shift sign-ups.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            {training.missing.map((m) => (
+              <div
+                key={m.courseId}
+                className="flex items-start justify-between gap-3 rounded-md border bg-muted/30 p-3 text-sm"
+              >
+                <div>
+                  <div className="font-medium">{m.name}</div>
+                  <div className="text-xs text-muted-foreground">{m.code}</div>
+                </div>
+                <Badge
+                  variant={m.status === "expired" ? "destructive" : "outline"}
+                  className={m.status === "missing" ? "border-amber-500 text-amber-600" : ""}
+                >
+                  {m.status === "expired" ? "Expired" : "Missing"}
+                </Badge>
+              </div>
+            ))}
+          </div>
+          <DialogFooter className="sm:justify-between">
+            <Button variant="ghost" onClick={() => setBlockDialogOpen(false)}>
+              Close
+            </Button>
+            <Button asChild>
+              <Link to="/training" onClick={() => setBlockDialogOpen(false)}>
+                <GraduationCap className="mr-2 h-4 w-4" />
+                View my training
+              </Link>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
