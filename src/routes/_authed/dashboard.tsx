@@ -20,6 +20,7 @@ import { ExpiringTrainingWidget } from "@/components/dashboard/expiring-training
 import { UpcomingShiftsWidget } from "@/components/dashboard/upcoming-shifts-widget";
 import { TrainingStatusBadge } from "@/components/dashboard/training-status-badge";
 import { MyHoursWidget } from "@/components/dashboard/my-hours-widget";
+import { VolunteerOfMonthWidget } from "@/components/dashboard/volunteer-of-month-widget";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database as DB } from "@/integrations/supabase/types";
@@ -79,6 +80,8 @@ function Dashboard() {
       subtitle="What would you like to do today?"
       actions={<TrainingStatusBadge userId={auth.user?.id} />}
     >
+      <VolunteerOfMonthWidget />
+
       {/* Announcements */}
       <section aria-label="Announcements" className="mb-8">
         <h2 className="mb-4 flex items-center gap-2 text-2xl">
