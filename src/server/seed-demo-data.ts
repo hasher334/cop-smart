@@ -261,7 +261,7 @@ export const seedDemoData = createServerFn({ method: "POST" }).handler(
     };
 
     // Everyone has orientation (no expiration)
-    for (const u of DEMO_USERS) addTraining(u.badge, "ORIENT", monthsAgo(20), null, "PBSO Volunteer Services");
+    for (const u of DEMO_USERS) addTraining(u.badge, "ORIENT", monthsAgo(20), null, "Volunteer Services");
 
     // CPR — most current, one expiring soon
     addTraining("D100", "CPR", monthsAgo(3),  monthsAhead(21), "Red Cross");
@@ -283,22 +283,22 @@ export const seedDemoData = createServerFn({ method: "POST" }).handler(
     addTraining("D403", "FA", monthsAgo(9),  monthsAhead(15), "Local FD");
 
     // Radio
-    addTraining("D201", "RADIO", monthsAgo(10), monthsAhead(26), "PBSO Comms");
-    addTraining("D202", "RADIO", monthsAgo(12), monthsAhead(24), "PBSO Comms");
-    addTraining("D301", "RADIO", monthsAgo(15), monthsAhead(21), "PBSO Comms");
-    addTraining("D401", "RADIO", monthsAgo(11), monthsAhead(25), "PBSO Comms");
-    addTraining("D402", "RADIO", monthsAgo(13), monthsAhead(23), "PBSO Comms");
+    addTraining("D201", "RADIO", monthsAgo(10), monthsAhead(26), "Agency Comms");
+    addTraining("D202", "RADIO", monthsAgo(12), monthsAhead(24), "Agency Comms");
+    addTraining("D301", "RADIO", monthsAgo(15), monthsAhead(21), "Agency Comms");
+    addTraining("D401", "RADIO", monthsAgo(11), monthsAhead(25), "Agency Comms");
+    addTraining("D402", "RADIO", monthsAgo(13), monthsAhead(23), "Agency Comms");
 
     // Defensive Driving
-    addTraining("D201", "DEFDRIVE", monthsAgo(9),  monthsAhead(15), "PBSO Driving School");
-    addTraining("D202", "DEFDRIVE", monthsAgo(7),  monthsAhead(17), "PBSO Driving School");
-    addTraining("D301", "DEFDRIVE", monthsAgo(6),  monthsAhead(18), "PBSO Driving School");
-    addTraining("D401", "DEFDRIVE", monthsAgo(10), monthsAhead(14), "PBSO Driving School");
-    addTraining("D402", "DEFDRIVE", monthsAgo(8),  monthsAhead(16), "PBSO Driving School");
+    addTraining("D201", "DEFDRIVE", monthsAgo(9),  monthsAhead(15), "Defensive Driving Course");
+    addTraining("D202", "DEFDRIVE", monthsAgo(7),  monthsAhead(17), "Defensive Driving Course");
+    addTraining("D301", "DEFDRIVE", monthsAgo(6),  monthsAhead(18), "Defensive Driving Course");
+    addTraining("D401", "DEFDRIVE", monthsAgo(10), monthsAhead(14), "Defensive Driving Course");
+    addTraining("D402", "DEFDRIVE", monthsAgo(8),  monthsAhead(16), "Defensive Driving Course");
 
     // Traffic — only a couple of volunteers
-    addTraining("D302", "TRAFFIC", monthsAgo(4),  monthsAhead(32), "PBSO Traffic Division");
-    addTraining("D401", "TRAFFIC", monthsAgo(5),  monthsAhead(31), "PBSO Traffic Division");
+    addTraining("D302", "TRAFFIC", monthsAgo(4),  monthsAhead(32), "Traffic Division");
+    addTraining("D401", "TRAFFIC", monthsAgo(5),  monthsAhead(31), "Traffic Division");
 
     if (trainingRows.length > 0) {
       await supabaseAdmin

@@ -313,9 +313,9 @@ function ResourcesPage() {
                 desc="Live road conditions & closures"
               />
               <ExternalCard
-                href="https://www.pbso.org/"
-                title="PBSO"
-                desc="Palm Beach Sheriff's Office"
+                href="https://www.fdle.state.fl.us/"
+                title="FDLE"
+                desc="FL Dept. of Law Enforcement"
               />
               <ExternalCard
                 href="https://www.flhsmv.gov/"

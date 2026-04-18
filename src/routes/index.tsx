@@ -85,7 +85,7 @@ function HomePage() {
                 <div className="size-10 bg-[#B48A44] border border-[#0D141E]/15 flex items-center justify-center text-xs font-bold text-white">+14</div>
               </div>
               <p className="text-sm text-[#4B5563]">
-                Trusted by municipal departments and state agencies across Florida.
+                Trusted by sworn law enforcement and government agencies.
               </p>
             </div>
           </div>
