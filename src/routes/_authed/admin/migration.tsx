@@ -43,6 +43,7 @@ function MigrationPage() {
   const [bundle, setBundle] = useState<ExportBundle | null>(null);
   const [report, setReport] = useState<DryRunReport[] | null>(null);
   const [applying, setApplying] = useState(false);
+  const [seeding, setSeeding] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   if (!auth.isAdmin) {
