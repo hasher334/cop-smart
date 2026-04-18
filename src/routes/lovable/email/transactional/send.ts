@@ -33,6 +33,23 @@ export const Route = createFileRoute("/lovable/email/transactional/send")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        try {
+          return await handleSend(request)
+        } catch (err) {
+          console.error('send-transactional-email crashed', {
+            error: err instanceof Error ? { message: err.message, stack: err.stack, name: err.name } : err,
+          })
+          return Response.json(
+            { error: 'Internal error', detail: err instanceof Error ? err.message : String(err) },
+            { status: 500 }
+          )
+        }
+      },
+    },
+  },
+})
+
+async function handleSend(request: Request): Promise<Response> {
         // Templates that may be triggered by anonymous (unauthenticated) visitors,
         // e.g. public marketing form submissions. These templates must always send
         // to a fixed internal recipient list — never accept arbitrary recipientEmail
