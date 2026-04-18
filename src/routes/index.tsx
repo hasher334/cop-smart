@@ -158,104 +158,116 @@ function HomePage() {
                     </span>
                   </div>
                   <h3 className="font-['Libre_Baskerville',serif] text-2xl text-[#13243A] leading-tight">
-                    One platform. Every operational beat.
+                    See it in action.
                   </h3>
                   <p className="text-[11px] text-[#4B5563] mt-1.5 max-w-md">
-                    Six integrated modules that replace the spreadsheets, group
-                    texts, and clipboards your unit runs on today.
+                    Three views from the live platform — schedule board, roster
+                    command, and training compliance.
                   </p>
                 </div>
 
-                {/* Feature grid */}
-                <div className="relative grid grid-cols-3 gap-px bg-[#0D141E]/10">
-                  {[
-                    {
-                      icon: Users,
-                      title: "Roster Command",
-                      desc: "142 volunteers, real-time status, badge & rank.",
-                      stat: "142",
-                      statLabel: "Active",
-                      featured: false,
-                    },
-                    {
-                      icon: CalendarClock,
-                      title: "Live Scheduling",
-                      desc: "Self-serve shifts, conflicts blocked automatically.",
-                      stat: "37",
-                      statLabel: "This Week",
-                      featured: true,
-                    },
-                    {
-                      icon: GraduationCap,
-                      title: "Training Vault",
-                      desc: "Cert tracking with 30/14/7-day expiration alerts.",
-                      stat: "98%",
-                      statLabel: "Compliant",
-                      featured: false,
-                    },
-                    {
-                      icon: Car,
-                      title: "Fleet Ops",
-                      desc: "Mileage, service intervals, every vehicle logged.",
-                      stat: "12",
-                      statLabel: "In Service",
-                      featured: false,
-                    },
-                    {
-                      icon: BarChart3,
-                      title: "Hours & Reports",
-                      desc: "Grant-ready exports. CSV, PDF, on demand.",
-                      stat: "8,420",
-                      statLabel: "Hrs YTD",
-                      featured: false,
-                    },
-                    {
-                      icon: ShieldCheck,
-                      title: "Audit-Grade",
-                      desc: "Every action immutable. CJIS-aware by design.",
-                      stat: "100%",
-                      statLabel: "Logged",
-                      featured: false,
-                    },
-                  ].map((f) => {
-                    const Icon = f.icon;
-                    return (
-                      <div
-                        key={f.title}
-                        className={`relative p-4 ${f.featured ? "bg-[#13243A] text-white" : "bg-white"}`}
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <div
-                            className={`size-9 flex items-center justify-center ${f.featured ? "bg-[#B48A44] text-[#0B1828]" : "bg-[#13243A] text-[#B48A44]"}`}
-                          >
-                            <Icon className="size-4" strokeWidth={2} />
+                {/* Screenshot collage */}
+                <div className="relative grid grid-cols-12 gap-3 p-5 bg-[#F3F1EC]">
+                  {/* LEFT — large schedule board */}
+                  <div className="col-span-7 bg-white border border-[#0D141E]/15 shadow-md overflow-hidden">
+                    <div className="flex items-center justify-between px-3 py-1.5 bg-[#13243A] border-b border-[#B48A44]/40">
+                      <div className="flex items-center gap-1.5">
+                        <CalendarClock className="size-3 text-[#B48A44]" />
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44]">Schedule</span>
+                      </div>
+                      <span className="text-[8px] font-mono text-white/50">WEEK 42</span>
+                    </div>
+                    <div className="grid grid-cols-7 text-[8px] font-bold uppercase tracking-wider text-[#4B5563] border-b border-[#0D141E]/10">
+                      {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+                        <div key={i} className="px-2 py-1.5 text-center border-r border-[#0D141E]/5 last:border-r-0">{d}</div>
+                      ))}
+                    </div>
+                    <div className="grid grid-cols-7 grid-rows-4 gap-px bg-[#0D141E]/10">
+                      {Array.from({ length: 28 }).map((_, idx) => {
+                        const c = idx % 7;
+                        const r = Math.floor(idx / 7);
+                        const cells: Array<{ col: number; row: number; color: string; label: string }> = [
+                          { col: 0, row: 0, color: "bg-[#13243A] text-white", label: "06:00" },
+                          { col: 1, row: 1, color: "bg-[#B48A44] text-[#0B1828]", label: "14:00" },
+                          { col: 2, row: 0, color: "bg-[#13243A] text-white", label: "08:00" },
+                          { col: 3, row: 2, color: "bg-[#13243A] text-white", label: "Event" },
+                          { col: 4, row: 1, color: "bg-[#B48A44] text-[#0B1828]", label: "16:30" },
+                          { col: 4, row: 3, color: "bg-[#13243A]/60 text-white", label: "Std" },
+                          { col: 5, row: 0, color: "bg-[#13243A] text-white", label: "10:00" },
+                          { col: 5, row: 2, color: "bg-[#B48A44] text-[#0B1828]", label: "Event" },
+                          { col: 6, row: 1, color: "bg-[#13243A] text-white", label: "12:00" },
+                        ];
+                        const cell = cells.find((x) => x.col === c && x.row === r);
+                        return (
+                          <div key={idx} className="bg-white h-7 p-0.5">
+                            {cell && (
+                              <div className={`h-full w-full flex items-center justify-center text-[8px] font-bold ${cell.color}`}>
+                                {cell.label}
+                              </div>
+                            )}
                           </div>
-                          <div className="text-right">
-                            <div
-                              className={`text-base font-semibold tabular-nums leading-none ${f.featured ? "text-[#B48A44]" : "text-[#13243A]"}`}
-                            >
-                              {f.stat}
-                            </div>
-                            <div
-                              className={`text-[8px] font-bold uppercase tracking-wider mt-0.5 ${f.featured ? "text-white/60" : "text-[#4B5563]"}`}
-                            >
-                              {f.statLabel}
-                            </div>
+                        );
+                      })}
+                    </div>
+                    <div className="flex items-center justify-between px-3 py-1.5 border-t border-[#0D141E]/10 bg-[#F3F1EC]">
+                      <span className="text-[8px] font-mono text-[#4B5563]">9 SHIFTS · 0 CONFLICTS</span>
+                      <span className="text-[8px] font-bold uppercase tracking-widest text-[#B48A44]">Publish</span>
+                    </div>
+                  </div>
+
+                  {/* RIGHT — two stacked screenshots */}
+                  <div className="col-span-5 flex flex-col gap-3">
+                    {/* Roster */}
+                    <div className="bg-white border border-[#0D141E]/15 shadow-md overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 bg-[#13243A] border-b border-[#B48A44]/40">
+                        <div className="flex items-center gap-1.5">
+                          <Users className="size-3 text-[#B48A44]" />
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44]">Roster</span>
+                        </div>
+                        <span className="text-[8px] font-mono text-white/50">142 ACTIVE</span>
+                      </div>
+                      {[
+                        { id: "AX-992", name: "Callahan, M.", rank: "CPL", on: true },
+                        { id: "AX-104", name: "Reyes, E.", rank: "OFC", on: true },
+                        { id: "AX-842", name: "Donovan, J.", rank: "OFC", on: false },
+                      ].map((r) => (
+                        <div key={r.id} className="flex items-center gap-2 px-3 py-1.5 border-b border-[#0D141E]/5 last:border-b-0">
+                          <div className="size-5 bg-[#13243A] text-[#B48A44] flex items-center justify-center text-[7px] font-bold">{r.rank}</div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[10px] font-semibold text-[#13243A] truncate">{r.name}</div>
+                            <div className="text-[8px] font-mono text-[#4B5563]">{r.id}</div>
                           </div>
+                          <span className={`size-1.5 rounded-full ${r.on ? "bg-emerald-500" : "bg-[#4B5563]/40"}`} />
                         </div>
-                        <div
-                          className={`text-[11px] font-bold uppercase tracking-wider ${f.featured ? "text-white" : "text-[#13243A]"}`}
-                        >
-                          {f.title}
+                      ))}
+                    </div>
+
+                    {/* Training */}
+                    <div className="bg-[#13243A] text-white border border-[#B48A44]/40 shadow-md overflow-hidden">
+                      <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#B48A44]/30">
+                        <div className="flex items-center gap-1.5">
+                          <GraduationCap className="size-3 text-[#B48A44]" />
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-[#B48A44]">Training</span>
                         </div>
-                        <div
-                          className={`text-[10px] mt-1 leading-snug ${f.featured ? "text-white/70" : "text-[#4B5563]"}`}
-                        >
-                          {f.desc}
+                        <span className="text-[8px] font-mono text-white/50">98% COMPLIANT</span>
+                      </div>
+                      <div className="px-3 py-2.5">
+                        <div className="flex items-end justify-between mb-1">
+                          <span className="text-2xl font-semibold tabular-nums leading-none text-[#B48A44]">03</span>
+                          <CheckCircle2 className="size-4 text-[#B48A44]" />
+                        </div>
+                        <div className="text-[9px] font-bold uppercase tracking-wider text-white">Expiring · 14d</div>
+                        <div className="mt-2 space-y-1">
+                          {["CPR/AED", "Firearms Q3", "Defensive Drv."].map((c) => (
+                            <div key={c} className="flex items-center justify-between text-[9px]">
+                              <span className="text-white/80">{c}</span>
+                              <span className="size-1 rounded-full bg-[#B48A44]" />
+                            </div>
+                          ))}
                         </div>
                       </div>
-                    );
-                  })}
+                    </div>
+                  </div>
                 </div>
 
                 {/* Footer strip */}
@@ -263,7 +275,7 @@ function HomePage() {
                   <div className="flex items-center gap-2">
                     <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
-                      All systems operational
+                      Live data · CopSmart v2.4
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#B48A44]">
