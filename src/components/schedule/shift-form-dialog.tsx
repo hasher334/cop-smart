@@ -79,6 +79,9 @@ export function ShiftFormDialog({
   const [vehicleId, setVehicleId] = useState<string>(NO_VEHICLE);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [saving, setSaving] = useState(false);
+  const [conflicts, setConflicts] = useState<Shift[]>([]);
+  const [checkingConflicts, setCheckingConflicts] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   // Load in-service vehicles when dialog opens
   useEffect(() => {
