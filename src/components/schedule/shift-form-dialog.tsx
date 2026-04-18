@@ -25,6 +25,7 @@ import { todayISO } from "@/lib/format";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
+type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 type PatrolType = Database["public"]["Enums"]["patrol_type"];
 
 interface Props {
@@ -45,6 +46,8 @@ const PATROL_TYPES: { value: PatrolType; label: string }[] = [
   { value: "other", label: "Other" },
 ];
 
+const NO_VEHICLE = "__none__";
+
 export function ShiftFormDialog({
   open,
   onOpenChange,
@@ -62,7 +65,20 @@ export function ShiftFormDialog({
   const [startTime, setStartTime] = useState("08:00");
   const [endTime, setEndTime] = useState("12:00");
   const [notes, setNotes] = useState("");
+  const [vehicleId, setVehicleId] = useState<string>(NO_VEHICLE);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [saving, setSaving] = useState(false);
+
+  // Load in-service vehicles when dialog opens
+  useEffect(() => {
+    if (!open) return;
+    supabase
+      .from("vehicles")
+      .select("*")
+      .eq("status", "in_service")
+      .order("vehicle_no")
+      .then(({ data }) => setVehicles(data ?? []));
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -74,6 +90,7 @@ export function ShiftFormDialog({
       setStartTime(shift.start_time.slice(0, 5));
       setEndTime(shift.end_time.slice(0, 5));
       setNotes(shift.notes ?? "");
+      setVehicleId(shift.vehicle_id ?? NO_VEHICLE);
     } else {
       setUnitId(defaultUnitId ?? units[0]?.id ?? "");
       setPatrolType("patrol");
@@ -82,6 +99,7 @@ export function ShiftFormDialog({
       setStartTime("08:00");
       setEndTime("12:00");
       setNotes("");
+      setVehicleId(NO_VEHICLE);
     }
   }, [open, shift, defaultUnitId, defaultDate, units]);
 
@@ -103,6 +121,7 @@ export function ShiftFormDialog({
       start_time: startTime,
       end_time: endTime,
       notes: notes || null,
+      vehicle_id: vehicleId === NO_VEHICLE ? null : vehicleId,
     };
 
     const { error } = isEdit
@@ -121,6 +140,10 @@ export function ShiftFormDialog({
     onSaved();
     onOpenChange(false);
   };
+
+  // Include the currently-assigned vehicle in the dropdown even if it's not "in_service"
+  const editingVehicleMissing =
+    shift?.vehicle_id && !vehicles.some((v) => v.id === shift.vehicle_id);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -208,6 +231,37 @@ export function ShiftFormDialog({
               placeholder="e.g. North district"
               className="h-12"
             />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="vehicle">Vehicle (optional)</Label>
+            <Select value={vehicleId} onValueChange={setVehicleId}>
+              <SelectTrigger id="vehicle" className="h-12">
+                <SelectValue placeholder="No vehicle assigned" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={NO_VEHICLE}>— No vehicle —</SelectItem>
+                {editingVehicleMissing && shift?.vehicle_id && (
+                  <SelectItem value={shift.vehicle_id}>
+                    (Currently assigned, not in service)
+                  </SelectItem>
+                )}
+                {vehicles.map((v) => {
+                  const desc = [v.year, v.make, v.model].filter(Boolean).join(" ");
+                  return (
+                    <SelectItem key={v.id} value={v.id}>
+                      {v.vehicle_no}
+                      {desc ? ` — ${desc}` : ""}
+                    </SelectItem>
+                  );
+                })}
+                {vehicles.length === 0 && !editingVehicleMissing && (
+                  <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                    No in-service vehicles available
+                  </div>
+                )}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid gap-2">
