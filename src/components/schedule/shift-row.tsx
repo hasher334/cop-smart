@@ -62,6 +62,7 @@ const TYPE_LABEL: Record<Shift["patrol_type"], string> = {
 export function ShiftRow({
   shift,
   unit,
+  vehicle,
   volunteer1,
   volunteer2,
   currentUserId,
