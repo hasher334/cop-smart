@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   Loader2,
   FileArchive,
+  Sparkles,
 } from "lucide-react";
 import JSZip from "jszip";
 import { toast } from "sonner";
