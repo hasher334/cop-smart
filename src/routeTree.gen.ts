@@ -22,7 +22,6 @@ import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as AuthedFormsRouteImport } from './routes/_authed/forms'
 import { Route as AuthedDispatchRouteImport } from './routes/_authed/dispatch'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
-import { Route as ApiAdminBootstrapRouteImport } from './routes/api/admin/bootstrap'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 
 const SignupRoute = SignupRouteImport.update({
@@ -89,11 +88,6 @@ const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthedRoute,
 } as any)
-const ApiAdminBootstrapRoute = ApiAdminBootstrapRouteImport.update({
-  id: '/api/admin/bootstrap',
-  path: '/api/admin/bootstrap',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthedAdminMigrationRoute = AuthedAdminMigrationRouteImport.update({
   id: '/admin/migration',
   path: '/admin/migration',
@@ -114,7 +108,6 @@ export interface FileRoutesByFullPath {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
-  '/api/admin/bootstrap': typeof ApiAdminBootstrapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -130,7 +123,6 @@ export interface FileRoutesByTo {
   '/training': typeof AuthedTrainingRoute
   '/vehicles': typeof AuthedVehiclesRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
-  '/api/admin/bootstrap': typeof ApiAdminBootstrapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -148,7 +140,6 @@ export interface FileRoutesById {
   '/_authed/training': typeof AuthedTrainingRoute
   '/_authed/vehicles': typeof AuthedVehiclesRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
-  '/api/admin/bootstrap': typeof ApiAdminBootstrapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -166,7 +157,6 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/migration'
-    | '/api/admin/bootstrap'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,7 +172,6 @@ export interface FileRouteTypes {
     | '/training'
     | '/vehicles'
     | '/admin/migration'
-    | '/api/admin/bootstrap'
   id:
     | '__root__'
     | '/'
@@ -199,7 +188,6 @@ export interface FileRouteTypes {
     | '/_authed/training'
     | '/_authed/vehicles'
     | '/_authed/admin/migration'
-    | '/api/admin/bootstrap'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -207,7 +195,6 @@ export interface RootRouteChildren {
   AuthedRoute: typeof AuthedRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
-  ApiAdminBootstrapRoute: typeof ApiAdminBootstrapRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -303,13 +290,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardRouteImport
       parentRoute: typeof AuthedRoute
     }
-    '/api/admin/bootstrap': {
-      id: '/api/admin/bootstrap'
-      path: '/api/admin/bootstrap'
-      fullPath: '/api/admin/bootstrap'
-      preLoaderRoute: typeof ApiAdminBootstrapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authed/admin/migration': {
       id: '/_authed/admin/migration'
       path: '/admin/migration'
@@ -354,7 +334,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthedRoute: AuthedRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
-  ApiAdminBootstrapRoute: ApiAdminBootstrapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
