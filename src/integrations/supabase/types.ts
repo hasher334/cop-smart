@@ -249,6 +249,68 @@ export type Database = {
         }
         Relationships: []
       }
+      vehicles: {
+        Row: {
+          created_at: string
+          id: string
+          last_service_date: string | null
+          license_plate: string | null
+          make: string | null
+          mileage: number | null
+          model: string | null
+          next_service_date: string | null
+          notes: string | null
+          status: Database["public"]["Enums"]["vehicle_status"]
+          unit_id: string | null
+          updated_at: string
+          vehicle_no: string
+          vin: string | null
+          year: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_service_date?: string | null
+          license_plate?: string | null
+          make?: string | null
+          mileage?: number | null
+          model?: string | null
+          next_service_date?: string | null
+          notes?: string | null
+          status?: Database["public"]["Enums"]["vehicle_status"]
+          unit_id?: string | null
+          updated_at?: string
+          vehicle_no: string
+          vin?: string | null
+          year?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_service_date?: string | null
+          license_plate?: string | null
+          make?: string | null
+          mileage?: number | null
+          model?: string | null
+          next_service_date?: string | null
+          notes?: string | null
+          status?: Database["public"]["Enums"]["vehicle_status"]
+          unit_id?: string | null
+          updated_at?: string
+          vehicle_no?: string
+          vin?: string | null
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vehicles_unit_id_fkey"
+            columns: ["unit_id"]
+            isOneToOne: false
+            referencedRelation: "units"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -266,6 +328,11 @@ export type Database = {
       app_role: "admin" | "corporal_plus" | "officer" | "volunteer"
       patrol_status: "open" | "reserved" | "on_duty" | "completed" | "cancelled"
       patrol_type: "patrol" | "special_event" | "training" | "meeting" | "other"
+      vehicle_status:
+        | "in_service"
+        | "out_of_service"
+        | "maintenance"
+        | "retired"
       volunteer_status: "active" | "inactive" | "leave" | "retired" | "pending"
     }
     CompositeTypes: {
@@ -397,6 +464,12 @@ export const Constants = {
       app_role: ["admin", "corporal_plus", "officer", "volunteer"],
       patrol_status: ["open", "reserved", "on_duty", "completed", "cancelled"],
       patrol_type: ["patrol", "special_event", "training", "meeting", "other"],
+      vehicle_status: [
+        "in_service",
+        "out_of_service",
+        "maintenance",
+        "retired",
+      ],
       volunteer_status: ["active", "inactive", "leave", "retired", "pending"],
     },
   },
