@@ -69,6 +69,14 @@ function SchedulePage() {
         (data ?? []).forEach((p) => map.set(p.user_id, p));
         setProfiles(map);
       });
+    supabase
+      .from("vehicles")
+      .select("id, vehicle_no, make, model, year")
+      .then(({ data }) => {
+        const map = new Map<string, Vehicle>();
+        (data ?? []).forEach((v) => map.set(v.id, v));
+        setVehicles(map);
+      });
   }, []);
 
   const openCreate = useCallback(() => {
