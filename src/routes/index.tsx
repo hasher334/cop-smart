@@ -218,7 +218,7 @@ function HomePage() {
                   {/* RIGHT — two stacked screenshots */}
                   <div className="col-span-5 flex flex-col gap-3">
                     {/* Roster */}
-                    <div className="bg-white border border-[#0D141E]/15 shadow-md overflow-hidden">
+                    <div className="bg-white border border-[#0D141E]/15 shadow-md overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-[#B48A44]/20 hover:border-[#B48A44]/60 hover:ring-1 hover:ring-[#B48A44]/40">
                       <div className="flex items-center justify-between px-3 py-1.5 bg-[#13243A] border-b border-[#B48A44]/40">
                         <div className="flex items-center gap-1.5">
                           <Users className="size-3 text-[#B48A44]" />
@@ -243,7 +243,7 @@ function HomePage() {
                     </div>
 
                     {/* Training */}
-                    <div className="bg-[#13243A] text-white border border-[#B48A44]/40 shadow-md overflow-hidden">
+                    <div className="bg-[#13243A] text-white border border-[#B48A44]/40 shadow-md overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-[#B48A44]/30 hover:border-[#B48A44] hover:ring-1 hover:ring-[#B48A44]/60">
                       <div className="flex items-center justify-between px-3 py-1.5 border-b border-[#B48A44]/30">
                         <div className="flex items-center gap-1.5">
                           <GraduationCap className="size-3 text-[#B48A44]" />
