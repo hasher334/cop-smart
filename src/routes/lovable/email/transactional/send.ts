@@ -349,7 +349,5 @@ async function handleSend(request: Request): Promise<Response> {
         })
 
         return Response.json({ success: true, queued: true })
-      },
-    },
-  },
-})
+}
+
