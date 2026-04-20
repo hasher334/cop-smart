@@ -109,8 +109,7 @@ function ContactPage() {
                 <div>
                   <div className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Headquarters</div>
                   <address className="text-lg text-[#13243A] font-semibold not-italic mt-1">
-                    Florida<br />
-                    <span className="text-sm font-normal text-[#4B5563]">United States</span>
+                    United States
                   </address>
                 </div>
               </div>
