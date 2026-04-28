@@ -31,7 +31,7 @@ const FormSubmissionNotificationEmail = ({
       <Container style={container}>
         <Section style={brandBar}>
           <Text style={brand}>{SITE_NAME}</Text>
-          <Text style={brandSub}>CopSmart Platform</Text>
+          <Text style={brandSub}>VolSmart Platform</Text>
         </Section>
         <Heading style={h1}>New {formType}</Heading>
         {submittedAt ? (

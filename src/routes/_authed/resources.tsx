@@ -30,7 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const Route = createFileRoute("/_authed/resources")({
   head: () => ({
     meta: [
-      { title: "Weather & Resources — CopSmart" },
+      { title: "Weather & Resources — VolSmart" },
       {
         name: "description",
         content:

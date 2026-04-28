@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authed/profile")({
-  head: () => ({ meta: [{ title: "My Profile — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "My Profile — VolSmart" }] }),
   component: ProfilePage,
 });
 

@@ -22,13 +22,13 @@ import {
 export const Route = createFileRoute("/copsmart")({
   head: () => ({
     meta: [
-      { title: "CopSmart — Volunteer Portal" },
+      { title: "VolSmart — Volunteer Portal" },
       {
         name: "description",
         content:
-          "Sign in to CopSmart to view your schedule, log hours, track training, and stay connected with your unit.",
+          "Sign in to VolSmart to view your schedule, log hours, track training, and stay connected with your unit.",
       },
-      { property: "og:title", content: "CopSmart — Volunteer Portal" },
+      { property: "og:title", content: "VolSmart — Volunteer Portal" },
       {
         property: "og:description",
         content:
@@ -36,7 +36,7 @@ export const Route = createFileRoute("/copsmart")({
       },
     ],
   }),
-  component: CopSmartLanding,
+  component: VolSmartLanding,
 });
 
 const HIGHLIGHTS = [
@@ -102,7 +102,7 @@ const OPPORTUNITIES = [
   },
 ];
 
-function CopSmartLanding() {
+function VolSmartLanding() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
@@ -113,7 +113,7 @@ function CopSmartLanding() {
               <Shield className="h-7 w-7" strokeWidth={2.5} />
             </div>
             <div>
-              <div className="font-display text-xl font-bold">CopSmart</div>
+              <div className="font-display text-xl font-bold">VolSmart</div>
               <div className="text-xs text-primary-foreground/80">Volunteer Services</div>
             </div>
           </Link>
@@ -168,7 +168,7 @@ function CopSmartLanding() {
                     <Shield className="size-4 text-gold" strokeWidth={2.5} />
                   </div>
                   <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-                    CopSmart
+                    VolSmart
                   </h1>
                 </div>
                 <h2 className="font-mono text-xs uppercase tracking-widest text-primary-foreground/60">
@@ -242,7 +242,7 @@ function CopSmartLanding() {
               <iframe
                 className="absolute inset-0 h-full w-full"
                 src="https://www.youtube.com/embed/Xh52ZRmCeTo?autoplay=1&mute=1&loop=1&playlist=Xh52ZRmCeTo&controls=0&modestbranding=1&playsinline=1&rel=0"
-                title="CopSmart orientation briefing"
+                title="VolSmart orientation briefing"
                 allow="autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
               />
@@ -268,7 +268,7 @@ function CopSmartLanding() {
               Everything you need on one screen
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground">
-              CopSmart was built with volunteers in mind — large buttons, clear
+              VolSmart was built with volunteers in mind — large buttons, clear
               status, and no jargon.
             </p>
           </div>
@@ -469,7 +469,7 @@ function CopSmartLanding() {
       {/* Footer */}
       <footer className="border-t bg-card py-6">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 text-sm text-muted-foreground sm:flex-row">
-          <span>© {new Date().getFullYear()} CopSmart Volunteer Services.</span>
+          <span>© {new Date().getFullYear()} VolSmart Volunteer Services.</span>
           <span>
             Powered by{" "}
             <Link to="/" className="font-semibold text-primary hover:underline">

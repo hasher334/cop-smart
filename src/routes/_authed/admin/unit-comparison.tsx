@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authed/admin/unit-comparison")({
-  head: () => ({ meta: [{ title: "Unit Comparison — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Unit Comparison — VolSmart" }] }),
   beforeLoad: async () => {
     const { data: roles } = await supabase.from("user_roles").select("role");
     const ok = (roles ?? []).some((r) =>

@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/_authed/leaderboard")({
-  head: () => ({ meta: [{ title: "Leaderboard — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Leaderboard — VolSmart" }] }),
   component: LeaderboardPage,
 });
 

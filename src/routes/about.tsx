@@ -33,7 +33,7 @@ function AboutPage() {
             </p>
             <p>
               Our founders worked alongside sworn law enforcement volunteer
-              services divisions to build CopSmart from the
+              services divisions to build VolSmart from the
               ground up. Every feature reflects a real problem we watched a
               real coordinator solve the hard way.
             </p>

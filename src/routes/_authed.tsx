@@ -37,7 +37,7 @@ function AuthedLayout() {
           Service Temporarily Unavailable
         </h1>
         <p className="mb-6 text-muted-foreground">
-          Access to CopSmart is temporarily suspended for scheduled maintenance.
+          Access to VolSmart is temporarily suspended for scheduled maintenance.
           Please check back shortly.
         </p>
         <button

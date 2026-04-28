@@ -33,7 +33,7 @@ type Profile = Pick<
 >;
 
 export const Route = createFileRoute("/_authed/admin/hours-report")({
-  head: () => ({ meta: [{ title: "Volunteer Hours Report — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Volunteer Hours Report — VolSmart" }] }),
   component: HoursReportPage,
 });
 

@@ -53,7 +53,7 @@ type TRecord = Database["public"]["Tables"]["training_records"]["Row"];
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
 export const Route = createFileRoute("/_authed/training")({
-  head: () => ({ meta: [{ title: "Training — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Training — VolSmart" }] }),
   component: TrainingPage,
 });
 

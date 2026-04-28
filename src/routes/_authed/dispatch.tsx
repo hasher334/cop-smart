@@ -24,7 +24,7 @@ import {
 export const Route = createFileRoute("/_authed/dispatch")({
   head: () => ({
     meta: [
-      { title: "Dispatch Reference — CopSmart" },
+      { title: "Dispatch Reference — VolSmart" },
       {
         name: "description",
         content:

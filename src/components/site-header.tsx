@@ -29,7 +29,7 @@ export function SiteHeader() {
             </div>
             <div>
               <div className="font-display text-xl font-bold leading-tight text-primary-foreground">
-                CopSmart
+                VolSmart
               </div>
               <div className="text-xs leading-tight text-primary-foreground/80">
                 Volunteer Services
