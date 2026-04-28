@@ -5,9 +5,9 @@ import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marke
 export const Route = createFileRoute("/product")({
   head: () => ({
     meta: [
-      { title: "CopSmart — The Flagship Platform from VolCop" },
-      { name: "description", content: "CopSmart is VolCop's flagship volunteer management platform for law enforcement agencies. Try the live demo or request a guided walkthrough." },
-      { property: "og:title", content: "CopSmart — Flagship Platform from VolCop" },
+      { title: "VolSmart — The Flagship Platform from VolCop" },
+      { name: "description", content: "VolSmart is VolCop's flagship volunteer management platform for law enforcement agencies. Try the live demo or request a guided walkthrough." },
+      { property: "og:title", content: "VolSmart — Flagship Platform from VolCop" },
       { property: "og:description", content: "The complete volunteer management platform for law enforcement. See it live." },
     ],
   }),
@@ -23,7 +23,7 @@ function ProductPage() {
           <div className="lg:col-span-6">
             <SectionEyebrow>The Flagship Platform</SectionEyebrow>
             <SerifHeading as="h1" className="text-5xl lg:text-7xl mt-6 text-balance">
-              CopSmart.
+              VolSmart.
             </SerifHeading>
             <p className="mt-6 text-xl text-[#4B5563] leading-relaxed max-w-2xl">
               The complete operational record for your volunteer unit. Roster,
@@ -50,7 +50,7 @@ function ProductPage() {
                 Trusted by Sworn Agencies
               </SerifHeading>
               <p className="mt-4 text-white/80 leading-relaxed">
-                CopSmart powers daily operations for volunteer services divisions
+                VolSmart powers daily operations for volunteer services divisions
                 — managing hundreds of citizen observer patrol members, vehicle
                 fleets, and recurring training cycles.
               </p>
@@ -111,7 +111,7 @@ function ProductPage() {
       {/* Try It */}
       <section className="py-20 bg-white/40 border-b border-[#0D141E]/10">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-8 text-center">
-          <SectionEyebrow>Two Ways to Experience CopSmart</SectionEyebrow>
+          <SectionEyebrow>Two Ways to Experience VolSmart</SectionEyebrow>
           <SerifHeading className="text-4xl lg:text-5xl mt-6">
             Pick your route in.
           </SerifHeading>
@@ -122,7 +122,7 @@ function ProductPage() {
               <p className="mt-3 text-[#4B5563] leading-relaxed">
                 30-minute walkthrough with our team. We'll seed sample data
                 that matches your agency size, answer questions, and discuss
-                how CopSmart fits your existing SOPs.
+                how VolSmart fits your existing SOPs.
               </p>
               <Link to="/demo" className="mt-6 inline-flex items-center gap-2 bg-[#13243A] text-white px-6 py-3 text-sm font-bold uppercase tracking-wide hover:bg-[#0D141E]">
                 Request a Demo <ArrowRight className="h-4 w-4" />
@@ -132,12 +132,12 @@ function ProductPage() {
               <div className="text-xs font-bold uppercase tracking-widest text-[#4B5563]">Option B</div>
               <SerifHeading as="h3" className="text-2xl mt-3">Open the live app</SerifHeading>
               <p className="mt-3 text-[#4B5563] leading-relaxed">
-                CopSmart is in production today. If your agency already has
+                VolSmart is in production today. If your agency already has
                 credentials, sign in directly. New visitors should book a demo
                 first so we can provision a sandbox account.
               </p>
               <Link to="/login" className="mt-6 inline-flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#13243A] border border-[#0D141E]/20 hover:border-[#B48A44] hover:text-[#B48A44]">
-                Open CopSmart <ExternalLink className="h-4 w-4" />
+                Open VolSmart <ExternalLink className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -153,7 +153,7 @@ function ProductPage() {
           </div>
           <div className="lg:col-span-7 space-y-6 text-[#4B5563] text-lg leading-relaxed">
             <p>
-              CopSmart runs on a modern, fully-managed cloud backend with
+              VolSmart runs on a modern, fully-managed cloud backend with
               row-level security on every table. Your roster data is isolated
               per agency and never co-mingled.
             </p>

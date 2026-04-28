@@ -32,7 +32,7 @@ import {
 import { seedDemoData } from "@/server/seed-demo-data";
 
 export const Route = createFileRoute("/_authed/admin/migration")({
-  head: () => ({ meta: [{ title: "Data Migration — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Data Migration — VolSmart" }] }),
   component: MigrationPage,
 });
 
@@ -146,7 +146,7 @@ function MigrationPage() {
       const text = await file.text();
       const parsed = JSON.parse(text) as ExportBundle;
       if (parsed.version !== 1 || typeof parsed.tables !== "object") {
-        throw new Error("Not a valid CopSmart export bundle (version 1).");
+        throw new Error("Not a valid VolSmart export bundle (version 1).");
       }
       const current = await fetchAllTables(Object.keys(parsed.tables));
       const dry = diffBundle(parsed, current);
@@ -238,7 +238,7 @@ function MigrationPage() {
   return (
     <PageShell
       title="Data Migration"
-      subtitle="Import or export everything in CopSmart."
+      subtitle="Import or export everything in VolSmart."
       crumbs={[{ label: "Data Migration" }]}
     >
       <div className="grid gap-6 lg:grid-cols-2">
@@ -251,7 +251,7 @@ function MigrationPage() {
             <div>
               <h2 className="text-lg font-semibold">Export</h2>
               <p className="text-sm text-muted-foreground">
-                Download a full snapshot of all CopSmart tables.
+                Download a full snapshot of all VolSmart tables.
               </p>
             </div>
           </div>

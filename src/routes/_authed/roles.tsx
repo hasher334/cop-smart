@@ -12,7 +12,7 @@ import {
 } from "@/lib/permissions";
 
 export const Route = createFileRoute("/_authed/roles")({
-  head: () => ({ meta: [{ title: "Roles & Access — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Roles & Access — VolSmart" }] }),
   component: RolesPage,
 });
 
@@ -22,7 +22,7 @@ function RolesPage() {
   return (
     <PageShell
       title="Roles & Access"
-      subtitle="Who can do what in CopSmart."
+      subtitle="Who can do what in VolSmart."
       crumbs={[{ label: "Roles & Access" }]}
     >
       <div className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">

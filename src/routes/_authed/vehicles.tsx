@@ -25,7 +25,7 @@ type Unit = Database["public"]["Tables"]["units"]["Row"];
 type Status = Database["public"]["Enums"]["vehicle_status"];
 
 export const Route = createFileRoute("/_authed/vehicles")({
-  head: () => ({ meta: [{ title: "Vehicles — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Vehicles — VolSmart" }] }),
   component: VehiclesPage,
 });
 

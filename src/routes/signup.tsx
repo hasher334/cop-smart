@@ -10,7 +10,7 @@ import { badgeToEmail } from "@/lib/auth-helpers";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
-    meta: [{ title: "Create Account — CopSmart" }],
+    meta: [{ title: "Create Account — VolSmart" }],
   }),
   component: SignupPage,
 });
@@ -48,7 +48,7 @@ function SignupPage() {
       return;
     }
     toast.success("Account created!", {
-      description: "You're signed in. Welcome to CopSmart.",
+      description: "You're signed in. Welcome to VolSmart.",
     });
     navigate({ to: "/dashboard" });
   };
@@ -62,7 +62,7 @@ function SignupPage() {
               <Shield className="h-7 w-7" strokeWidth={2.5} />
             </div>
             <div>
-              <div className="font-display text-xl font-bold">CopSmart</div>
+              <div className="font-display text-xl font-bold">VolSmart</div>
               <div className="text-xs text-primary-foreground/80">Volunteer Services</div>
             </div>
           </Link>

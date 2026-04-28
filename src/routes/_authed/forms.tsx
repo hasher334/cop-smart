@@ -51,7 +51,7 @@ type Document = Database["public"]["Tables"]["documents"]["Row"];
 export const Route = createFileRoute("/_authed/forms")({
   head: () => ({
     meta: [
-      { title: "Forms & Documents — CopSmart" },
+      { title: "Forms & Documents — VolSmart" },
       { name: "description", content: "Browse and download volunteer forms, SOPs, waivers, and reference materials." },
     ],
   }),

@@ -25,13 +25,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "VolCop builds custom volunteer management software for law enforcement and government agencies. Meet CopSmart — our flagship platform for rosters, training, scheduling, and fleet.",
+          "VolCop builds custom volunteer management software for law enforcement and government agencies. Meet VolSmart — our flagship platform for rosters, training, scheduling, and fleet.",
       },
       { property: "og:title", content: "VolCop — Volunteer Software for Law Enforcement" },
       {
         property: "og:description",
         content:
-          "Custom volunteer management software for agencies. Meet CopSmart — request a live demo.",
+          "Custom volunteer management software for agencies. Meet VolSmart — request a live demo.",
       },
     ],
   }),
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   const navigate = useNavigate();
 
-  // If a CopSmart user is already signed in, send them to the app
+  // If a VolSmart user is already signed in, send them to the app
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: "/dashboard" });
@@ -72,7 +72,7 @@ function HomePage() {
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-[#B48A44]" />
               <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">
-                The CopSmart Standard
+                The VolSmart Standard
               </span>
             </div>
             <h1 className="font-['Libre_Baskerville',serif] text-5xl lg:text-6xl text-balance leading-[1.1] text-white">
@@ -96,7 +96,7 @@ function HomePage() {
                 to="/copsmart"
                 className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white border border-white/25 hover:border-[#B48A44] hover:text-[#B48A44] transition-colors"
               >
-                Launch CopSmart
+                Launch VolSmart
               </Link>
             </div>
             <div className="pt-8 mt-2 border-t border-white/10 flex items-center gap-5">
@@ -111,12 +111,12 @@ function HomePage() {
             </div>
           </div>
 
-          {/* RIGHT — Live CopSmart slide */}
+          {/* RIGHT — Live VolSmart slide */}
           <div className="lg:col-span-7 relative">
             {/* Floating metadata badges */}
             <div className="hidden lg:flex absolute -top-4 left-4 z-20 items-center gap-2 px-3 py-1.5 bg-[#0B1828]/80 backdrop-blur border border-[#B48A44]/40 text-[10px] font-mono uppercase tracking-widest text-[#B48A44]">
               <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Live · CopSmart v2.4
+              Live · VolSmart v2.4
             </div>
             <div className="hidden lg:block absolute -bottom-4 right-6 z-20 px-3 py-1.5 bg-[#0B1828]/80 backdrop-blur border border-white/15 text-[10px] font-mono uppercase tracking-widest text-white/70">
               Dashboard · Sector Overview
@@ -137,7 +137,7 @@ function HomePage() {
                 <div className="text-[10px] font-mono text-[#B48A44]">SECURE</div>
               </div>
 
-              {/* Slide content — auto-rotating CopSmart preview */}
+              {/* Slide content — auto-rotating VolSmart preview */}
               <div className="bg-gradient-to-br from-[#F3F1EC] via-white to-[#F3F1EC] text-[#0D141E] relative overflow-hidden">
                 {/* Decorative grid */}
                 <div
@@ -155,7 +155,7 @@ function HomePage() {
                   <div className="flex items-center gap-3 mb-3">
                     <div className="h-px w-6 bg-[#B48A44]" />
                     <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-[#B48A44]">
-                      Inside CopSmart
+                      Inside VolSmart
                     </span>
                   </div>
                   <h3 className="font-['Libre_Baskerville',serif] text-2xl text-[#13243A] leading-tight">
@@ -191,7 +191,7 @@ function HomePage() {
               <p className="text-lg text-[#4B5563] leading-relaxed">
                 Generic volunteer apps weren't designed with badges, ranks,
                 background clearances, patrol vehicles, and FCIC training
-                requirements in mind. VolCop was. Every workflow in CopSmart
+                requirements in mind. VolCop was. Every workflow in VolSmart
                 reflects how a real auxiliary unit actually operates.
               </p>
             </div>
@@ -225,7 +225,7 @@ function HomePage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-8">
           <div className="text-center mb-16">
             <SectionEyebrow>
-              <span className="block">Inside CopSmart</span>
+              <span className="block">Inside VolSmart</span>
             </SectionEyebrow>
             <SerifHeading className="text-4xl lg:text-5xl mt-6 max-w-3xl mx-auto">
               One platform. Every volunteer workflow.
@@ -265,7 +265,7 @@ function HomePage() {
                 <span className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Live Demo Available</span>
               </div>
               <SerifHeading as="h2" className="text-4xl lg:text-5xl text-white">
-                See CopSmart with your agency's data.
+                See VolSmart with your agency's data.
               </SerifHeading>
               <p className="mt-5 text-white/80 leading-relaxed text-lg max-w-2xl">
                 Tell us about your unit. We'll schedule a 30-minute walkthrough
@@ -296,7 +296,7 @@ function HomePage() {
                 to="/product"
                 className="border border-white/30 text-white px-8 py-4 text-sm font-bold uppercase tracking-wide hover:bg-white/10 transition-colors text-center"
               >
-                Explore CopSmart First
+                Explore VolSmart First
               </Link>
               <Link
                 to="/contact"

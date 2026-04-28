@@ -16,7 +16,7 @@ type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 type AppRole = Database["public"]["Enums"]["app_role"];
 
 export const Route = createFileRoute("/_authed/admin/users")({
-  head: () => ({ meta: [{ title: "Users & Roles — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Users & Roles — VolSmart" }] }),
   component: UsersAdminPage,
 });
 

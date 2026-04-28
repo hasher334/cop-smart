@@ -28,7 +28,7 @@ type Profile = Pick<
 >;
 
 export const Route = createFileRoute("/_authed/schedule/print")({
-  head: () => ({ meta: [{ title: "Print Monthly Schedule — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Print Monthly Schedule — VolSmart" }] }),
   component: PrintSchedulePage,
 });
 

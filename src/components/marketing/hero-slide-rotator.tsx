@@ -89,7 +89,7 @@ export function HeroSlideRotator() {
         <div className="flex items-center gap-2">
           <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-[10px] font-mono uppercase tracking-widest text-white/70">
-            Live data · CopSmart v2.4
+            Live data · VolSmart v2.4
           </span>
         </div>
         <div className="flex items-center gap-1.5">

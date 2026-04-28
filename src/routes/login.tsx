@@ -11,7 +11,7 @@ import { bootstrapAdmin } from "@/server/admin-bootstrap";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
-    meta: [{ title: "Sign In — CopSmart" }],
+    meta: [{ title: "Sign In — VolSmart" }],
   }),
   component: LoginPage,
 });
@@ -72,7 +72,7 @@ function LoginPage() {
               <Shield className="h-7 w-7" strokeWidth={2.5} />
             </div>
             <div>
-              <div className="font-display text-xl font-bold">CopSmart</div>
+              <div className="font-display text-xl font-bold">VolSmart</div>
               <div className="text-xs text-primary-foreground/80">Volunteer Services</div>
             </div>
           </Link>
@@ -143,7 +143,7 @@ function LoginPage() {
           </div>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            Trouble signing in? Contact the CopSmart Helpdesk.
+            Trouble signing in? Contact the VolSmart Helpdesk.
           </p>
 
           <div className="mt-4 rounded-2xl border-2 border-dashed border-gold/50 bg-gold/5 p-4 text-center">

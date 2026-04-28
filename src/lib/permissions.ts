@@ -4,7 +4,7 @@ import type { AuthState } from "@/hooks/use-auth";
 export type AppRole = Database["public"]["Enums"]["app_role"];
 
 /**
- * Centralized permission rules for CopSmart.
+ * Centralized permission rules for VolSmart.
  *
  * Hierarchy (highest → lowest):
  *   admin           — full system control (roles, units, migration, all CRUD)

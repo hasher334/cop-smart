@@ -37,7 +37,7 @@ type Vehicle = Pick<Database["public"]["Tables"]["vehicles"]["Row"], "id" | "veh
 type Profile = Pick<Database["public"]["Tables"]["profiles"]["Row"], "user_id" | "full_name" | "badge_no">;
 
 export const Route = createFileRoute("/_authed/schedule")({
-  head: () => ({ meta: [{ title: "Schedule a Patrol — CopSmart" }] }),
+  head: () => ({ meta: [{ title: "Schedule a Patrol — VolSmart" }] }),
   component: SchedulePage,
 });
 

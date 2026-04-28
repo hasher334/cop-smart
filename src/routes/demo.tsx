@@ -10,9 +10,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/demo")({
   head: () => ({
     meta: [
-      { title: "Request a Demo — CopSmart by VolCop" },
-      { name: "description", content: "Schedule a 30-minute live walkthrough of the CopSmart volunteer management platform tailored to your agency." },
-      { property: "og:title", content: "Request a Demo — CopSmart" },
+      { title: "Request a Demo — VolSmart by VolCop" },
+      { name: "description", content: "Schedule a 30-minute live walkthrough of the VolSmart volunteer management platform tailored to your agency." },
+      { property: "og:title", content: "Request a Demo — VolSmart" },
       { property: "og:description", content: "Live 30-minute walkthrough with sample data sized to your agency." },
     ],
   }),
@@ -114,7 +114,7 @@ function DemoPage() {
           <div className="lg:col-span-5">
             <SectionEyebrow>Live Demo</SectionEyebrow>
             <SerifHeading as="h1" className="text-5xl lg:text-6xl mt-6 text-balance">
-              See CopSmart with your agency in mind.
+              See VolSmart with your agency in mind.
             </SerifHeading>
             <p className="mt-6 text-lg text-[#4B5563] leading-relaxed">
               Tell us about your unit. We'll prepare a 30-minute walkthrough
@@ -137,12 +137,12 @@ function DemoPage() {
             </ul>
 
             <div className="mt-12 p-6 border border-[#0D141E]/15 bg-white">
-              <div className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Already a CopSmart user?</div>
+              <div className="text-xs font-bold uppercase tracking-widest text-[#B48A44]">Already a VolSmart user?</div>
               <p className="mt-2 text-sm text-[#4B5563]">
                 If your agency already has credentials, sign in directly.
               </p>
               <Link to="/login" className="mt-3 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[#13243A] hover:text-[#B48A44]">
-                Sign in to CopSmart <ArrowRight className="h-4 w-4" />
+                Sign in to VolSmart <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
@@ -161,7 +161,7 @@ function DemoPage() {
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Link to="/product" className="px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#13243A] border border-[#0D141E]/20 hover:border-[#B48A44]">
-                    Read more about CopSmart
+                    Read more about VolSmart
                   </Link>
                   <Link to="/" className="px-6 py-3 text-sm font-bold uppercase tracking-wide bg-[#13243A] text-white hover:bg-[#0D141E]">
                     Return Home
@@ -251,7 +251,7 @@ function DemoPage() {
                 </div>
                 <div className="p-6 lg:p-8 border-t border-[#0D141E]/10 bg-[#F3F1EC]/40 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <p className="text-xs text-[#4B5563]">
-                    By submitting, you agree to be contacted by VolCop about CopSmart. We never share your data.
+                    By submitting, you agree to be contacted by VolCop about VolSmart. We never share your data.
                   </p>
                   <button
                     type="submit"

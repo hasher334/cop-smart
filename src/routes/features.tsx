@@ -9,10 +9,10 @@ import { MarketingShell, SectionEyebrow, SerifHeading } from "@/components/marke
 export const Route = createFileRoute("/features")({
   head: () => ({
     meta: [
-      { title: "Features — CopSmart by VolCop" },
-      { name: "description", content: "Every feature inside CopSmart: roster management, scheduling, training, fleet, hours, leaderboards, dispatch, and more." },
-      { property: "og:title", content: "Features — CopSmart by VolCop" },
-      { property: "og:description", content: "Every feature inside the CopSmart volunteer management platform." },
+      { title: "Features — VolSmart by VolCop" },
+      { name: "description", content: "Every feature inside VolSmart: roster management, scheduling, training, fleet, hours, leaderboards, dispatch, and more." },
+      { property: "og:title", content: "Features — VolSmart by VolCop" },
+      { property: "og:description", content: "Every feature inside the VolSmart volunteer management platform." },
     ],
   }),
   component: FeaturesPage,
@@ -79,7 +79,7 @@ function FeaturesPage() {
             Every workflow your unit needs. None it doesn't.
           </SerifHeading>
           <p className="mt-6 text-lg text-[#4B5563] max-w-2xl mx-auto leading-relaxed">
-            CopSmart was specified by working volunteer coordinators and built from the ground up for sworn agencies. Here's everything inside.
+            VolSmart was specified by working volunteer coordinators and built from the ground up for sworn agencies. Here's everything inside.
           </p>
         </div>
       </section>
@@ -106,14 +106,14 @@ function FeaturesPage() {
         <div className="mx-auto max-w-[1440px] px-6 lg:px-8 text-center">
           <SerifHeading className="text-3xl lg:text-4xl">Want to see it live?</SerifHeading>
           <p className="mt-4 text-[#4B5563] text-lg max-w-xl mx-auto">
-            Walk through CopSmart with one of our team members.
+            Walk through VolSmart with one of our team members.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/demo" className="bg-[#13243A] text-white px-7 py-3.5 text-sm font-bold uppercase tracking-wide hover:bg-[#0D141E]">
               Request a Demo
             </Link>
             <Link to="/product" className="px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-[#13243A] border border-[#0D141E]/20 hover:border-[#B48A44] hover:text-[#B48A44]">
-              View CopSmart Overview
+              View VolSmart Overview
             </Link>
           </div>
         </div>
