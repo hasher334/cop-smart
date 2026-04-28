@@ -132,7 +132,7 @@ function HomePage() {
                   <div className="size-2.5 rounded-full bg-[#28C840]" />
                 </div>
                 <div className="flex-1 mx-4 px-3 py-1 bg-white/5 border border-white/10 rounded text-[10px] font-mono text-white/50 text-center">
-                  copsmart.app/dashboard
+                  volsmart.app/dashboard
                 </div>
                 <div className="text-[10px] font-mono text-[#B48A44]">SECURE</div>
               </div>
