@@ -16,6 +16,7 @@ import {
   SerifHeading,
 } from "@/components/marketing/marketing-shell";
 import { HeroSlideRotator } from "@/components/marketing/hero-slide-rotator";
+import { MobileAppShowcase } from "@/components/marketing/mobile-app-showcase";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
