@@ -256,6 +256,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* MOBILE APP SHOWCASE */}
+      <MobileAppShowcase />
+
       {/* DEMO CTA */}
       <section className="py-20 lg:py-28">
         <div className="mx-auto max-w-[1440px] px-6 lg:px-8">
