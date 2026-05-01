@@ -36,17 +36,16 @@ export const Route = createFileRoute("/_authed/dashboard")({
 interface Tile {
   to: string;
   label: string;
-  legacy?: string;
   icon: typeof CalendarDays;
   color: string;
   adminOnly?: boolean;
 }
 
 const tiles: Tile[] = [
-  { to: "/schedule", label: "Schedule a Patrol", legacy: "VDASH", icon: CalendarDays, color: "bg-info text-info-foreground" },
-  { to: "/dispatch", label: "Dispatch Reference", legacy: "FOCUS", icon: Radio, color: "bg-primary text-primary-foreground" },
-  { to: "/training", label: "My Training", legacy: "STARCOP", icon: GraduationCap, color: "bg-success text-success-foreground" },
-  { to: "/roster", label: "Volunteer Roster", legacy: "VMIS", icon: Users, color: "bg-gold text-gold-foreground" },
+  { to: "/schedule", label: "Schedule a Patrol", icon: CalendarDays, color: "bg-info text-info-foreground" },
+  { to: "/dispatch", label: "Dispatch Reference", icon: Radio, color: "bg-primary text-primary-foreground" },
+  { to: "/training", label: "My Training", icon: GraduationCap, color: "bg-success text-success-foreground" },
+  { to: "/roster", label: "Volunteer Roster", icon: Users, color: "bg-gold text-gold-foreground" },
   { to: "/vehicles", label: "Vehicle Inventory", icon: Truck, color: "bg-primary text-primary-foreground" },
   { to: "/forms", label: "Forms & Documents", icon: FileText, color: "bg-info text-info-foreground" },
   { to: "/resources", label: "Weather & Resources", icon: CloudSun, color: "bg-success text-success-foreground" },
@@ -144,11 +143,6 @@ function Dashboard() {
                   <div className="text-lg font-semibold text-card-foreground group-hover:text-primary">
                     {t.label}
                   </div>
-                  {t.legacy && (
-                    <div className="mt-0.5 text-sm text-muted-foreground">
-                      Previously: {t.legacy}
-                    </div>
-                  )}
                 </div>
               </Link>
             );

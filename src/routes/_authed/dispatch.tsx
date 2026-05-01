@@ -58,7 +58,6 @@ function DispatchPage() {
   return (
     <PageShell
       title="Dispatch Reference"
-      legacyName="FOCUS"
       subtitle="Look up 10-codes, dispatch signals, and the radio directory in seconds."
       crumbs={[{ label: "Dispatch" }]}
     >

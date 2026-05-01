@@ -12,13 +12,12 @@ export interface Crumb {
 interface Props {
   title: string;
   subtitle?: string;
-  legacyName?: string;
   crumbs?: Crumb[];
   actions?: ReactNode;
   children: ReactNode;
 }
 
-export function PageShell({ title, subtitle, legacyName, crumbs, actions, children }: Props) {
+export function PageShell({ title, subtitle, crumbs, actions, children }: Props) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
@@ -54,11 +53,6 @@ export function PageShell({ title, subtitle, legacyName, crumbs, actions, childr
               <h1 className="text-balance">{title}</h1>
               {subtitle && (
                 <p className="mt-2 text-lg text-muted-foreground">{subtitle}</p>
-              )}
-              {legacyName && (
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Previously known as: <span className="font-mono">{legacyName}</span>
-                </p>
               )}
             </div>
             {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
