@@ -103,7 +103,6 @@ function RosterPage() {
   return (
     <PageShell
       title="Volunteer Roster"
-      legacyName="VMIS"
       crumbs={[{ label: "Roster" }]}
       actions={
         isAdmin && (

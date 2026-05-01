@@ -146,7 +146,6 @@ function TrainingPage() {
     <PageShell
       title="Training & Certifications"
       subtitle="Track completed training, expirations, and required courses."
-      legacyName="STARCOP"
       crumbs={[{ label: "Training" }]}
     >
       <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>

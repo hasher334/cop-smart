@@ -96,7 +96,6 @@ function SchedulePage() {
   return (
     <PageShell
       title="Schedule a Patrol"
-      legacyName="VDASH"
       subtitle="View open shifts, sign yourself up, or manage the schedule."
       crumbs={[{ label: "Schedule" }]}
       actions={
