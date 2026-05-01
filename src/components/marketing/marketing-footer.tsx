@@ -31,12 +31,14 @@ export function MarketingFooter() {
           <ul className="space-y-2 text-sm">
             <li><Link to="/about" className="hover:text-[#B48A44]">About VolCop</Link></li>
             <li><Link to="/contact" className="hover:text-[#B48A44]">Contact Sales</Link></li>
+            <li><Link to="/privacy" className="hover:text-[#B48A44]">Privacy Policy</Link></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-[1440px] px-6 py-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-[#F3F1EC]/60 font-['Public_Sans',sans-serif]">
           <p>© {new Date().getFullYear()} VolCop, LLC. All rights reserved.</p>
+          <Link to="/privacy" className="hover:text-[#B48A44]">Privacy</Link>
         </div>
       </div>
     </footer>
