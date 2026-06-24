@@ -11,7 +11,14 @@ import { bootstrapAdmin } from "@/server/admin-bootstrap";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
-    meta: [{ title: "Sign In — VolSmart" }],
+    meta: [
+      { title: "Sign In — VolSmart" },
+      { name: "description", content: "Sign in to VolSmart to view your schedule, log hours, track training, and stay connected with your unit." },
+      { property: "og:title", content: "Sign In — VolSmart" },
+      { property: "og:description", content: "Secure sign-in for VolSmart volunteer operations." },
+      { property: "og:url", content: "https://volcop.com/login" },
+    ],
+    links: [{ rel: "canonical", href: "https://volcop.com/login" }],
   }),
   component: LoginPage,
 });
