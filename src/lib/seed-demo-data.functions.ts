@@ -10,6 +10,7 @@
 //   • announcements
 
 import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 // supabaseAdmin imported lazily inside handler to avoid client bundle leakage.
 import { badgeToEmail } from "@/lib/auth-helpers";
 
