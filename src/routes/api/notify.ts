@@ -23,7 +23,33 @@ function escapeHtml(s: string): string {
     .replace(/'/g, "&#39;");
 }
 
+const ALLOWED_FORM_TYPES = new Set([
+  "Contact Form Submission",
+  "Demo Request",
+]);
+const MAX_FIELDS = 20;
+const MAX_LABEL = 100;
+const MAX_VALUE = 4000;
+
+function isAllowedOrigin(request: Request): boolean {
+  const url = new URL(request.url);
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const source = origin ?? referer;
+  if (!source) return false;
+  try {
+    const srcHost = new URL(source).host;
+    return srcHost === url.host;
+  } catch {
+    return false;
+  }
+}
+
 async function handle(request: Request): Promise<Response> {
+  if (!isAllowedOrigin(request)) {
+    return Response.json({ ok: false, error: "Forbidden" }, { status: 403 });
+  }
+
   let body: NotifyBody;
   try {
     body = (await request.json()) as NotifyBody;
@@ -33,6 +59,23 @@ async function handle(request: Request): Promise<Response> {
 
   if (!body?.formType || !Array.isArray(body?.fields)) {
     return Response.json({ ok: false, error: "Missing formType or fields" }, { status: 400 });
+  }
+  if (typeof body.formType !== "string" || !ALLOWED_FORM_TYPES.has(body.formType)) {
+    return Response.json({ ok: false, error: "Unsupported form type" }, { status: 400 });
+  }
+  if (body.fields.length > MAX_FIELDS) {
+    return Response.json({ ok: false, error: "Too many fields" }, { status: 400 });
+  }
+  for (const f of body.fields) {
+    if (
+      !f ||
+      typeof f.label !== "string" ||
+      typeof f.value !== "string" ||
+      f.label.length > MAX_LABEL ||
+      f.value.length > MAX_VALUE
+    ) {
+      return Response.json({ ok: false, error: "Invalid field" }, { status: 400 });
+    }
   }
 
   const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
