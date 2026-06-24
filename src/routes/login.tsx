@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { badgeToEmail } from "@/lib/auth-helpers";
-import { bootstrapAdmin } from "@/server/admin-bootstrap";
+import { bootstrapAdmin } from "@/lib/admin-bootstrap.functions";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
