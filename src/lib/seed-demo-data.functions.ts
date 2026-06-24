@@ -95,9 +95,19 @@ const DEMO_DOCUMENTS: Array<{
   { id: "d0000000-0000-0000-0000-000000000006", title: "Annual Training Schedule",        description: "Calendar of upcoming training sessions.",                category: "training",  file_name: "TrainingSchedule.pdf",    file_path: "demo/TrainingSchedule.pdf",    file_size: 156000, mime_type: "application/pdf" },
 ];
 
-export const seedDemoData = createServerFn({ method: "POST" }).handler(
-  async () => {
+export const seedDemoData = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // Only admins may seed demo data.
+    const { data: isAdmin, error: roleErr } = await context.supabase.rpc(
+      "has_role",
+      { _user_id: context.userId, _role: "admin" },
+    );
+    if (roleErr) throw new Error(`role check: ${roleErr.message}`);
+    if (!isAdmin) throw new Response("Forbidden", { status: 403 });
+
     // 1. Look up units
     const { data: units, error: unitsErr } = await supabaseAdmin
       .from("units")
