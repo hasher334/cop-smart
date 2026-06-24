@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -48,6 +49,11 @@ import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/e
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
   path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -236,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
   '/signup': typeof SignupRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/dispatch': typeof AuthedDispatchRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
   '/signup': typeof SignupRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/dispatch': typeof AuthedDispatchRoute
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/product': typeof ProductRoute
   '/signup': typeof SignupRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/dispatch': typeof AuthedDispatchRoute
@@ -348,6 +357,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/product'
     | '/signup'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/dashboard'
     | '/dispatch'
@@ -384,6 +394,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/product'
     | '/signup'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/dashboard'
     | '/dispatch'
@@ -421,6 +432,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/product'
     | '/signup'
+    | '/sitemap.xml'
     | '/unsubscribe'
     | '/_authed/dashboard'
     | '/_authed/dispatch'
@@ -459,6 +471,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ProductRoute: typeof ProductRoute
   SignupRoute: typeof SignupRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
   ApiNotifyRoute: typeof ApiNotifyRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -475,6 +488,13 @@ declare module '@tanstack/react-router' {
       path: '/unsubscribe'
       fullPath: '/unsubscribe'
       preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -783,6 +803,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ProductRoute: ProductRoute,
   SignupRoute: SignupRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
   ApiNotifyRoute: ApiNotifyRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
