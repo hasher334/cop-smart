@@ -1,10 +1,10 @@
 // One-time admin bootstrap server function.
 // Creates badge=1234 / password=admin1234 with admin role, or resets it if already present.
 import { createServerFn } from "@tanstack/react-start";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { badgeToEmail } from "@/lib/auth-helpers";
 
 export const bootstrapAdmin = createServerFn({ method: "POST" }).handler(async () => {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const badge = "1234";
   const password = "admin1234";
   const email = badgeToEmail(badge);

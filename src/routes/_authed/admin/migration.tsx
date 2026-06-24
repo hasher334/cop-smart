@@ -29,7 +29,7 @@ import {
   type DryRunReport,
   type ExportableTable,
 } from "@/lib/migration";
-import { seedDemoData } from "@/server/seed-demo-data";
+import { seedDemoData } from "@/lib/seed-demo-data.functions";
 
 export const Route = createFileRoute("/_authed/admin/migration")({
   head: () => ({ meta: [{ title: "Data Migration — VolSmart" }] }),
