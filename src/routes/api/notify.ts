@@ -24,7 +24,7 @@ function escapeHtml(s: string): string {
 }
 
 const ALLOWED_FORM_TYPES = new Set([
-  "Contact Form Submission",
+  "Contact Inquiry",
   "Demo Request",
 ]);
 const MAX_FIELDS = 20;
