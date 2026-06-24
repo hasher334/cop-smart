@@ -40,7 +40,7 @@ function ProductPage() {
           <div className="lg:col-span-6">
             <SectionEyebrow>The Flagship Platform</SectionEyebrow>
             <SerifHeading as="h1" className="text-5xl lg:text-7xl mt-6 text-balance">
-              VolSmart.
+              VolSmart — The Unified Platform for Law Enforcement Volunteers
             </SerifHeading>
             <p className="mt-6 text-xl text-[#4B5563] leading-relaxed max-w-2xl">
               The complete operational record for your volunteer unit. Roster,
