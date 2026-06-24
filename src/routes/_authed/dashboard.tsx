@@ -29,7 +29,15 @@ import type { Database as DB } from "@/integrations/supabase/types";
 type Announcement = DB["public"]["Tables"]["announcements"]["Row"];
 
 export const Route = createFileRoute("/_authed/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — VolSmart" }] }),
+  head: () => ({
+    meta: [
+      { title: "Dashboard — VolSmart" },
+      { name: "description", content: "Your VolSmart dashboard: upcoming shifts, training status, hours, and unit announcements at a glance." },
+      { name: "robots", content: "noindex" },
+      { property: "og:title", content: "Dashboard — VolSmart" },
+      { property: "og:description", content: "Volunteer dashboard for VolSmart." },
+    ],
+  }),
   component: Dashboard,
 });
 

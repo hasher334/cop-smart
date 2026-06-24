@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "VolCop builds custom volunteer management software for law enforcement and government agencies. Meet VolSmart — our flagship platform for rosters, training, scheduling, and fleet.",
+          "VolCop builds custom volunteer management software for law enforcement agencies. Meet VolSmart — rosters, training, scheduling, and fleet in one platform.",
       },
       { property: "og:title", content: "VolCop — Volunteer Software for Law Enforcement" },
       {
@@ -34,7 +34,9 @@ export const Route = createFileRoute("/")({
         content:
           "Custom volunteer management software for agencies. Meet VolSmart — request a live demo.",
       },
+      { property: "og:url", content: "https://volcop.com/" },
     ],
+    links: [{ rel: "canonical", href: "https://volcop.com/" }],
   }),
   component: HomePage,
 });

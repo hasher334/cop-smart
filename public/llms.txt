@@ -1,0 +1,14 @@
+# VolCop
+
+> VolCop builds volunteer management software for law enforcement and government agencies. VolSmart is its flagship platform for rosters, scheduling, training, fleet, hours, and dispatch.
+
+## Pages
+
+- [Home](/): Overview of VolCop and VolSmart.
+- [VolSmart Product](/product): The flagship platform — features, demo, and walkthrough.
+- [Features](/features): Every workflow inside VolSmart — roster, scheduling, training, fleet, hours, dispatch.
+- [About](/about): Story, values, and the team behind VolCop.
+- [Request a Demo](/demo): Schedule a guided walkthrough with the VolCop team.
+- [Contact](/contact): Get in touch with VolCop sales and partnerships.
+- [Volunteer Portal](/copsmart): VolSmart volunteer operations terminal overview.
+- [Privacy Policy](/privacy): How VolCop handles volunteer program information.

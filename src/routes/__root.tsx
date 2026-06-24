@@ -56,6 +56,28 @@ export const Route = createRootRoute({
         children:
           "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-G07CXFK8RH');",
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "VolCop",
+              url: "https://volcop.com",
+              description:
+                "VolCop builds volunteer management software for law enforcement and government agencies.",
+            },
+            {
+              "@type": "WebSite",
+              name: "VolCop",
+              url: "https://volcop.com",
+              description:
+                "VolSmart by VolCop — volunteer management software for law enforcement and government agencies.",
+            },
+          ],
+        }),
+      },
     ],
   }),
   shellComponent: RootShell,
