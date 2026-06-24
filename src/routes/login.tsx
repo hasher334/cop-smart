@@ -1,13 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { Shield, LogIn, ShieldCheck } from "lucide-react";
+import { Shield, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { badgeToEmail } from "@/lib/auth-helpers";
-import { bootstrapAdmin } from "@/lib/admin-bootstrap.functions";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -28,25 +27,6 @@ function LoginPage() {
   const [badge, setBadge] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [bootstrapping, setBootstrapping] = useState(false);
-
-  const handleBootstrap = async () => {
-    setBootstrapping(true);
-    try {
-      const result = await bootstrapAdmin();
-      toast.success("Admin account ready", {
-        description: `Sign in with badge ${result.badge} and password ${result.password}.`,
-      });
-      setBadge(result.badge);
-      setPassword(result.password);
-    } catch (err) {
-      toast.error("Bootstrap failed", {
-        description: err instanceof Error ? err.message : String(err),
-      });
-    } finally {
-      setBootstrapping(false);
-    }
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -152,23 +132,6 @@ function LoginPage() {
           <p className="mt-6 text-center text-sm text-muted-foreground">
             Trouble signing in? Contact the VolSmart Helpdesk.
           </p>
-
-          <div className="mt-4 rounded-2xl border-2 border-dashed border-gold/50 bg-gold/5 p-4 text-center">
-            <p className="text-sm font-semibold">First-time setup</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Create / reset the default administrator account (badge 1234).
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              className="mt-3 h-12 w-full gap-2"
-              onClick={handleBootstrap}
-              disabled={bootstrapping}
-            >
-              <ShieldCheck className="h-5 w-5" />
-              {bootstrapping ? "Setting up…" : "Set up admin account"}
-            </Button>
-          </div>
         </div>
       </main>
     </div>
