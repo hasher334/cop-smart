@@ -10,7 +10,14 @@ import { badgeToEmail } from "@/lib/auth-helpers";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
-    meta: [{ title: "Create Account — VolSmart" }],
+    meta: [
+      { title: "Create Account — VolSmart" },
+      { name: "description", content: "Create your VolSmart account to start managing volunteer shifts, training records, and hours for your agency." },
+      { property: "og:title", content: "Create Account — VolSmart" },
+      { property: "og:description", content: "Set up your VolSmart volunteer account." },
+      { property: "og:url", content: "https://volcop.com/signup" },
+    ],
+    links: [{ rel: "canonical", href: "https://volcop.com/signup" }],
   }),
   component: SignupPage,
 });
