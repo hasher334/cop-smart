@@ -168,7 +168,7 @@ function VolSmartLanding() {
                     <Shield className="size-4 text-gold" strokeWidth={2.5} />
                   </div>
                   <h1 className="font-display text-2xl font-bold tracking-tight text-white">
-                    VolSmart
+                    VolSmart — Secure Volunteer Operations Terminal
                   </h1>
                 </div>
                 <h2 className="font-mono text-xs uppercase tracking-widest text-primary-foreground/60">
