@@ -14,6 +14,41 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with VolCop sales for pricing, demos, or partnership inquiries." },
       { property: "og:title", content: "Contact — VolCop" },
       { property: "og:description", content: "Reach VolCop sales for pricing and partnership inquiries." },
+      { property: "og:url", content: "https://volcop.com/contact" },
+    ],
+    links: [{ rel: "canonical", href: "https://volcop.com/contact" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: "Contact VolCop",
+          url: "https://volcop.com/contact",
+          mainEntity: {
+            "@type": "Organization",
+            name: "VolCop",
+            url: "https://volcop.com",
+            contactPoint: [
+              {
+                "@type": "ContactPoint",
+                contactType: "sales",
+                telephone: "+1-954-797-1100",
+                areaServed: "US",
+                availableLanguage: ["English"],
+              },
+            ],
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "13700 Pines Boulevard",
+              addressLocality: "Pembroke Pines",
+              addressRegion: "FL",
+              postalCode: "33027",
+              addressCountry: "US",
+            },
+          },
+        }),
+      },
     ],
   }),
   component: ContactPage,
