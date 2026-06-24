@@ -9,6 +9,23 @@ export const Route = createFileRoute("/product")({
       { name: "description", content: "VolSmart is VolCop's flagship volunteer management platform for law enforcement agencies. Try the live demo or request a guided walkthrough." },
       { property: "og:title", content: "VolSmart — Flagship Platform from VolCop" },
       { property: "og:description", content: "The complete volunteer management platform for law enforcement. See it live." },
+      { property: "og:url", content: "https://volcop.com/product" },
+    ],
+    links: [{ rel: "canonical", href: "https://volcop.com/product" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: "VolSmart",
+          brand: { "@type": "Brand", name: "VolCop" },
+          description:
+            "VolSmart is a unified volunteer management platform for law enforcement agencies covering rosters, scheduling, training, fleet, hours, and dispatch.",
+          url: "https://volcop.com/product",
+          category: "Volunteer Management Software",
+        }),
+      },
     ],
   }),
   component: ProductPage,
