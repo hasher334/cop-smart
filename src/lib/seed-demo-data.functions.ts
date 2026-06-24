@@ -96,6 +96,7 @@ const DEMO_DOCUMENTS: Array<{
 
 export const seedDemoData = createServerFn({ method: "POST" }).handler(
   async () => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     // 1. Look up units
     const { data: units, error: unitsErr } = await supabaseAdmin
       .from("units")
