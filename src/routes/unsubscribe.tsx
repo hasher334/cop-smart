@@ -6,7 +6,10 @@ export const Route = createFileRoute("/unsubscribe")({
   head: () => ({
     meta: [
       { title: "Unsubscribe — VolCop" },
+      { name: "description", content: "Manage your VolCop email preferences or unsubscribe from VolCop email communications." },
       { name: "robots", content: "noindex" },
+      { property: "og:title", content: "Unsubscribe — VolCop" },
+      { property: "og:description", content: "Manage your VolCop email preferences." },
     ],
   }),
   component: UnsubscribePage,
