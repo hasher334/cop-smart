@@ -1,23 +1,16 @@
-## Goal
-Let signed-out volunteers reset their password securely via an emailed link.
+## Problem
 
-## New pages
-- **`src/routes/forgot-password.tsx`** — public page with an email input. Calls `supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/reset-password' })`. Always shows a generic "If that email exists, we sent a reset link" success message (no account enumeration). Rate-limited by the submit button state.
-- **`src/routes/reset-password.tsx`** — public page that:
-  - Verifies the URL hash contains a Supabase `type=recovery` session (redirects to `/forgot-password` with an error otherwise).
-  - Renders a "new password" + "confirm password" form.
-  - Validates: min 8 chars, matches confirmation, not identical to email.
-  - Calls `supabase.auth.updateUser({ password })`, then signs the user out and redirects to `/login` with a success toast (forces a fresh login with the new credentials).
+When creating a shift with an assignee, the insert fails:
+`patrol_shifts_assigned_to_fkey` violation.
 
-## Login page update
-- `src/routes/login.tsx` — add a "Forgot password?" `<Link to="/forgot-password">` under the password field.
+Cause: `patrol_shifts.assigned_to` FK still references `profiles.id`, while every sibling column (`volunteer_1`, `volunteer_2`, `reserved_by`, `assigned_by`) references `auth.users(id)`. The last fix switched the dropdown to send `profiles.user_id` (an auth user id) into all of these — correct for the siblings, but it breaks `assigned_to`.
 
-## Security considerations
-- Generic response on the request page (no "email not found" leak).
-- Reset page rejects sessions that aren't `recovery` type so an attacker with a stolen non-recovery link can't change the password.
-- Enforce 8+ char password (matches signup) and confirmation match client-side; Supabase enforces server-side.
-- Sign out after reset so any pre-existing sessions on other devices don't remain silently valid on this device.
-- Both routes are public (not under `_authenticated`), as required for password recovery.
+## Fix
 
-## Out of scope
-- Custom-branded Supabase recovery email template (default template is used). If you want the email itself styled with VolSmart branding, that's a follow-up using the auth email templates tool.
+Single migration that realigns `assigned_to` with the other user-id columns:
+
+1. Null out any existing `assigned_to` values that don't match a `profiles.user_id` (defensive; likely none).
+2. Drop `patrol_shifts_assigned_to_fkey`.
+3. Re-add it as `FOREIGN KEY (assigned_to) REFERENCES auth.users(id) ON DELETE SET NULL`.
+
+No code changes needed — `shift-form-dialog.tsx` already sends `profiles.user_id`.

@@ -368,13 +368,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "patrol_shifts_assigned_to_fkey"
-            columns: ["assigned_to"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "patrol_shifts_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
