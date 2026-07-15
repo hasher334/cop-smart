@@ -24,25 +24,28 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [badge, setBadge] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!badge.trim() || !password) {
-      toast.error("Please enter your badge number and password.");
+    const value = identifier.trim();
+    if (!value || !password) {
+      toast.error("Please enter your email (or badge number) and password.");
       return;
     }
     setSubmitting(true);
+    // Accept email OR legacy badge number (mapped to synthetic email).
+    const email = value.includes("@") ? value.toLowerCase() : badgeToEmail(value);
     const { error } = await supabase.auth.signInWithPassword({
-      email: badgeToEmail(badge),
+      email,
       password,
     });
     setSubmitting(false);
     if (error) {
       toast.error("Sign in failed", {
-        description: "Check your badge number and password, then try again.",
+        description: "Check your email and password, then try again.",
       });
       return;
     }
@@ -75,26 +78,25 @@ function LoginPage() {
               </div>
               <h1 className="mt-4">Volunteer Sign In</h1>
               <p className="mt-2 text-base text-muted-foreground">
-                Use your badge number and password.
+                Use your email and password.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-5">
               <div>
-                <Label htmlFor="badge" className="text-base font-semibold">
-                  Badge Number
+                <Label htmlFor="identifier" className="text-base font-semibold">
+                  Email
                 </Label>
                 <Input
-                  id="badge"
+                  id="identifier"
                   type="text"
-                  inputMode="numeric"
                   autoComplete="username"
                   autoFocus
                   required
-                  value={badge}
-                  onChange={(e) => setBadge(e.target.value)}
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
                   className="mt-1 h-12 text-lg"
-                  placeholder="e.g. 12345"
+                  placeholder="you@example.com"
                 />
               </div>
               <div>
