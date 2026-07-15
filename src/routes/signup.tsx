@@ -37,12 +37,26 @@ function SignupPage() {
   const [badge, setBadge] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [districts, setDistricts] = useState<DistrictOption[]>([]);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("districts")
+      .select("id, code, name")
+      .order("code")
+      .then(({ data }) => setDistricts((data as DistrictOption[]) ?? []));
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters.");
+      return;
+    }
+    if (!districtId) {
+      toast.error("Please choose your district.");
       return;
     }
     setSubmitting(true);
@@ -55,6 +69,7 @@ function SignupPage() {
           badge_no: badge.trim(),
           full_name: fullName.trim(),
           contact_email: email.trim() || null,
+          district_id: districtId,
         },
       },
     });
@@ -68,6 +83,7 @@ function SignupPage() {
     });
     navigate({ to: "/dashboard" });
   };
+
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
