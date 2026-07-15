@@ -29,21 +29,7 @@ function SignupPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [districts, setDistricts] = useState<DistrictOption[]>([]);
-  const [districtsLoading, setDistrictsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    supabase
-      .from("districts")
-      .select("id, code, name")
-      .order("code")
-      .then(({ data }) => {
-        setDistricts((data as DistrictOption[]) ?? []);
-        setDistrictsLoading(false);
-      });
-  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -56,10 +42,6 @@ function SignupPage() {
       toast.error("Password must be at least 8 characters.");
       return;
     }
-    if (!districtId) {
-      toast.error("Please choose your district.");
-      return;
-    }
     setSubmitting(true);
     const { error } = await supabase.auth.signUp({
       email: cleanEmail,
@@ -68,7 +50,6 @@ function SignupPage() {
         emailRedirectTo: `${window.location.origin}/dashboard`,
         data: {
           full_name: fullName.trim(),
-          district_id: districtId,
         },
       },
     });
@@ -77,6 +58,7 @@ function SignupPage() {
       toast.error("Couldn't create account", { description: error.message });
       return;
     }
+
     toast.success("Account created!", {
       description: "Your badge number has been assigned. Welcome to VolSmart.",
     });
