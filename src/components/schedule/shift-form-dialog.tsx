@@ -33,11 +33,13 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { todayISO, formatTimeRange } from "@/lib/format";
+import { useAuth } from "@/hooks/use-auth";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
 type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 type PatrolType = Database["public"]["Enums"]["patrol_type"];
+type AssigneeOption = { id: string; full_name: string; badge_no: string };
 
 interface Props {
   open: boolean;
