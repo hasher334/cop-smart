@@ -60,6 +60,7 @@ const PATROL_TYPES: { value: PatrolType; label: string }[] = [
 ];
 
 const NO_VEHICLE = "__none__";
+const NO_ASSIGNEE = "__open__";
 
 export function ShiftFormDialog({
   open,
