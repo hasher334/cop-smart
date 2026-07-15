@@ -64,14 +64,17 @@ function UsersAdminPage() {
 
   const load = async () => {
     setLoading(true);
-    const [p, r] = await Promise.all([
+    const [p, r, d] = await Promise.all([
       supabase.from("profiles").select("*").order("full_name"),
       supabase.from("user_roles").select("user_id, role"),
+      supabase.from("districts").select("*").order("code"),
     ]);
     if (p.error) toast.error(p.error.message);
     if (r.error) toast.error(r.error.message);
+    if (d.error) toast.error(d.error.message);
 
     setProfiles(p.data ?? []);
+    setDistricts(d.data ?? []);
     const map = new Map<string, Set<AppRole>>();
     for (const row of r.data ?? []) {
       const set = map.get(row.user_id) ?? new Set<AppRole>();
