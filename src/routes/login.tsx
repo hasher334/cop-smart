@@ -100,9 +100,14 @@ function LoginPage() {
                 />
               </div>
               <div>
-                <Label htmlFor="password" className="text-base font-semibold">
-                  Password
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password" className="text-base font-semibold">
+                    Password
+                  </Label>
+                  <Link to="/forgot-password" className="text-sm font-semibold text-primary underline">
+                    Forgot password?
+                  </Link>
+                </div>
                 <Input
                   id="password"
                   type="password"
@@ -113,6 +118,7 @@ function LoginPage() {
                   className="mt-1 h-12 text-lg"
                 />
               </div>
+
 
               <Button
                 type="submit"
