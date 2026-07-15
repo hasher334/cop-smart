@@ -8,12 +8,21 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import type { Database } from "@/integrations/supabase/types";
 
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+type District = Database["public"]["Tables"]["districts"]["Row"];
 type AppRole = Database["public"]["Enums"]["app_role"];
+const NO_DISTRICT = "__none__";
 
 export const Route = createFileRoute("/_authed/admin/users")({
   head: () => ({ meta: [{ title: "Users & Roles — VolSmart" }] }),
