@@ -72,6 +72,15 @@ export function ShiftFormDialog({
   onSaved,
 }: Props) {
   const isEdit = !!shift;
+  const auth = useAuth();
+  const myDistrictId = auth.profile?.district_id ?? null;
+  // Admins see all units; officers/corporals are scoped to their district.
+  const scopedUnits = auth.isAdmin
+    ? units
+    : myDistrictId
+      ? units.filter((u) => u.district_id === myDistrictId)
+      : units;
+
   const [unitId, setUnitId] = useState<string>("");
   const [patrolType, setPatrolType] = useState<PatrolType>("patrol");
   const [patrolArea, setPatrolArea] = useState("");
@@ -80,6 +89,8 @@ export function ShiftFormDialog({
   const [endTime, setEndTime] = useState("12:00");
   const [notes, setNotes] = useState("");
   const [vehicleId, setVehicleId] = useState<string>(NO_VEHICLE);
+  const [assignedTo, setAssignedTo] = useState<string>(NO_ASSIGNEE);
+  const [assignees, setAssignees] = useState<AssigneeOption[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [saving, setSaving] = useState(false);
   const [conflicts, setConflicts] = useState<Shift[]>([]);
