@@ -33,11 +33,13 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { todayISO, formatTimeRange } from "@/lib/format";
+import { useAuth } from "@/hooks/use-auth";
 
 type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
 type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 type PatrolType = Database["public"]["Enums"]["patrol_type"];
+type AssigneeOption = { id: string; full_name: string; badge_no: string };
 
 interface Props {
   open: boolean;
@@ -58,6 +60,7 @@ const PATROL_TYPES: { value: PatrolType; label: string }[] = [
 ];
 
 const NO_VEHICLE = "__none__";
+const NO_ASSIGNEE = "__open__";
 
 export function ShiftFormDialog({
   open,
@@ -69,6 +72,15 @@ export function ShiftFormDialog({
   onSaved,
 }: Props) {
   const isEdit = !!shift;
+  const auth = useAuth();
+  const myDistrictId = auth.profile?.district_id ?? null;
+  // Admins see all units; officers/corporals are scoped to their district.
+  const scopedUnits = auth.isAdmin
+    ? units
+    : myDistrictId
+      ? units.filter((u) => u.district_id === myDistrictId)
+      : units;
+
   const [unitId, setUnitId] = useState<string>("");
   const [patrolType, setPatrolType] = useState<PatrolType>("patrol");
   const [patrolArea, setPatrolArea] = useState("");
@@ -77,6 +89,8 @@ export function ShiftFormDialog({
   const [endTime, setEndTime] = useState("12:00");
   const [notes, setNotes] = useState("");
   const [vehicleId, setVehicleId] = useState<string>(NO_VEHICLE);
+  const [assignedTo, setAssignedTo] = useState<string>(NO_ASSIGNEE);
+  const [assignees, setAssignees] = useState<AssigneeOption[]>([]);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [saving, setSaving] = useState(false);
   const [conflicts, setConflicts] = useState<Shift[]>([]);
@@ -105,8 +119,9 @@ export function ShiftFormDialog({
       setEndTime(shift.end_time.slice(0, 5));
       setNotes(shift.notes ?? "");
       setVehicleId(shift.vehicle_id ?? NO_VEHICLE);
+      setAssignedTo(shift.assigned_to ?? NO_ASSIGNEE);
     } else {
-      setUnitId(defaultUnitId ?? units[0]?.id ?? "");
+      setUnitId(defaultUnitId ?? scopedUnits[0]?.id ?? "");
       setPatrolType("patrol");
       setPatrolArea("");
       setShiftDate(defaultDate ?? todayISO());
@@ -114,8 +129,26 @@ export function ShiftFormDialog({
       setEndTime("12:00");
       setNotes("");
       setVehicleId(NO_VEHICLE);
+      setAssignedTo(NO_ASSIGNEE);
     }
-  }, [open, shift, defaultUnitId, defaultDate, units]);
+  }, [open, shift, defaultUnitId, defaultDate, scopedUnits]);
+
+  // Load assignable members: admins see everyone; officers/corporals see only their district.
+  useEffect(() => {
+    if (!open) return;
+    let q = supabase
+      .from("profiles")
+      .select("id, full_name, badge_no, district_id, status")
+      .eq("status", "active")
+      .order("full_name");
+    if (!auth.isAdmin && myDistrictId) q = q.eq("district_id", myDistrictId);
+    q.then(({ data }) =>
+      setAssignees(
+        ((data as (AssigneeOption & { district_id: string | null })[]) ?? [])
+          .map(({ id, full_name, badge_no }) => ({ id, full_name, badge_no })),
+      ),
+    );
+  }, [open, auth.isAdmin, myDistrictId]);
 
   // Live vehicle-conflict detection: any other shift on same date with same vehicle whose time range overlaps.
   useEffect(() => {
@@ -153,7 +186,9 @@ export function ShiftFormDialog({
 
   const commitSave = async () => {
     setSaving(true);
-    const payload = {
+    const userId = (await supabase.auth.getUser()).data.user?.id ?? null;
+    const willAssign = assignedTo !== NO_ASSIGNEE;
+    const basePayload = {
       unit_id: unitId,
       patrol_type: patrolType,
       patrol_area: patrolArea || null,
@@ -163,12 +198,31 @@ export function ShiftFormDialog({
       notes: notes || null,
       vehicle_id: vehicleId === NO_VEHICLE ? null : vehicleId,
     };
+    const assignmentPayload = willAssign
+      ? {
+          assigned_to: assignedTo,
+          assigned_by: userId,
+          assigned_at: new Date().toISOString(),
+          volunteer_1: assignedTo,
+          status: "reserved" as const,
+          reserved_by: assignedTo,
+          reserved_at: new Date().toISOString(),
+        }
+      : {
+          assigned_to: null,
+          assigned_by: null,
+          assigned_at: null,
+        };
 
     const { error } = isEdit
-      ? await supabase.from("patrol_shifts").update(payload).eq("id", shift!.id)
+      ? await supabase
+          .from("patrol_shifts")
+          .update({ ...basePayload, ...assignmentPayload })
+          .eq("id", shift!.id)
       : await supabase.from("patrol_shifts").insert({
-          ...payload,
-          created_by: (await supabase.auth.getUser()).data.user?.id ?? null,
+          ...basePayload,
+          ...assignmentPayload,
+          created_by: userId,
         });
 
     setSaving(false);
@@ -220,9 +274,31 @@ export function ShiftFormDialog({
                 <SelectValue placeholder="Choose a unit" />
               </SelectTrigger>
               <SelectContent>
-                {units.map((u) => (
+                {scopedUnits.map((u) => (
                   <SelectItem key={u.id} value={u.id}>
                     {u.code} — {u.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {!auth.isAdmin && myDistrictId && (
+              <p className="text-xs text-muted-foreground">
+                Only units in your district are shown.
+              </p>
+            )}
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="assignee">Assign to member (optional)</Label>
+            <Select value={assignedTo} onValueChange={setAssignedTo}>
+              <SelectTrigger id="assignee" className="h-12">
+                <SelectValue placeholder="Leave open for signup" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={NO_ASSIGNEE}>— Leave open for signup —</SelectItem>
+                {assignees.map((a) => (
+                  <SelectItem key={a.id} value={a.id}>
+                    #{a.badge_no} — {a.full_name}
                   </SelectItem>
                 ))}
               </SelectContent>

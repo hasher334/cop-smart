@@ -41,6 +41,7 @@ import { Route as AuthedAdminUsersRouteImport } from './routes/_authed/admin/use
 import { Route as AuthedAdminUnitComparisonRouteImport } from './routes/_authed/admin/unit-comparison'
 import { Route as AuthedAdminMigrationRouteImport } from './routes/_authed/admin/migration'
 import { Route as AuthedAdminHoursReportRouteImport } from './routes/_authed/admin/hours-report'
+import { Route as AuthedAdminDistrictsRouteImport } from './routes/_authed/admin/districts'
 import { Route as AuthedAdminAnnouncementsRouteImport } from './routes/_authed/admin/announcements'
 import { Route as LovableEmailTransactionalSendRouteImport } from './routes/lovable/email/transactional/send'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
@@ -206,6 +207,11 @@ const AuthedAdminHoursReportRoute = AuthedAdminHoursReportRouteImport.update({
   path: '/admin/hours-report',
   getParentRoute: () => AuthedRoute,
 } as any)
+const AuthedAdminDistrictsRoute = AuthedAdminDistrictsRouteImport.update({
+  id: '/admin/districts',
+  path: '/admin/districts',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const AuthedAdminAnnouncementsRoute =
   AuthedAdminAnnouncementsRouteImport.update({
     id: '/admin/announcements',
@@ -258,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/admin/districts': typeof AuthedAdminDistrictsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByTo {
   '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/admin/districts': typeof AuthedAdminDistrictsRoute
   '/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/admin/migration': typeof AuthedAdminMigrationRoute
   '/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
@@ -334,6 +342,7 @@ export interface FileRoutesById {
   '/api/notify': typeof ApiNotifyRoute
   '/email/unsubscribe': typeof EmailUnsubscribeRoute
   '/_authed/admin/announcements': typeof AuthedAdminAnnouncementsRoute
+  '/_authed/admin/districts': typeof AuthedAdminDistrictsRoute
   '/_authed/admin/hours-report': typeof AuthedAdminHoursReportRoute
   '/_authed/admin/migration': typeof AuthedAdminMigrationRoute
   '/_authed/admin/unit-comparison': typeof AuthedAdminUnitComparisonRoute
@@ -373,6 +382,7 @@ export interface FileRouteTypes {
     | '/api/notify'
     | '/email/unsubscribe'
     | '/admin/announcements'
+    | '/admin/districts'
     | '/admin/hours-report'
     | '/admin/migration'
     | '/admin/unit-comparison'
@@ -410,6 +420,7 @@ export interface FileRouteTypes {
     | '/api/notify'
     | '/email/unsubscribe'
     | '/admin/announcements'
+    | '/admin/districts'
     | '/admin/hours-report'
     | '/admin/migration'
     | '/admin/unit-comparison'
@@ -448,6 +459,7 @@ export interface FileRouteTypes {
     | '/api/notify'
     | '/email/unsubscribe'
     | '/_authed/admin/announcements'
+    | '/_authed/admin/districts'
     | '/_authed/admin/hours-report'
     | '/_authed/admin/migration'
     | '/_authed/admin/unit-comparison'
@@ -707,6 +719,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedAdminHoursReportRouteImport
       parentRoute: typeof AuthedRoute
     }
+    '/_authed/admin/districts': {
+      id: '/_authed/admin/districts'
+      path: '/admin/districts'
+      fullPath: '/admin/districts'
+      preLoaderRoute: typeof AuthedAdminDistrictsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/_authed/admin/announcements': {
       id: '/_authed/admin/announcements'
       path: '/admin/announcements'
@@ -763,6 +782,7 @@ interface AuthedRouteChildren {
   AuthedTrainingRoute: typeof AuthedTrainingRoute
   AuthedVehiclesRoute: typeof AuthedVehiclesRoute
   AuthedAdminAnnouncementsRoute: typeof AuthedAdminAnnouncementsRoute
+  AuthedAdminDistrictsRoute: typeof AuthedAdminDistrictsRoute
   AuthedAdminHoursReportRoute: typeof AuthedAdminHoursReportRoute
   AuthedAdminMigrationRoute: typeof AuthedAdminMigrationRoute
   AuthedAdminUnitComparisonRoute: typeof AuthedAdminUnitComparisonRoute
@@ -782,6 +802,7 @@ const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedTrainingRoute: AuthedTrainingRoute,
   AuthedVehiclesRoute: AuthedVehiclesRoute,
   AuthedAdminAnnouncementsRoute: AuthedAdminAnnouncementsRoute,
+  AuthedAdminDistrictsRoute: AuthedAdminDistrictsRoute,
   AuthedAdminHoursReportRoute: AuthedAdminHoursReportRoute,
   AuthedAdminMigrationRoute: AuthedAdminMigrationRoute,
   AuthedAdminUnitComparisonRoute: AuthedAdminUnitComparisonRoute,

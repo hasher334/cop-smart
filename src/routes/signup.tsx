@@ -1,12 +1,21 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Shield, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { badgeToEmail } from "@/lib/auth-helpers";
+
+type DistrictOption = { id: string; code: string; name: string };
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -28,12 +37,26 @@ function SignupPage() {
   const [badge, setBadge] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [districtId, setDistrictId] = useState("");
+  const [districts, setDistricts] = useState<DistrictOption[]>([]);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("districts")
+      .select("id, code, name")
+      .order("code")
+      .then(({ data }) => setDistricts((data as DistrictOption[]) ?? []));
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters.");
+      return;
+    }
+    if (!districtId) {
+      toast.error("Please choose your district.");
       return;
     }
     setSubmitting(true);
@@ -46,6 +69,7 @@ function SignupPage() {
           badge_no: badge.trim(),
           full_name: fullName.trim(),
           contact_email: email.trim() || null,
+          district_id: districtId,
         },
       },
     });
@@ -59,6 +83,7 @@ function SignupPage() {
     });
     navigate({ to: "/dashboard" });
   };
+
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -97,6 +122,22 @@ function SignupPage() {
               <div>
                 <Label htmlFor="badge" className="text-base font-semibold">Badge Number</Label>
                 <Input id="badge" required value={badge} onChange={(e) => setBadge(e.target.value)} className="mt-1 h-12 text-lg" placeholder="e.g. 12345" />
+              </div>
+              <div>
+                <Label htmlFor="district" className="text-base font-semibold">District</Label>
+                <Select value={districtId} onValueChange={setDistrictId}>
+                  <SelectTrigger id="district" className="mt-1 h-12 text-lg">
+                    <SelectValue placeholder={districts.length ? "Choose your district" : "No districts available"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {districts.map((d) => (
+                      <SelectItem key={d.id} value={d.id}>
+                        {d.code} — {d.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="mt-1 text-sm text-muted-foreground">Only an admin can change this later.</p>
               </div>
               <div>
                 <Label htmlFor="email" className="text-base font-semibold">Contact Email <span className="font-normal text-muted-foreground">(optional)</span></Label>

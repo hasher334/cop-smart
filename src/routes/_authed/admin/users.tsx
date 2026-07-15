@@ -8,12 +8,21 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import type { Database } from "@/integrations/supabase/types";
 
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+type District = Database["public"]["Tables"]["districts"]["Row"];
 type AppRole = Database["public"]["Enums"]["app_role"];
+const NO_DISTRICT = "__none__";
 
 export const Route = createFileRoute("/_authed/admin/users")({
   head: () => ({ meta: [{ title: "Users & Roles — VolSmart" }] }),
@@ -41,6 +50,7 @@ function UsersAdminPage() {
   const [rolesByUser, setRolesByUser] = useState<Map<string, Set<AppRole>>>(
     new Map(),
   );
+  const [districts, setDistricts] = useState<District[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [savingFor, setSavingFor] = useState<string | null>(null);
@@ -54,14 +64,17 @@ function UsersAdminPage() {
 
   const load = async () => {
     setLoading(true);
-    const [p, r] = await Promise.all([
+    const [p, r, d] = await Promise.all([
       supabase.from("profiles").select("*").order("full_name"),
       supabase.from("user_roles").select("user_id, role"),
+      supabase.from("districts").select("*").order("code"),
     ]);
     if (p.error) toast.error(p.error.message);
     if (r.error) toast.error(r.error.message);
+    if (d.error) toast.error(d.error.message);
 
     setProfiles(p.data ?? []);
+    setDistricts(d.data ?? []);
     const map = new Map<string, Set<AppRole>>();
     for (const row of r.data ?? []) {
       const set = map.get(row.user_id) ?? new Set<AppRole>();
@@ -122,6 +135,22 @@ function UsersAdminPage() {
       return next;
     });
     toast.success(currentlyHas ? `Removed ${role}` : `Granted ${role}`);
+  };
+
+  const setDistrict = async (profile: Profile, value: string) => {
+    const district_id = value === NO_DISTRICT ? null : value;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ district_id })
+      .eq("id", profile.id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    setProfiles((prev) =>
+      prev.map((p) => (p.id === profile.id ? { ...p, district_id } : p)),
+    );
+    toast.success("District updated.");
   };
 
   if (authLoading || !isAdmin) return null;
@@ -199,6 +228,29 @@ function UsersAdminPage() {
                       <span className="font-mono">#{p.badge_no}</span>
                       {p.email && <> &middot; {p.email}</>}
                     </p>
+                    <div className="mt-3 flex items-center gap-2">
+                      <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                        District
+                      </label>
+                      <Select
+                        value={p.district_id ?? NO_DISTRICT}
+                        onValueChange={(v) => setDistrict(p, v)}
+                      >
+                        <SelectTrigger className="h-9 w-56">
+                          <SelectValue placeholder="No district" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={NO_DISTRICT}>
+                            — No district —
+                          </SelectItem>
+                          {districts.map((d) => (
+                            <SelectItem key={d.id} value={d.id}>
+                              {d.code} — {d.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:w-auto">

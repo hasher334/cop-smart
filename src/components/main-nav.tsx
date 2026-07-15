@@ -63,6 +63,7 @@ const REPORTS: NavItem[] = [
 const ADMIN: NavItem[] = [
   { to: "/admin/announcements", label: "Announcements", icon: Megaphone, adminOnly: true },
   { to: "/admin/users", label: "Users & Roles", icon: ShieldCheck, adminOnly: true },
+  { to: "/admin/districts", label: "Districts", icon: Building2, adminOnly: true },
   { to: "/roles", label: "Roles & Access", icon: ShieldCheck },
   { to: "/admin/migration", label: "Data Migration", icon: Database, adminOnly: true },
 ];
