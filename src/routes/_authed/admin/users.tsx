@@ -50,6 +50,7 @@ function UsersAdminPage() {
   const [rolesByUser, setRolesByUser] = useState<Map<string, Set<AppRole>>>(
     new Map(),
   );
+  const [districts, setDistricts] = useState<District[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [savingFor, setSavingFor] = useState<string | null>(null);
