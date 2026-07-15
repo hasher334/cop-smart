@@ -137,6 +137,22 @@ function UsersAdminPage() {
     toast.success(currentlyHas ? `Removed ${role}` : `Granted ${role}`);
   };
 
+  const setDistrict = async (profile: Profile, value: string) => {
+    const district_id = value === NO_DISTRICT ? null : value;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ district_id })
+      .eq("id", profile.id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    setProfiles((prev) =>
+      prev.map((p) => (p.id === profile.id ? { ...p, district_id } : p)),
+    );
+    toast.success("District updated.");
+  };
+
   if (authLoading || !isAdmin) return null;
 
   const adminCount = Array.from(rolesByUser.values()).filter((s) =>
