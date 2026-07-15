@@ -1,18 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Shield, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
+
 
 type DistrictOption = { id: string; code: string; name: string };
 
@@ -35,21 +29,7 @@ function SignupPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [districtId, setDistrictId] = useState("");
-  const [districts, setDistricts] = useState<DistrictOption[]>([]);
-  const [districtsLoading, setDistrictsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    supabase
-      .from("districts")
-      .select("id, code, name")
-      .order("code")
-      .then(({ data }) => {
-        setDistricts((data as DistrictOption[]) ?? []);
-        setDistrictsLoading(false);
-      });
-  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -62,10 +42,6 @@ function SignupPage() {
       toast.error("Password must be at least 8 characters.");
       return;
     }
-    if (!districtId) {
-      toast.error("Please choose your district.");
-      return;
-    }
     setSubmitting(true);
     const { error } = await supabase.auth.signUp({
       email: cleanEmail,
@@ -74,7 +50,6 @@ function SignupPage() {
         emailRedirectTo: `${window.location.origin}/dashboard`,
         data: {
           full_name: fullName.trim(),
-          district_id: districtId,
         },
       },
     });
@@ -83,6 +58,7 @@ function SignupPage() {
       toast.error("Couldn't create account", { description: error.message });
       return;
     }
+
     toast.success("Account created!", {
       description: "Your badge number has been assigned. Welcome to VolSmart.",
     });
@@ -128,22 +104,7 @@ function SignupPage() {
                 <Label htmlFor="email" className="text-base font-semibold">Email</Label>
                 <Input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 text-lg" placeholder="you@example.com" />
               </div>
-              <div>
-                <Label htmlFor="district" className="text-base font-semibold">District</Label>
-                <Select value={districtId} onValueChange={setDistrictId} disabled={districtsLoading || districts.length === 0}>
-                  <SelectTrigger id="district" className="mt-1 h-12 text-lg">
-                    <SelectValue placeholder={districtsLoading ? "Loading districts…" : districts.length ? "Choose your district" : "No districts available"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {districts.map((d) => (
-                      <SelectItem key={d.id} value={d.id}>
-                        {d.code} — {d.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <p className="mt-1 text-sm text-muted-foreground">Only an admin can change this later.</p>
-              </div>
+
               <div>
                 <Label htmlFor="password" className="text-base font-semibold">Password</Label>
                 <Input id="password" type="password" autoComplete="new-password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 h-12 text-lg" />
