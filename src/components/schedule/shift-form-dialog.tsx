@@ -186,7 +186,9 @@ export function ShiftFormDialog({
 
   const commitSave = async () => {
     setSaving(true);
-    const payload = {
+    const userId = (await supabase.auth.getUser()).data.user?.id ?? null;
+    const willAssign = assignedTo !== NO_ASSIGNEE;
+    const basePayload = {
       unit_id: unitId,
       patrol_type: patrolType,
       patrol_area: patrolArea || null,
@@ -196,12 +198,31 @@ export function ShiftFormDialog({
       notes: notes || null,
       vehicle_id: vehicleId === NO_VEHICLE ? null : vehicleId,
     };
+    const assignmentPayload = willAssign
+      ? {
+          assigned_to: assignedTo,
+          assigned_by: userId,
+          assigned_at: new Date().toISOString(),
+          volunteer_1: assignedTo,
+          status: "reserved" as const,
+          reserved_by: assignedTo,
+          reserved_at: new Date().toISOString(),
+        }
+      : {
+          assigned_to: null,
+          assigned_by: null,
+          assigned_at: null,
+        };
 
     const { error } = isEdit
-      ? await supabase.from("patrol_shifts").update(payload).eq("id", shift!.id)
+      ? await supabase
+          .from("patrol_shifts")
+          .update({ ...basePayload, ...assignmentPayload })
+          .eq("id", shift!.id)
       : await supabase.from("patrol_shifts").insert({
-          ...payload,
-          created_by: (await supabase.auth.getUser()).data.user?.id ?? null,
+          ...basePayload,
+          ...assignmentPayload,
+          created_by: userId,
         });
 
     setSaving(false);
