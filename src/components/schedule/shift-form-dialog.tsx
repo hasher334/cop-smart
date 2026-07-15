@@ -119,8 +119,9 @@ export function ShiftFormDialog({
       setEndTime(shift.end_time.slice(0, 5));
       setNotes(shift.notes ?? "");
       setVehicleId(shift.vehicle_id ?? NO_VEHICLE);
+      setAssignedTo(shift.assigned_to ?? NO_ASSIGNEE);
     } else {
-      setUnitId(defaultUnitId ?? units[0]?.id ?? "");
+      setUnitId(defaultUnitId ?? scopedUnits[0]?.id ?? "");
       setPatrolType("patrol");
       setPatrolArea("");
       setShiftDate(defaultDate ?? todayISO());
@@ -128,8 +129,26 @@ export function ShiftFormDialog({
       setEndTime("12:00");
       setNotes("");
       setVehicleId(NO_VEHICLE);
+      setAssignedTo(NO_ASSIGNEE);
     }
-  }, [open, shift, defaultUnitId, defaultDate, units]);
+  }, [open, shift, defaultUnitId, defaultDate, scopedUnits]);
+
+  // Load assignable members: admins see everyone; officers/corporals see only their district.
+  useEffect(() => {
+    if (!open) return;
+    let q = supabase
+      .from("profiles")
+      .select("id, full_name, badge_no, district_id, status")
+      .eq("status", "active")
+      .order("full_name");
+    if (!auth.isAdmin && myDistrictId) q = q.eq("district_id", myDistrictId);
+    q.then(({ data }) =>
+      setAssignees(
+        ((data as (AssigneeOption & { district_id: string | null })[]) ?? [])
+          .map(({ id, full_name, badge_no }) => ({ id, full_name, badge_no })),
+      ),
+    );
+  }, [open, auth.isAdmin, myDistrictId]);
 
   // Live vehicle-conflict detection: any other shift on same date with same vehicle whose time range overlaps.
   useEffect(() => {
