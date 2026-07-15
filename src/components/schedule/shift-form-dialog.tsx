@@ -274,9 +274,31 @@ export function ShiftFormDialog({
                 <SelectValue placeholder="Choose a unit" />
               </SelectTrigger>
               <SelectContent>
-                {units.map((u) => (
+                {scopedUnits.map((u) => (
                   <SelectItem key={u.id} value={u.id}>
                     {u.code} — {u.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {!auth.isAdmin && myDistrictId && (
+              <p className="text-xs text-muted-foreground">
+                Only units in your district are shown.
+              </p>
+            )}
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="assignee">Assign to member (optional)</Label>
+            <Select value={assignedTo} onValueChange={setAssignedTo}>
+              <SelectTrigger id="assignee" className="h-12">
+                <SelectValue placeholder="Leave open for signup" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={NO_ASSIGNEE}>— Leave open for signup —</SelectItem>
+                {assignees.map((a) => (
+                  <SelectItem key={a.id} value={a.id}>
+                    #{a.badge_no} — {a.full_name}
                   </SelectItem>
                 ))}
               </SelectContent>
