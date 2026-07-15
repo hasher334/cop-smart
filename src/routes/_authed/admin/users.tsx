@@ -228,6 +228,29 @@ function UsersAdminPage() {
                       <span className="font-mono">#{p.badge_no}</span>
                       {p.email && <> &middot; {p.email}</>}
                     </p>
+                    <div className="mt-3 flex items-center gap-2">
+                      <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                        District
+                      </label>
+                      <Select
+                        value={p.district_id ?? NO_DISTRICT}
+                        onValueChange={(v) => setDistrict(p, v)}
+                      >
+                        <SelectTrigger className="h-9 w-56">
+                          <SelectValue placeholder="No district" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={NO_DISTRICT}>
+                            — No district —
+                          </SelectItem>
+                          {districts.map((d) => (
+                            <SelectItem key={d.id} value={d.id}>
+                              {d.code} — {d.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:w-auto">
