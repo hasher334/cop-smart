@@ -259,7 +259,7 @@ export function ShiftFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{isEdit ? "Edit shift" : "Create new shift"}</DialogTitle>
           <DialogDescription>
@@ -267,7 +267,7 @@ export function ShiftFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-2">
+        <div className="grid gap-4 py-2 flex-1 overflow-y-auto pr-1">
           <div className="grid gap-2">
             <Label htmlFor="unit">Unit</Label>
             <Select value={unitId} onValueChange={setUnitId}>
