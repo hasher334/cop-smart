@@ -143,6 +143,33 @@ export type Database = {
         }
         Relationships: []
       }
+      districts: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           category: string
@@ -274,6 +301,9 @@ export type Database = {
       }
       patrol_shifts: {
         Row: {
+          assigned_at: string | null
+          assigned_by: string | null
+          assigned_to: string | null
           created_at: string
           created_by: string | null
           end_time: string
@@ -293,6 +323,9 @@ export type Database = {
           volunteer_2: string | null
         }
         Insert: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          assigned_to?: string | null
           created_at?: string
           created_by?: string | null
           end_time: string
@@ -312,6 +345,9 @@ export type Database = {
           volunteer_2?: string | null
         }
         Update: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          assigned_to?: string | null
           created_at?: string
           created_by?: string | null
           end_time?: string
@@ -332,6 +368,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "patrol_shifts_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "patrol_shifts_unit_id_fkey"
             columns: ["unit_id"]
             isOneToOne: false
@@ -351,6 +394,7 @@ export type Database = {
         Row: {
           badge_no: string
           created_at: string
+          district_id: string | null
           email: string | null
           full_name: string
           hire_date: string | null
@@ -366,6 +410,7 @@ export type Database = {
         Insert: {
           badge_no: string
           created_at?: string
+          district_id?: string | null
           email?: string | null
           full_name: string
           hire_date?: string | null
@@ -381,6 +426,7 @@ export type Database = {
         Update: {
           badge_no?: string
           created_at?: string
+          district_id?: string | null
           email?: string | null
           full_name?: string
           hire_date?: string | null
@@ -394,6 +440,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_district_id_fkey"
+            columns: ["district_id"]
+            isOneToOne: false
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_home_unit_id_fkey"
             columns: ["home_unit_id"]
@@ -521,6 +574,7 @@ export type Database = {
           code: string
           created_at: string
           description: string | null
+          district_id: string | null
           id: string
           name: string
           unit_type: string | null
@@ -530,6 +584,7 @@ export type Database = {
           code: string
           created_at?: string
           description?: string | null
+          district_id?: string | null
           id?: string
           name: string
           unit_type?: string | null
@@ -539,12 +594,21 @@ export type Database = {
           code?: string
           created_at?: string
           description?: string | null
+          district_id?: string | null
           id?: string
           name?: string
           unit_type?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "units_district_id_fkey"
+            columns: ["district_id"]
+            isOneToOne: false
+            referencedRelation: "districts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -667,6 +731,7 @@ export type Database = {
           read_ct: number
         }[]
       }
+      user_district: { Args: { _user_id: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "corporal_plus" | "officer" | "volunteer"
