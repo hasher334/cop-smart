@@ -104,7 +104,6 @@ function SignupPage() {
                 <Label htmlFor="email" className="text-base font-semibold">Email</Label>
                 <Input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 text-lg" placeholder="you@example.com" />
               </div>
-              <div>
 
               <div>
                 <Label htmlFor="password" className="text-base font-semibold">Password</Label>
