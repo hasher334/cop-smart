@@ -39,7 +39,7 @@ type Shift = Database["public"]["Tables"]["patrol_shifts"]["Row"];
 type Unit = Database["public"]["Tables"]["units"]["Row"];
 type Vehicle = Database["public"]["Tables"]["vehicles"]["Row"];
 type PatrolType = Database["public"]["Enums"]["patrol_type"];
-type AssigneeOption = { id: string; full_name: string; badge_no: string };
+type AssigneeOption = { user_id: string; full_name: string; badge_no: string };
 
 interface Props {
   open: boolean;
@@ -138,14 +138,15 @@ export function ShiftFormDialog({
     if (!open) return;
     let q = supabase
       .from("profiles")
-      .select("id, full_name, badge_no, district_id, status")
+      .select("user_id, full_name, badge_no, district_id, status")
       .eq("status", "active")
+      .not("user_id", "is", null)
       .order("full_name");
     if (!auth.isAdmin && myDistrictId) q = q.eq("district_id", myDistrictId);
     q.then(({ data }) =>
       setAssignees(
         ((data as (AssigneeOption & { district_id: string | null })[]) ?? [])
-          .map(({ id, full_name, badge_no }) => ({ id, full_name, badge_no })),
+          .map(({ user_id, full_name, badge_no }) => ({ user_id, full_name, badge_no })),
       ),
     );
   }, [open, auth.isAdmin, myDistrictId]);
@@ -258,7 +259,7 @@ export function ShiftFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{isEdit ? "Edit shift" : "Create new shift"}</DialogTitle>
           <DialogDescription>
@@ -266,7 +267,7 @@ export function ShiftFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid gap-4 py-2">
+        <div className="grid gap-4 py-2 flex-1 overflow-y-auto pr-1">
           <div className="grid gap-2">
             <Label htmlFor="unit">Unit</Label>
             <Select value={unitId} onValueChange={setUnitId}>
@@ -297,7 +298,7 @@ export function ShiftFormDialog({
               <SelectContent>
                 <SelectItem value={NO_ASSIGNEE}>— Leave open for signup —</SelectItem>
                 {assignees.map((a) => (
-                  <SelectItem key={a.id} value={a.id}>
+                  <SelectItem key={a.user_id} value={a.user_id}>
                     #{a.badge_no} — {a.full_name}
                   </SelectItem>
                 ))}
