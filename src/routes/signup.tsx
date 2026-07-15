@@ -124,6 +124,22 @@ function SignupPage() {
                 <Input id="badge" required value={badge} onChange={(e) => setBadge(e.target.value)} className="mt-1 h-12 text-lg" placeholder="e.g. 12345" />
               </div>
               <div>
+                <Label htmlFor="district" className="text-base font-semibold">District</Label>
+                <Select value={districtId} onValueChange={setDistrictId}>
+                  <SelectTrigger id="district" className="mt-1 h-12 text-lg">
+                    <SelectValue placeholder={districts.length ? "Choose your district" : "No districts available"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {districts.map((d) => (
+                      <SelectItem key={d.id} value={d.id}>
+                        {d.code} — {d.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="mt-1 text-sm text-muted-foreground">Only an admin can change this later.</p>
+              </div>
+              <div>
                 <Label htmlFor="email" className="text-base font-semibold">Contact Email <span className="font-normal text-muted-foreground">(optional)</span></Label>
                 <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 text-lg" />
               </div>
