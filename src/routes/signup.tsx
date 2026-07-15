@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
-import { badgeToEmail } from "@/lib/auth-helpers";
 
 type DistrictOption = { id: string; code: string; name: string };
 
@@ -34,11 +33,11 @@ export const Route = createFileRoute("/signup")({
 function SignupPage() {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
-  const [badge, setBadge] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [districtId, setDistrictId] = useState("");
   const [districts, setDistricts] = useState<DistrictOption[]>([]);
+  const [districtsLoading, setDistrictsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -46,11 +45,19 @@ function SignupPage() {
       .from("districts")
       .select("id, code, name")
       .order("code")
-      .then(({ data }) => setDistricts((data as DistrictOption[]) ?? []));
+      .then(({ data }) => {
+        setDistricts((data as DistrictOption[]) ?? []);
+        setDistrictsLoading(false);
+      });
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
     if (password.length < 8) {
       toast.error("Password must be at least 8 characters.");
       return;
@@ -61,14 +68,12 @@ function SignupPage() {
     }
     setSubmitting(true);
     const { error } = await supabase.auth.signUp({
-      email: badgeToEmail(badge),
+      email: cleanEmail,
       password,
       options: {
         emailRedirectTo: `${window.location.origin}/dashboard`,
         data: {
-          badge_no: badge.trim(),
           full_name: fullName.trim(),
-          contact_email: email.trim() || null,
           district_id: districtId,
         },
       },
@@ -79,7 +84,7 @@ function SignupPage() {
       return;
     }
     toast.success("Account created!", {
-      description: "You're signed in. Welcome to VolSmart.",
+      description: "Your badge number has been assigned. Welcome to VolSmart.",
     });
     navigate({ to: "/dashboard" });
   };
@@ -120,14 +125,14 @@ function SignupPage() {
                 <Input id="fullName" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="mt-1 h-12 text-lg" />
               </div>
               <div>
-                <Label htmlFor="badge" className="text-base font-semibold">Badge Number</Label>
-                <Input id="badge" required value={badge} onChange={(e) => setBadge(e.target.value)} className="mt-1 h-12 text-lg" placeholder="e.g. 12345" />
+                <Label htmlFor="email" className="text-base font-semibold">Email</Label>
+                <Input id="email" type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 text-lg" placeholder="you@example.com" />
               </div>
               <div>
                 <Label htmlFor="district" className="text-base font-semibold">District</Label>
-                <Select value={districtId} onValueChange={setDistrictId}>
+                <Select value={districtId} onValueChange={setDistrictId} disabled={districtsLoading || districts.length === 0}>
                   <SelectTrigger id="district" className="mt-1 h-12 text-lg">
-                    <SelectValue placeholder={districts.length ? "Choose your district" : "No districts available"} />
+                    <SelectValue placeholder={districtsLoading ? "Loading districts…" : districts.length ? "Choose your district" : "No districts available"} />
                   </SelectTrigger>
                   <SelectContent>
                     {districts.map((d) => (
@@ -140,14 +145,13 @@ function SignupPage() {
                 <p className="mt-1 text-sm text-muted-foreground">Only an admin can change this later.</p>
               </div>
               <div>
-                <Label htmlFor="email" className="text-base font-semibold">Contact Email <span className="font-normal text-muted-foreground">(optional)</span></Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 text-lg" />
-              </div>
-              <div>
                 <Label htmlFor="password" className="text-base font-semibold">Password</Label>
-                <Input id="password" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 h-12 text-lg" />
+                <Input id="password" type="password" autoComplete="new-password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 h-12 text-lg" />
                 <p className="mt-1 text-sm text-muted-foreground">At least 8 characters.</p>
               </div>
+              <p className="rounded-md bg-muted/50 p-3 text-sm text-muted-foreground">
+                Your badge number will be assigned automatically once your account is created.
+              </p>
 
               <Button type="submit" className="h-14 w-full text-base font-semibold" disabled={submitting}>
                 {submitting ? "Creating account…" : "Create Account"}
